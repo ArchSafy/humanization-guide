@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="دليل أنسنة مدن المنطقة الشرقية - منصة تفاعلية للمبادئ التصميمية والتنفيذية">
+    <title>دليل أنسنة مدن المنطقة الشرقية</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts: Tajawal & Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <!-- Header / Navigation -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">مصفوفة التنفيذ</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-split">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <p class="hero-tagline-top">الدليل الشامل لأنسنة المدن والتدخلات الحضرية بالمنطقة الشرقية</p>
+                <h2 class="hero-title-new">
+                    <span>نحو مدن</span>
+                    <span>تنبض</span>
+                    <span>بالحياة</span>
+                </h2>
+                <p class="hero-tagline-bottom">منصة تفاعلية تهدف إلى إعادة تعريف الفراغات الحضرية، وتحويل المدن إلى بيئات حيوية تعزز جودة الحياة وتضع الإنسان في قلب العملية التصميمية.</p>
+            </div>
+            <div class="hero-stones">
+                <div class="stone-grid">
+                    <!-- Row 1 -->
+                    <div class="stone-row">
+                        <div class="stone pill-long s-1">
+                            <img src="streets-guide.png" alt="Urban Design" class="stone-img active">
+                            <img src="plazas-guide.png" alt="Plazas" class="stone-img next">
+                        </div>
+                        <div class="stone pill-short s-2">
+                            <img src="plazas-guide.png" alt="Plazas" class="stone-img active">
+                            <img src="streets-guide.png" alt="Walk" class="stone-img next">
+                        </div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="stone-row">
+                        <div class="stone pill-short s-3">
+                            <img src="materials-granite.png" alt="Materials" class="stone-img active">
+                            <img src="hero-bg.png" alt="Cityscape" class="stone-img next">
+                        </div>
+                        <div class="stone pill-long s-4">
+                            <img src="hero-bg.png" alt="Cityscape" class="stone-img active">
+                            <img src="materials-granite.png" alt="Materials" class="stone-img next">
+                        </div>
+                    </div>
+                    <!-- Row 3 -->
+                    <div class="stone-row">
+                        <div class="stone pill-long s-5">
+                            <img src="plazas-guide.png" alt="Social" class="stone-img active">
+                            <img src="streets-guide.png" alt="Walk" class="stone-img next">
+                        </div>
+                        <div class="stone pill-short s-6">
+                            <img src="streets-guide.png" alt="Walk" class="stone-img active">
+                            <img src="materials-granite.png" alt="Materials" class="stone-img next">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro-section">
+        <div class="container intro-container">
+            <div class="intro-box">
+                <div class="intro-line"></div>
+                <p class="intro-paragraph">
+                    يتبنى هذا الدليل نهجاً متكاملاً لتعزيز جودة الفراغات الحضرية بالمنطقة الشرقية، عبر توحيد معايير التصميم والتنفيذ لخلق بيئات مستدامة تضع الإنسان في قلب العملية التطويرية، تحقيقاً لمستهدفات رؤية المملكة 2030 في رفع جودة الحياة وجعل مدننا في مصاف أكثر مدن العالم جاذبية.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Blocks Section -->
+    <section class="category-section">
+        <div class="container category-container">
+            <!-- Card 1: Core Principles -->
+            <div class="category-card" onclick="location.href='principles.html'">
+                <div class="card-image-container">
+                    <img src="streets-guide.png" alt="المبادئ الأساسية" class="card-base-img">
+                </div>
+                <div class="card-overlay-content">
+                    <h3 class="card-category-title">المبادئ الأساسية</h3>
+                    <p class="card-category-desc">الركائز الجوهرية التي تضمن تحويل مدننا إلى فضاءات تركز على جودة الحياة والاستدامة الإنسانية.</p>
+                </div>
+            </div>
+
+            <!-- Card 2: Design -->
+            <div class="category-card" onclick="location.href='design.html'">
+                <div class="card-image-container">
+                    <img src="plazas-guide.png" alt="التصميم" class="card-base-img">
+                </div>
+                <div class="card-overlay-content">
+                    <h3 class="card-category-title">التصميم</h3>
+                    <p class="card-category-desc">تطبيق المعايير التصميمية العالمية والمحلية لخلق فراغات حضرية متناغمة وآمنة لكافة فئات المجتمع.</p>
+                </div>
+            </div>
+
+            <!-- Card 3: Execution -->
+            <div class="category-card" onclick="location.href='execution.html'">
+                <div class="card-image-container">
+                    <img src="materials-granite.png" alt="التنفيذ" class="card-base-img">
+                </div>
+                <div class="card-overlay-content">
+                    <h3 class="card-category-title">التنفيذ</h3>
+                    <p class="card-category-desc">مصفوفة المواد والتقنيات التنفيذية التي تضمن دقة الإنجاز واستدامة المشاريع الحضرية بالمنطقة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">مصفوفة التنفيذ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
+                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
+                <div class="social-links">
+                    <a href="#" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
