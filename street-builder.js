@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const h = 150 * scale;
         const w = 116 * scale;
         group.appendChild(svgEl('image', {
-            href: 'assets/street-builder/tree-real.png',
+            href: 'assets/tree2.png',
             x: x - w / 2,
             y: groundY - h,
             width: w,
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? 'assets/street-builder/car-side-real.png'
             : isBus
             ? (direction === 'left' ? 'assets/street-builder/bus-front-real.png' : 'assets/street-builder/bus-rear-real.png')
-            : (direction === 'left' ? 'assets/street-builder/car-front-real.png' : 'assets/street-builder/car-rear-real.png');
+            : (direction === 'left' ? 'assets/car front.png' : 'assets/car back.png');
         const displayW = direction === 'none' ? Math.min(Math.max(width * 0.9, 70), 105) : w;
         const displayH = direction === 'none' ? Math.min(34, h) : h;
         group.appendChild(svgEl('image', {
@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const safeH = isBus ? Math.max(h, 92) : Math.max(h, 68);
             const rotation = angle + (direction === 'left' ? 180 : 0);
             group.appendChild(svgEl('image', {
-                href: isBus ? 'assets/street-builder/bus-top-real.png' : 'assets/street-builder/car-top-real.png',
+                href: isBus ? 'assets/street-builder/bus-top-real.png' : 'assets/car top.png',
                 x: x - safeW / 2,
                 y: y - safeH / 2,
                 width: safeW,
@@ -548,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const renderPlanTree = (group, x, y, r = 22) => {
             const size = Math.max(r * 2.7, 42);
             group.appendChild(svgEl('image', {
-                href: 'assets/street-builder/tree-real.png',
+                href: 'assets/tree plan3.png',
                 x: x - size / 2,
                 y: y - size / 2,
                 width: size,

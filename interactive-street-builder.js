@@ -255,33 +255,121 @@ function renderDualView(totalWidth) {
         });
         svg.appendChild(ground);
         
-        // Colored placeholder for elements above ground
-        let elementHeight = 20;
-        let elementColor = 'rgba(0,0,0,0.1)';
-        
-        if (comp.id.includes('tree') || comp.id === 'median_island') {
-            elementHeight = 60;
-            elementColor = '#4CAF50';
-        } else if (comp.category === 'Car Lanes') {
-            elementHeight = 30;
-            elementColor = '#555';
-            // Draw a placeholder "car" box
-            const carW = Math.min(widthPx - 10, 80);
-            svg.appendChild(createSvgElement('rect', {
-                x: currentX + (widthPx - carW)/2, y: elevationY - 30, width: carW, height: 30, fill: elementColor, rx: 5
+        // Draw real images/elements above ground
+        if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
+            // Draw a Tree in Elevation
+            const treeW = 70;
+            const treeH = 90;
+            svg.appendChild(createSvgElement('image', {
+                href: 'assets/tree2.png',
+                x: currentX + widthPx/2 - treeW/2,
+                y: elevationY - treeH,
+                width: treeW,
+                height: treeH,
+                preserveAspectRatio: 'xMidYMax meet'
+            }));
+        } else if (comp.id === 'standard_car_lane') {
+            // Two-lane roadway: draw front and rear cars if wide enough
+            const carW = 55;
+            const carH = 40;
+            if (widthPx >= 160) {
+                // Two cars
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/car front.png',
+                    x: currentX + widthPx/4 - carW/2,
+                    y: elevationY - carH,
+                    width: carW,
+                    height: carH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/car back.png',
+                    x: currentX + 3*widthPx/4 - carW/2,
+                    y: elevationY - carH,
+                    width: carW,
+                    height: carH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+            } else {
+                // One car in center
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/car front.png',
+                    x: currentX + widthPx/2 - carW/2,
+                    y: elevationY - carH,
+                    width: carW,
+                    height: carH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+            }
+        } else if (comp.id === 'hov_transit_lane') {
+            // Bus transit lane: draw front view bus
+            const busW = 65;
+            const busH = 55;
+            svg.appendChild(createSvgElement('image', {
+                href: 'assets/street-builder/bus-front-real.png',
+                x: currentX + widthPx/2 - busW/2,
+                y: elevationY - busH,
+                width: busW,
+                height: busH,
+                preserveAspectRatio: 'xMidYMax meet'
+            }));
+        } else if (comp.id === 'flex_zone') {
+            // Draw a parked car in elevation (front view)
+            const carW = 55;
+            const carH = 40;
+            svg.appendChild(createSvgElement('image', {
+                href: 'assets/car front.png',
+                x: currentX + widthPx/2 - carW/2,
+                y: elevationY - carH,
+                width: carW,
+                height: carH,
+                preserveAspectRatio: 'xMidYMax meet'
             }));
         } else if (comp.id === 'bike_lane') {
-            elementHeight = 15;
-            elementColor = '#03A9F4';
-            svg.appendChild(createSvgElement('rect', {
-                x: currentX + widthPx/2 - 10, y: elevationY - 15, width: 20, height: 15, fill: elementColor, rx: 3
+            // Bike lane: draw a cyclist/pedestrian placeholder
+            const personW = 22;
+            const personH = 40;
+            svg.appendChild(createSvgElement('image', {
+                href: 'assets/street-builder/person-front-real.png',
+                x: currentX + widthPx/2 - personW/2,
+                y: elevationY - personH,
+                width: personW,
+                height: personH,
+                preserveAspectRatio: 'xMidYMax meet'
             }));
         } else if (comp.id.includes('sidewalk') || comp.id.includes('edge')) {
-            elementHeight = 40;
-            elementColor = '#FF9800'; // person placeholder
-            svg.appendChild(createSvgElement('rect', {
-                x: currentX + widthPx/2 - 5, y: elevationY - 40, width: 10, height: 40, fill: elementColor, rx: 5
-            }));
+            // Pedestrian zone: draw people
+            const personW = 22;
+            const personH = 40;
+            if (widthPx >= 100) {
+                // Two people
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/street-builder/person-front-real.png',
+                    x: currentX + widthPx/3 - personW/2,
+                    y: elevationY - personH,
+                    width: personW,
+                    height: personH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/street-builder/person-rear-real.png',
+                    x: currentX + 2*widthPx/3 - personW/2,
+                    y: elevationY - personH,
+                    width: personW,
+                    height: personH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+            } else {
+                // One person
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/street-builder/person-front-real.png',
+                    x: currentX + widthPx/2 - personW/2,
+                    y: elevationY - personH,
+                    width: personW,
+                    height: personH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+            }
         }
         
         // Label on top
@@ -300,16 +388,99 @@ function renderDualView(totalWidth) {
         });
         svg.appendChild(plan);
         
-        // Plan placeholders
-        if (comp.category === 'Car Lanes') {
-            const carW = Math.min(widthPx - 10, 80);
-            svg.appendChild(createSvgElement('rect', {
-                x: currentX + (widthPx - carW)/2, y: planY + 20, width: carW, height: planHeight - 40, fill: '#555', rx: 3
+        // Plan placeholders replaced with real images
+        if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
+            // Draw top view of trees
+            const treeSize = 40;
+            svg.appendChild(createSvgElement('image', {
+                href: 'assets/tree plan3.png',
+                x: currentX + widthPx/2 - treeSize/2,
+                y: planY + planHeight/2 - treeSize/2,
+                width: treeSize,
+                height: treeSize,
+                preserveAspectRatio: 'xMidYMid slice'
             }));
-        } else if (comp.id === 'median_island') {
-            svg.appendChild(createSvgElement('circle', {
-                cx: currentX + widthPx/2, cy: planY + planHeight/2, r: Math.min(widthPx/3, 20), fill: '#4CAF50'
+        } else if (comp.id === 'standard_car_lane') {
+            // Top view of cars in two lanes
+            const carW = 32;
+            const carH = 65;
+            if (widthPx >= 160) {
+                // Two cars (one going up, one going down)
+                const car1X = currentX + widthPx/4;
+                const car1Y = planY + planHeight/4;
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/car top.png',
+                    x: car1X - carW/2,
+                    y: car1Y - carH/2,
+                    width: carW,
+                    height: carH,
+                    preserveAspectRatio: 'xMidYMid meet'
+                }));
+                
+                const car2X = currentX + 3*widthPx/4;
+                const car2Y = planY + 3*planHeight/4;
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/car top.png',
+                    x: car2X - carW/2,
+                    y: car2Y - carH/2,
+                    width: carW,
+                    height: carH,
+                    preserveAspectRatio: 'xMidYMid meet',
+                    transform: `rotate(180 ${car2X} ${car2Y})`
+                }));
+            } else {
+                // One car
+                const carX = currentX + widthPx/2;
+                const carY = planY + planHeight/2;
+                svg.appendChild(createSvgElement('image', {
+                    href: 'assets/car top.png',
+                    x: carX - carW/2,
+                    y: carY - carH/2,
+                    width: carW,
+                    height: carH,
+                    preserveAspectRatio: 'xMidYMid meet'
+                }));
+            }
+        } else if (comp.id === 'hov_transit_lane') {
+            // Top view of bus
+            const busW = 38;
+            const busH = 90;
+            const busX = currentX + widthPx/2;
+            const busY = planY + planHeight/2;
+            svg.appendChild(createSvgElement('image', {
+                href: 'assets/street-builder/bus-top-real.png',
+                x: busX - busW/2,
+                y: busY - busH/2,
+                width: busW,
+                height: busH,
+                preserveAspectRatio: 'xMidYMid meet'
             }));
+        } else if (comp.id === 'flex_zone') {
+            // Top view of parked car
+            const carW = 32;
+            const carH = 65;
+            const carX = currentX + widthPx/2;
+            const carY = planY + planHeight/2;
+            svg.appendChild(createSvgElement('image', {
+                href: 'assets/street-builder/car-top-real.png',
+                x: carX - carW/2,
+                y: carY - carH/2,
+                width: carW,
+                height: carH,
+                preserveAspectRatio: 'xMidYMid meet'
+            }));
+        } else if (comp.id.includes('sidewalk') || comp.id.includes('edge')) {
+            // Draw paving grid pattern for sidewalk to look premium
+            for (let ix = currentX + 10; ix < currentX + widthPx; ix += 20) {
+                svg.appendChild(createSvgElement('line', {
+                    x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
+                }));
+            }
+            for (let iy = planY + 10; iy < planY + planHeight; iy += 20) {
+                svg.appendChild(createSvgElement('line', {
+                    x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
+                }));
+            }
         }
         
         // Separator line
