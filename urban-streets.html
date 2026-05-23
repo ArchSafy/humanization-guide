@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الشوارع الحضرية | دليل التصميم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="sub-page street-guide-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html" class="active">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="street-guide-hero">
+        <div class="container street-guide-hero-grid">
+            <div class="street-guide-copy">
+                <a class="back-link" href="design.html"><i class="fas fa-arrow-right"></i> العودة لتصنيفات التصميم</a>
+                <span class="category-tag">Streets Design Guidelines</span>
+                <h2>إرشادات تصميم الشوارع الحضرية</h2>
+                <p>إطار تصميمي وتنفيذي متكامل للشوارع الحضرية باعتبارها فراغات عامة متعددة الوظائف، تخدم المشاة، وتربط الأنشطة، وتعزز الوصول، وتشكل واجهة يومية لتجربة المستخدم داخل المدينة.</p>
+            </div>
+            <div class="street-guide-visual">
+                <img src="streets-guide.png" alt="تصميم شارع حضري متكامل">
+            </div>
+        </div>
+    </section>
+
+    <main class="page-content street-guide-content">
+        <section class="container">
+            <div class="street-guide-summary">
+                <div>
+                    <strong>6</strong>
+                    <span>أنواع شوارع مستهدفة</span>
+                </div>
+                <div>
+                    <strong>7</strong>
+                    <span>مكونات رئيسية للشارع</span>
+                </div>
+                <div>
+                    <strong>7</strong>
+                    <span>محاور معايير تصميمية</span>
+                </div>
+            </div>
+
+            <section class="street-guide-section">
+                <div class="street-section-heading">
+                    <span class="section-kicker">أهداف التصميم</span>
+                    <h3>الشارع كفراغ حضري فعال، لا مجرد ممر مروري</h3>
+                </div>
+                <div class="street-objectives-grid">
+                    <div><i class="fas fa-person-walking"></i><span>تحسين تجربة المشاة ورفع الراحة والأمان.</span></div>
+                    <div><i class="fas fa-link"></i><span>ربط الأنشطة والخدمات والعناصر العمرانية المحيطة.</span></div>
+                    <div><i class="fas fa-bicycle"></i><span>تنظيم العلاقة بين المركبات والمشاة والدراجات والخدمات.</span></div>
+                    <div><i class="fas fa-eye"></i><span>تعزيز الهوية البصرية والمشهد الحضري للشوارع.</span></div>
+                    <div><i class="fas fa-screwdriver-wrench"></i><span>رفع جودة التنفيذ بما يضمن الاستدامة وسهولة الصيانة.</span></div>
+                    <div><i class="fas fa-cloud-sun"></i><span>تقليل آثار المناخ المحلي عبر التظليل والمواد والتشجير.</span></div>
+                </div>
+            </section>
+
+            <section class="street-guide-section">
+                <div class="street-section-heading">
+                    <span class="section-kicker">أنواع الشوارع</span>
+                    <h3>تصنيف مزدوج حسب الوظيفة والطابع الحضري</h3>
+                </div>
+                <div class="street-type-grid">
+                    <article class="street-type-card">
+                        <img src="streets-guide.png" alt="شارع شرياني">
+                        <div>
+                            <span>حسب الوظيفة</span>
+                            <h4>الشوارع الشريانية</h4>
+                            <p>تخدم الحركة الرئيسية لمسافات طويلة، وتتميز بكثافة مرورية عالية وسرعات أكبر.</p>
+                            <ul>
+                                <li>أولوية نسبية لحركة المركبات.</li>
+                                <li>تنظيم عبور المشاة.</li>
+                                <li>تقليل نقاط التقاطع المباشر.</li>
+                                <li>عزل نسبي بين الحركة السريعة والمشاة.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="street-type-card">
+                        <img src="hero-bg.png" alt="شارع تجميعي">
+                        <div>
+                            <span>حسب الوظيفة</span>
+                            <h4>الشوارع التجميعية</h4>
+                            <p>تربط بين الشوارع المحلية والشريانية، وتخدم حركة متوسطة تحتاج توازنًا دقيقًا.</p>
+                            <ul>
+                                <li>توازن بين المركبات والمشاة.</li>
+                                <li>توفير عناصر تهدئة السرعة.</li>
+                                <li>دعم الأنشطة المحلية.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="street-type-card">
+                        <img src="plazas-guide.png" alt="شارع محلي">
+                        <div>
+                            <span>حسب الوظيفة</span>
+                            <h4>الشوارع المحلية</h4>
+                            <p>تخدم الأحياء السكنية، وتتميز بحركة محدودة وسرعات منخفضة وطابع اجتماعي أوضح.</p>
+                            <ul>
+                                <li>أولوية للمشاة.</li>
+                                <li>تهدئة حركة المرور.</li>
+                                <li>تعزيز الطابع الاجتماعي.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="street-type-card">
+                        <img src="materials-granite.png" alt="شارع تجاري">
+                        <div>
+                            <span>حسب الطابع الحضري</span>
+                            <h4>الشوارع التجارية</h4>
+                            <p>شوارع مرتفعة النشاط والحركة اليومية، تحتاج أرصفة عريضة وواجهات نشطة وتنظيمًا دقيقًا للخدمات.</p>
+                            <ul>
+                                <li>نشاط عال وواجهات نشطة.</li>
+                                <li>كثافة مشاة مرتفعة.</li>
+                                <li>مناطق جلوس وخدمات منظمة.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="street-type-card">
+                        <img src="streets-guide.png" alt="شارع سكني">
+                        <div>
+                            <span>حسب الطابع الحضري</span>
+                            <h4>الشوارع السكنية</h4>
+                            <p>شوارع يغلب عليها الطابع المحلي والخصوصية، وتحتاج تهدئة مرورية وبيئة مناسبة للمشي والتفاعل.</p>
+                            <ul>
+                                <li>هدوء نسبي وخصوصية.</li>
+                                <li>مساحات لعب وتوقف آمن.</li>
+                                <li>سرعات منخفضة ووصول واضح.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="street-type-card">
+                        <img src="plazas-guide.png" alt="شارع ترفيهي أو سياحي">
+                        <div>
+                            <span>حسب الطابع الحضري</span>
+                            <h4>الشوارع الترفيهية أو السياحية</h4>
+                            <p>مرتبطة بالواجهات البحرية أو الوجهات العامة والمناطق النشطة، وتعتمد على جودة التجربة البصرية والحسية.</p>
+                            <ul>
+                                <li>قريبة من وجهات جذب.</li>
+                                <li>تعتمد على تجربة المستخدم.</li>
+                                <li>تدعم المشي والتوقف والأنشطة.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="street-guide-section">
+                <div class="street-section-heading">
+                    <span class="section-kicker">مبادئ التصميم</span>
+                    <h3>خمسة مبادئ تضبط قرارات الشارع</h3>
+                </div>
+                <div class="street-principles-list">
+                    <div><strong>أولوية الإنسان</strong><span>يبدأ التصميم من احتياجات المستخدم البشري، لا من احتياجات المركبة فقط.</span></div>
+                    <div><strong>التوازن بين الوظيفة والحيوية</strong><span>الشارع عنصر حركة وفراغ عام يدعم الأنشطة الاجتماعية والتجارية واليومية.</span></div>
+                    <div><strong>الاستمرارية</strong><span>الأرصفة والمسارات يجب أن تكون متصلة وغير منقطعة عند التقاطعات والمداخل والخدمات.</span></div>
+                    <div><strong>الراحة المناخية</strong><span>معالجة التظليل والحرارة والأسطح وتوزيع الأشجار ضرورة في بيئة المنطقة الشرقية.</span></div>
+                    <div><strong>قابلية التنفيذ والصيانة</strong><span>الحلول المختارة يجب أن تراعي ظروف الموقع والبنية التحتية وسهولة الاستبدال.</span></div>
+                </div>
+            </section>
+
+            <section class="street-guide-section">
+                <div class="street-section-heading">
+                    <span class="section-kicker">مكونات الشارع</span>
+                    <h3>القطاع الحضري كمنظومة مناطق متكاملة</h3>
+                </div>
+                <div class="street-components-grid">
+                    <div><i class="fas fa-building"></i><strong>منطقة الواجهة العمرانية</strong><span>المساحة الملاصقة للمباني والأنشطة الأرضية.</span></div>
+                    <div><i class="fas fa-person-walking"></i><strong>المسار الصافي للمشاة</strong><span>جزء المشي الحر المستمر والخالي من العوائق.</span></div>
+                    <div><i class="fas fa-chair"></i><strong>منطقة الأثاث والخدمات</strong><span>الأشجار، الإنارة، المقاعد، السلال، والإشارات.</span></div>
+                    <div><i class="fas fa-grip-lines"></i><strong>منطقة الحافة أو البردورة</strong><span>انتقال بين الرصيف ومسار المركبات ومعالجات العبور.</span></div>
+                    <div><i class="fas fa-car"></i><strong>مسارات المركبات</strong><span>تنظم الكفاءة المطلوبة دون مبالغة في العرض أو العدد.</span></div>
+                    <div><i class="fas fa-square-parking"></i><strong>مواقف السيارات الجانبية</strong><span>تدعم الأنشطة عند الحاجة دون الإضرار بالمشاة والتشجير.</span></div>
+                    <div><i class="fas fa-bicycle"></i><strong>مسارات الدراجات</strong><span>واضحة وآمنة ومتكاملة مع باقي عناصر الشارع.</span></div>
+                </div>
+            </section>
+
+            <section class="street-guide-section">
+                <div class="street-section-heading">
+                    <span class="section-kicker">المعايير التصميمية</span>
+                    <h3>محاور يجب تحويلها إلى تفاصيل قابلة للمراجعة</h3>
+                </div>
+                <div class="street-standards-accordion">
+                    <details open>
+                        <summary>الأرصفة ومسارات المشاة</summary>
+                        <p>تُصمم باعتبارها العنصر الأهم في أنسنة الشوارع، مع مسار صافٍ ومستمر وخالٍ من العوائق، وأرضيات عالية الجودة وسهلة الصيانة ومناسبة للمناخ.</p>
+                    </details>
+                    <details>
+                        <summary>التقاطعات وعبور المشاة</summary>
+                        <p>تقليل مسافات العبور، رفع وضوح مسارات المشاة، استخدام منحدرات مريحة، وتقليل أنصاف أقطار الدوران داخل البيئة الحضرية.</p>
+                    </details>
+                    <details>
+                        <summary>التظليل والتشجير</summary>
+                        <p>توزيع الأشجار بانتظام، اختيار أنواع مناسبة للمناخ، واستخدام مظلات صناعية عند الحاجة مع عدم إعاقة المسار الصافي.</p>
+                    </details>
+                    <details>
+                        <summary>الأثاث الحضري</summary>
+                        <p>يوضع ضمن منطقة الأثاث والخدمات، ويراعى ارتباطه بالتشجير والأنشطة، مع تقليل ازدحام العناصر الرأسية.</p>
+                    </details>
+                    <details>
+                        <summary>الإضاءة</summary>
+                        <p>أولوية إضاءة مسارات المشاة والتقاطعات، وتنسيق مواقع الأعمدة مع الأشجار والأثاث والخدمات، وتجنب الوهج والتلوث الضوئي.</p>
+                    </details>
+                    <details>
+                        <summary>المواد والأرضيات</summary>
+                        <p>اختيار خامات مقاومة للانزلاق والتآكل وثابتة اللون وسهلة الفك والاستبدال، مع لغة مادية موحدة نسبيًا.</p>
+                    </details>
+                    <details>
+                        <summary>الواجهات النشطة</summary>
+                        <p>دعم الأنشطة الأرضية، تقليل الأسوار الصماء، وتشجيع الشفافية البصرية والارتباط بين الداخل والخارج.</p>
+                    </details>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">مصفوفة التنفيذ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
+                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+

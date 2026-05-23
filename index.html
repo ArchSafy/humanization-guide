@@ -35,8 +35,17 @@
                     <li><a href="index.html" class="active">الرئيسية</a></li>
                     <li><a href="principles.html">المبادئ الأساسية</a></li>
                     <li><a href="design.html">دليل التصميم</a></li>
-                    <li><a href="execution.html">مصفوفة التنفيذ</a></li>
-                </ul>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
+                    <li><a href="interactive-street-builder.html">Street Builder</a></li>                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
             </nav>
             <div class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -56,41 +65,19 @@
                 </h2>
                 <p class="hero-tagline-bottom">منصة تفاعلية تهدف إلى إعادة تعريف الفراغات الحضرية، وتحويل المدن إلى بيئات حيوية تعزز جودة الحياة وتضع الإنسان في قلب العملية التصميمية.</p>
             </div>
-            <div class="hero-stones">
-                <div class="stone-grid">
-                    <!-- Row 1 -->
-                    <div class="stone-row">
-                        <div class="stone pill-long s-1">
-                            <img src="streets-guide.png" alt="Urban Design" class="stone-img active">
-                            <img src="plazas-guide.png" alt="Plazas" class="stone-img next">
-                        </div>
-                        <div class="stone pill-short s-2">
-                            <img src="plazas-guide.png" alt="Plazas" class="stone-img active">
-                            <img src="streets-guide.png" alt="Walk" class="stone-img next">
-                        </div>
-                    </div>
-                    <!-- Row 2 -->
-                    <div class="stone-row">
-                        <div class="stone pill-short s-3">
-                            <img src="materials-granite.png" alt="Materials" class="stone-img active">
-                            <img src="hero-bg.png" alt="Cityscape" class="stone-img next">
-                        </div>
-                        <div class="stone pill-long s-4">
-                            <img src="hero-bg.png" alt="Cityscape" class="stone-img active">
-                            <img src="materials-granite.png" alt="Materials" class="stone-img next">
-                        </div>
-                    </div>
-                    <!-- Row 3 -->
-                    <div class="stone-row">
-                        <div class="stone pill-long s-5">
-                            <img src="plazas-guide.png" alt="Social" class="stone-img active">
-                            <img src="streets-guide.png" alt="Walk" class="stone-img next">
-                        </div>
-                        <div class="stone pill-short s-6">
-                            <img src="streets-guide.png" alt="Walk" class="stone-img active">
-                            <img src="materials-granite.png" alt="Materials" class="stone-img next">
-                        </div>
-                    </div>
+            <div class="neuron-network-wrapper" id="neuron-wrapper">
+                <canvas id="neuron-canvas"></canvas>
+                <div class="neuron-nodes">
+                    <div class="neuron-node size-xl"><img src="New%20folder/Hero%20Sec%20Photos/20230106_133251.jpg" alt="Node 1"></div>
+                    <div class="neuron-node size-m"><img src="New%20folder/Hero%20Sec%20Photos/20230106_133507.jpg" alt="Node 2"></div>
+                    <div class="neuron-node size-l"><img src="New%20folder/Hero%20Sec%20Photos/20230106_135002.jpg" alt="Node 3"></div>
+                    <div class="neuron-node size-s"><img src="New%20folder/Hero%20Sec%20Photos/vlcsnap-2026-05-19-10h58m39s718.png" alt="Node 4"></div>
+                    <div class="neuron-node size-l"><img src="New%20folder/Hero%20Sec%20Photos/vlcsnap-2026-05-19-11h03m20s706.png" alt="Node 5"></div>
+                    <div class="neuron-node size-s"><img src="New%20folder/Hero%20Sec%20Photos/vlcsnap-2026-05-19-11h03m28s128.png" alt="Node 6"></div>
+                    <div class="neuron-node size-m"><img src="New%20folder/Hero%20Sec%20Photos/vlcsnap-2026-05-19-12h31m06s084.png" alt="Node 7"></div>
+                    <div class="neuron-node size-xl"><img src="New%20folder/Hero%20Sec%20Photos/WhatsApp%20Image%202023-01-15%20at%208.23.47%20PM%20(1).jpeg" alt="Node 8"></div>
+                    <div class="neuron-node size-m"><img src="New%20folder/Hero%20Sec%20Photos/WhatsApp%20Image%202023-02-06%20at%2010.59.35%20AM%20(2).jpeg" alt="Node 9"></div>
+                    <div class="neuron-node size-s"><img src="New%20folder/Hero%20Sec%20Photos/%D9%85%D9%85%D8%B4%D9%8A%20%D9%84%D9%8A%D8%A7%D9%84%20%D8%A8%D8%A7%D9%84%D8%B4%D8%B9%D9%84%D8%A9%201.00_00_21_14.Still002.jpg" alt="Node 10"></div>
                 </div>
             </div>
         </div>
@@ -184,3 +171,5 @@
 </body>
 
 </html>
+
+

@@ -30,10 +30,18 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="principles.html" class="active">المبادئ</a></li>
-                    <li><a href="design.html">التصميم</a></li>
-                    <li><a href="execution.html">التنفيذ</a></li>
-                </ul>
+                    <li><a href="principles.html" class="active">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
             </nav>
         </div>
     </header>
@@ -50,46 +58,148 @@
     </section>
 
     <!-- Main Content -->
-    <main class="page-content">
+    <main class="page-content principles-page">
         <section class="content-section">
             <div class="container">
-                <div class="intro-text">
-                    <h3>ما هي الأنسنة؟</h3>
-                    <p>أنسنة المدن هي رؤية تخطيطية تضع الإنسان في قلب العملية التصميمية. هي ليست مجرد تشجير أو تجميل، بل هي إعادة صياغة للعلاقة بين الساكن وفراغه الحضري، بحيث تضمن له الأمان، والراحة، والعدالة في الوصول إلى الخدمات والمساحات العامة.</p>
+                <div class="principles-intro">
+                    <div>
+                        <span class="section-kicker">إطار اتخاذ القرار</span>
+                        <h3>المبادئ التي تقود كل تفصيلة في الشارع والساحة والواجهة</h3>
+                    </div>
+                    <p>أنسنة المدن ليست طبقة تجميلية، بل نظام قرارات يبدأ من مقياس الإنسان وينتهي بتفاصيل التنفيذ والصيانة. هذه المبادئ تجمع الداتا في صورة قابلة للقراءة والمراجعة، وتربط بين التصميم، التشغيل، والسلامة اليومية.</p>
                 </div>
 
-                <div class="principles-grid">
-                    <div class="principle-card">
-                        <div class="principle-icon"><i class="fas fa-walking"></i></div>
-                        <h4>أولوية المشاة</h4>
-                        <p>تصميم شوارع تمنح الأفضلية للمشاة على المركبات، مع توفير أرصفة عريضة ومستمرة وآمنة.</p>
-                    </div>
-                    <div class="principle-card">
-                        <div class="principle-icon"><i class="fas fa-shield-alt"></i></div>
-                        <h4>السلامة والأمان</h4>
-                        <p>تطبيق معايير التصميم التي تقلل من الحوادث وتجعل الشوارع آمنة لكافة الفئات العمرية.</p>
-                    </div>
-                    <div class="principle-card">
-                        <div class="principle-icon"><i class="fas fa-users"></i></div>
-                        <h4>التفاعل الاجتماعي</h4>
-                        <p>خلق ساحات ومساحات عامة تشجع على اللقاء والتفاعل بين أفراد المجتمع.</p>
-                    </div>
-                    <div class="principle-card">
-                        <div class="principle-icon"><i class="fas fa-leaf"></i></div>
-                        <h4>الاستدامة البيئية</h4>
-                        <p>دمج العناصر الطبيعية والتشجير الكثيف لتحسين المناخ المحلي وتقليل البصمة الكربونية.</p>
-                    </div>
-                    <div class="principle-card">
-                        <div class="principle-icon"><i class="fas fa-wheelchair"></i></div>
-                        <h4>الشمولية والوصول</h4>
-                        <p>ضمان سهولة الوصول لكبار السن وذوي الإعاقة وكافة فئات المجتمع دون عوائق.</p>
-                    </div>
-                    <div class="principle-card">
-                        <div class="principle-icon"><i class="fas fa-bicycle"></i></div>
-                        <h4>النقل المتعدد</h4>
-                        <p>توفير مسارات آمنة للدراجات ووسائل النقل البديلة لتقليل الاعتماد على السيارات الخاصة.</p>
-                    </div>
+                <div class="principles-filter" aria-label="تصفية المبادئ حسب المستخدم">
+                    <button class="principle-filter-btn active" type="button" data-audience="all">الكل</button>
+                    <button class="principle-filter-btn" type="button" data-audience="designer">المصمم</button>
+                    <button class="principle-filter-btn" type="button" data-audience="owner">الجهة المالكة</button>
+                    <button class="principle-filter-btn" type="button" data-audience="contractor">التنفيذ</button>
+                    <button class="principle-filter-btn" type="button" data-audience="reviewer">المراجعة</button>
                 </div>
+
+                <section class="principles-dashboard" aria-label="خريطة المبادئ الأساسية">
+                    <div class="principles-grid">
+                        <button class="principle-card active" type="button" data-principle="human-scale" data-audiences="designer owner reviewer">
+                            <span class="principle-number">01</span>
+                            <div class="principle-icon"><i class="fas fa-street-view"></i></div>
+                            <h4>مقياس الإنسان</h4>
+                            <p>توجيه الأبعاد، السرعات، والفراغات لتناسب حركة الإنسان وإدراكه قبل المركبة.</p>
+                            <span class="principle-tags">الأبعاد، السرعات، الراحة البصرية</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="walkability" data-audiences="designer owner reviewer">
+                            <span class="principle-number">02</span>
+                            <div class="principle-icon"><i class="fas fa-walking"></i></div>
+                            <h4>قابلية المشي</h4>
+                            <p>شبكة أرصفة مستمرة وآمنة ومتصلة تجعل المشي خيارًا طبيعيًا لا اضطراريًا.</p>
+                            <span class="principle-tags">الأرصفة، التقاطعات، الاتصال</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="safety" data-audiences="designer owner contractor reviewer">
+                            <span class="principle-number">03</span>
+                            <div class="principle-icon"><i class="fas fa-shield-alt"></i></div>
+                            <h4>السلامة والأمان</h4>
+                            <p>تقليل المخاطر المرورية ورفع الإحساس بالأمان عبر الرؤية، الإضاءة، وتهدئة الحركة.</p>
+                            <span class="principle-tags">الرؤية، الإضاءة، تهدئة الحركة</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="accessibility" data-audiences="designer owner contractor reviewer">
+                            <span class="principle-number">04</span>
+                            <div class="principle-icon"><i class="fas fa-wheelchair"></i></div>
+                            <h4>الوصول الشامل</h4>
+                            <p>فراغات قابلة للاستخدام من الجميع، بلا عوائق أو مسارات منقطعة أو حلول شكلية.</p>
+                            <span class="principle-tags">الميول، العوائق، ذوو الإعاقة</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="comfort" data-audiences="designer owner contractor">
+                            <span class="principle-number">05</span>
+                            <div class="principle-icon"><i class="fas fa-cloud-sun"></i></div>
+                            <h4>الراحة البيئية</h4>
+                            <p>توفير الظل، تقليل الإجهاد الحراري، وتحسين تجربة الاستخدام في مناخ المنطقة.</p>
+                            <span class="principle-tags">الظل، الحرارة، التشجير</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="frontage" data-audiences="designer owner reviewer">
+                            <span class="principle-number">06</span>
+                            <div class="principle-icon"><i class="fas fa-store"></i></div>
+                            <h4>الواجهات النشطة</h4>
+                            <p>تنشيط حواف الشارع بأنشطة وأبواب وشفافية تعزز الحيوية والمراقبة الطبيعية.</p>
+                            <span class="principle-tags">النشاط، الشفافية، الحواف</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="vitality" data-audiences="designer owner">
+                            <span class="principle-number">07</span>
+                            <div class="principle-icon"><i class="fas fa-users"></i></div>
+                            <h4>الحيوية والهوية</h4>
+                            <p>صناعة أماكن جاذبة تحمل طابع المنطقة وتدعم اللقاء والاستخدام اليومي المتنوع.</p>
+                            <span class="principle-tags">الهوية، الاستخدامات، التجمع</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="sustainability" data-audiences="designer owner contractor reviewer">
+                            <span class="principle-number">08</span>
+                            <div class="principle-icon"><i class="fas fa-leaf"></i></div>
+                            <h4>الاستدامة</h4>
+                            <p>اختيار حلول ومواد تقلل الهدر وتدعم إدارة المياه والغطاء النباتي طويل الأمد.</p>
+                            <span class="principle-tags">المواد، المياه، الغطاء النباتي</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="integration" data-audiences="designer owner reviewer">
+                            <span class="principle-number">09</span>
+                            <div class="principle-icon"><i class="fas fa-project-diagram"></i></div>
+                            <h4>التكامل والاتساق</h4>
+                            <p>ربط العناصر والفراغات والمواد في تجربة حضرية واحدة مفهومة ومتماسكة.</p>
+                            <span class="principle-tags">الاتصال، اللغة التصميمية، التسلسل</span>
+                        </button>
+
+                        <button class="principle-card" type="button" data-principle="implementation" data-audiences="owner contractor reviewer">
+                            <span class="principle-number">10</span>
+                            <div class="principle-icon"><i class="fas fa-clipboard-check"></i></div>
+                            <h4>قابلية التنفيذ والصيانة</h4>
+                            <p>تحويل المبادئ إلى تفاصيل قابلة للبناء والفحص والصيانة بدون فقدان جودة التصميم.</p>
+                            <span class="principle-tags">التفاصيل، الجودة، الصيانة</span>
+                        </button>
+                    </div>
+
+                    <aside class="principle-detail-panel" aria-live="polite">
+                        <div class="principle-detail-heading">
+                            <span id="principle-detail-number">01</span>
+                            <div>
+                                <p id="principle-detail-eyebrow">Human Scale</p>
+                                <h3 id="principle-detail-title">مقياس الإنسان</h3>
+                            </div>
+                        </div>
+                        <p id="principle-detail-summary">توجيه الأبعاد، السرعات، والفراغات لتناسب حركة الإنسان وإدراكه قبل المركبة.</p>
+
+                        <div class="principle-detail-section">
+                            <h4>كيف نطبقه؟</h4>
+                            <ul id="principle-detail-actions"></ul>
+                        </div>
+
+                        <div class="principle-detail-section">
+                            <h4>مؤشرات المراجعة</h4>
+                            <ul id="principle-detail-indicators"></ul>
+                        </div>
+
+                        <div class="principle-detail-section warning">
+                            <h4>أخطاء شائعة</h4>
+                            <p id="principle-detail-mistake"></p>
+                        </div>
+                    </aside>
+                </section>
+
+                <section class="principles-matrix" aria-label="مصفوفة ربط المبادئ بالمخرجات">
+                    <div class="matrix-heading">
+                        <span class="section-kicker">مصفوفة الربط</span>
+                        <h3>كل مبدأ لازم يبان في قرار تصميمي واضح</h3>
+                    </div>
+                    <div class="matrix-grid">
+                        <div><strong>المشاة</strong><span>أرصفة مستمرة، عبور آمن، مسافات مريحة.</span></div>
+                        <div><strong>السلامة</strong><span>رؤية واضحة، سرعة منخفضة، إنارة فعالة.</span></div>
+                        <div><strong>المناخ</strong><span>ظل، تشجير، مواد تقلل الحرارة.</span></div>
+                        <div><strong>الهوية</strong><span>مواد محلية، أثاث حضري، لغة بصرية متسقة.</span></div>
+                        <div><strong>التنفيذ</strong><span>تفاصيل قابلة للبناء، مواصفات، قوائم فحص.</span></div>
+                    </div>
+                </section>
             </div>
         </section>
     </main>
@@ -132,3 +242,5 @@
 </body>
 
 </html>
+
+

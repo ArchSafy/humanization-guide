@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>?????? ?????? ???? ???? ??????</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/konva@9/konva.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <style>
+        :root {
+            --primary: #A57F61;
+            --accent: #6EBECF;
+            --secondary: #555D71;
+            --green: #7B967E;
+            --bg: #E9E7E2;
+            --bg-alt: #E4DED3;
+            --surface: #F7F4EF;
+            --text: #655C50;
+            --muted: #7A573F;
+            --border: #BDB4AC;
+            --gold: #F7C86B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, rgba(233, 231, 226, 0.96), rgba(228, 222, 211, 0.9)),
+                radial-gradient(circle at 18% 12%, rgba(110, 190, 207, 0.16), transparent 34%);
+            color: var(--text);
+            font-family: "Tajawal", Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .page {
+            width: min(1540px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 34px 0 70px;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            gap: 28px;
+            align-items: flex-end;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-family: "Cairo", sans-serif;
+            font-size: clamp(2rem, 4vw, 4.5rem);
+            line-height: 1.08;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--muted);
+            max-width: 760px;
+            font-size: 1.05rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 16px;
+            background: var(--secondary);
+            color: var(--surface);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            align-items: start;
+        }
+
+        .sample-card {
+            background: rgba(247, 244, 239, 0.94);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 20px 50px rgba(101, 92, 80, 0.14);
+            overflow: hidden;
+            min-height: 760px;
+        }
+
+        .sample-head {
+            min-height: 170px;
+            padding: 22px;
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .konva-card .sample-head { background: #555D71; }
+        .fabric-card .sample-head { background: #A57F61; }
+        .dnd-card .sample-head { background: #7B967E; }
+
+        .sample-head small {
+            font-weight: 900;
+            opacity: 0.78;
+        }
+
+        .sample-head h2 {
+            font-family: "Cairo", sans-serif;
+            font-size: 1.85rem;
+            margin: 8px 0;
+        }
+
+        .sample-head p {
+            opacity: 0.82;
+            font-size: 0.96rem;
+        }
+
+        .sample-body {
+            padding: 18px;
+        }
+
+        .module-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        button,
+        .choice-chip {
+            min-height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 11px;
+            background: var(--surface);
+            color: var(--text);
+            font-family: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        button:hover,
+        .choice-chip:hover {
+            border-color: var(--primary);
+        }
+
+        .choice-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .canvas-shell,
+        .dnd-zone {
+            height: 330px;
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            background:
+                linear-gradient(180deg, rgba(233, 231, 226, 0.7), rgba(228, 222, 211, 0.42)),
+                repeating-linear-gradient(90deg, transparent 0, transparent 62px, rgba(101, 92, 80, 0.05) 63px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #konva-stage,
+        #fabric-canvas-wrap {
+            width: 100%;
+            height: 100%;
+        }
+
+        #fabric-canvas {
+            width: 100%;
+            height: 330px;
+        }
+
+        .sample-notes {
+            margin-top: 16px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .sample-notes div {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            background: rgba(233, 231, 226, 0.48);
+        }
+
+        .sample-notes strong {
+            display: block;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+
+        .sample-notes span {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .dnd-palette {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            direction: ltr;
+        }
+
+        .dnd-fallback-note {
+            margin-bottom: 10px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .dnd-source {
+            user-select: none;
+            touch-action: none;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #F7F4EF;
+            font-weight: 900;
+            cursor: grab;
+        }
+
+        .dnd-lanes {
+            min-height: 210px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            direction: ltr;
+            padding: 18px;
+        }
+
+        .dnd-lane {
+            height: 96px;
+            min-width: 72px;
+            border-radius: 6px;
+            color: #F7F4EF;
+            display: grid;
+            place-content: center;
+            text-align: center;
+            font-weight: 900;
+            box-shadow: 0 14px 30px rgba(101, 92, 80, 0.16);
+            cursor: grab;
+            padding: 8px;
+        }
+
+        .dnd-lane small {
+            display: block;
+            opacity: 0.82;
+            font-weight: 700;
+        }
+
+        .drop-hint {
+            position: absolute;
+            right: 18px;
+            bottom: 16px;
+            color: var(--muted);
+            font-weight: 800;
+        }
+
+        .final-choice {
+            margin-top: 18px;
+            background: rgba(247, 244, 239, 0.94);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .final-choice h3 {
+            font-family: "Cairo", sans-serif;
+            color: var(--secondary);
+        }
+
+        .final-choice p {
+            color: var(--muted);
+        }
+
+        @media (max-width: 1200px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sample-card {
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .hero,
+            .final-choice {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <section class="hero">
+            <div>
+                <h1>?????? ????? ???? ???? ??????</h1>
+                <p>
+                    ?? ???? ??????? ?????? ???? 3 ??????? ??????. ???? ???????: ?? ????? Canvas editor ????
+                    ??? object editor? ??? drag/drop UI ????? ?? ???? ?????? ???? ???? ???? ??????.
+                </p>
+            </div>
+            <a class="back-link" href="street-builder.html">?????? ?????? ???????</a>
+        </section>
+
+        <section class="comparison-grid">
+            <article class="sample-card konva-card">
+                <header class="sample-head">
+                    <div>
+                        <small>Canvas Scene Graph</small>
+                        <h2>Konva.js</h2>
+                    </div>
+                    <p>???? ?????? ????? ???? ????? ????: layers, groups, drag, transform, custom assets.</p>
+                </header>
+                <div class="sample-body">
+                    <div class="module-row">
+                        <button data-konva-add="driving">Driving</button>
+                        <button data-konva-add="bike">Bike</button>
+                        <button data-konva-add="tree">Trees</button>
+                        <button data-konva-add="light">Lighting</button>
+                        <button data-konva-reset>Reset</button>
+                    </div>
+                    <div class="canvas-shell">
+                        <div id="konva-stage"></div>
+                    </div>
+                    <div class="sample-notes">
+                        <div><strong>?????</strong><span>???? ????? ???drag ?? ??? ?????? ?????? lane + trees + lights ?? Group ????.</span></div>
+                        <div><strong>????? ??</strong><span>Street section tool ?????? assets ????? snapping? pan/zoom? ?3D ?????? ?????.</span></div>
+                        <div><strong>??????</strong><span>??????? ???????? ????? asset system ????? ???? ??? Konva.</span></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="sample-card fabric-card">
+                <header class="sample-head">
+                    <div>
+                        <small>Object Canvas Editor</small>
+                        <h2>Fabric.js</h2>
+                    </div>
+                    <p>????? ???? ?????? ?????: select, move, scale, objects, text, export.</p>
+                </header>
+                <div class="sample-body">
+                    <div class="module-row">
+                        <button data-fabric-add="driving">Driving</button>
+                        <button data-fabric-add="parking">Parking</button>
+                        <button data-fabric-add="frontage">Cafe frontage</button>
+                        <button data-fabric-add="busstop">Bus stop</button>
+                        <button data-fabric-reset>Reset</button>
+                    </div>
+                    <div id="fabric-canvas-wrap" class="canvas-shell">
+                        <canvas id="fabric-canvas"></canvas>
+                    </div>
+                    <div class="sample-notes">
+                        <div><strong>?????</strong><span>Object manipulation ???? ????: selection handles? scaling? moving? text editing.</span></div>
+                        <div><strong>????? ??</strong><span>?? ?????? ???? ???? ??mini Illustrator/Figma ???street section.</span></div>
+                        <div><strong>??????</strong><span>????? ???2D? ?? ????? ????? ???? ???? lanes ?? ????? ??????.</span></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="sample-card dnd-card">
+                <header class="sample-head">
+                    <div>
+                        <small>React Drag & Drop Logic</small>
+                        <h2>dnd-kit style</h2>
+                    </div>
+                    <p>???? ?? ????? ??????? React ????? UI modules ?????? ?accessibility ?????? canvas.</p>
+                </header>
+                <div class="sample-body">
+                    <div id="dnd-root"></div>
+                    <div class="sample-notes">
+                        <div><strong>?????</strong><span>Drag/drop ????? ???sidebar? reorder? keyboard support? ?????? drop ?????.</span></div>
+                        <div><strong>????? ??</strong><span>?? ??????? ????? ??React app ???? panels ?databases ?states ????.</span></div>
+                        <div><strong>??????</strong><span>?? ???? ???. ?????? ??????? ?? Konva ?? SVG ?? Canvas.</span></div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="final-choice">
+            <div>
+                <h3>?????? ????????</h3>
+                <p>?? ????? Konva ????? ???? ??? ????? library ??????? ?????????: trees, lights, bins, cafe frontage, bus stops, curb details.</p>
+            </div>
+            <a class="choice-chip" href="https://konvajs.org/docs/index.html" target="_blank" rel="noreferrer"><span class="dot"></span> Konva docs</a>
+            <a class="choice-chip" href="https://fabricjs.com/docs/" target="_blank" rel="noreferrer"><span class="dot"></span> Fabric docs</a>
+            <a class="choice-chip" href="https://docs.dndkit.com/" target="_blank" rel="noreferrer"><span class="dot"></span> dnd-kit docs</a>
+        </section>
+    </main>
+
+    <script>
+        const laneColors = {
+            driving: '#555D71',
+            bike: '#6EBECF',
+            tree: '#7B967E',
+            light: '#F7C86B',
+            parking: '#C8AB99',
+            frontage: '#E4DED3',
+            busstop: '#D2A747'
+        };
+
+        const laneLabels = {
+            driving: 'Driving',
+            bike: 'Bike',
+            tree: 'Trees',
+            light: 'Light',
+            parking: 'Parking',
+            frontage: 'Cafe',
+            busstop: 'Bus Stop'
+        };
+
+        function contrast(hex) {
+            const raw = hex.replace('#', '');
+            const r = parseInt(raw.slice(0, 2), 16);
+            const g = parseInt(raw.slice(2, 4), 16);
+            const b = parseInt(raw.slice(4, 6), 16);
+            return (r * 0.299 + g * 0.587 + b * 0.114) / 255 > 0.58 ? '#3A3839' : '#F7F4EF';
+        }
+
+        function initKonva() {
+            if (!window.Konva) return;
+            const container = document.getElementById('konva-stage');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const stage = new Konva.Stage({ container: 'konva-stage', width, height });
+            const layer = new Konva.Layer();
+            stage.add(layer);
+
+            function addLane(type, x = 70 + layer.children.length * 78) {
+                const color = laneColors[type];
+                const group = new Konva.Group({ x, y: 128, draggable: true });
+                const rect = new Konva.Rect({
+                    width: type === 'frontage' ? 116 : 82,
+                    height: 96,
+                    fill: color,
+                    cornerRadius: type === 'tree' ? 14 : 5,
+                    shadowColor: '#655C50',
+                    shadowOpacity: 0.16,
+                    shadowBlur: 12,
+                    shadowOffsetY: 8
+                });
+                const text = new Konva.Text({
+                    text: laneLabels[type],
+                    width: rect.width(),
+                    align: 'center',
+                    y: 37,
+                    fontFamily: 'Tajawal',
+                    fontSize: 14,
+                    fontStyle: 'bold',
+                    fill: contrast(color)
+                });
+                group.add(rect, text);
+
+                if (type === 'tree') {
+                    for (let i = 0; i < 3; i++) {
+                        group.add(new Konva.Circle({ x: 20 + i * 22, y: 24, radius: 7, fill: '#E9E7E2', opacity: 0.55 }));
+                    }
+                }
+
+                if (type === 'light') {
+                    group.add(new Konva.Line({ points: [42, 74, 42, 22], stroke: '#655C50', strokeWidth: 4 }));
+                    group.add(new Konva.Circle({ x: 42, y: 20, radius: 10, fill: '#FFF1B6' }));
+                }
+
+                layer.add(group);
+                layer.draw();
+            }
+
+            function reset() {
+                layer.destroyChildren();
+                ['driving', 'driving', 'tree', 'bike', 'light', 'driving'].forEach((type, index) => addLane(type, 50 + index * 90));
+            }
+
+            document.querySelectorAll('[data-konva-add]').forEach(button => {
+                button.addEventListener('click', () => addLane(button.dataset.konvaAdd));
+            });
+            document.querySelector('[data-konva-reset]').addEventListener('click', reset);
+            reset();
+        }
+
+        function initFabric() {
+            if (!window.fabric) return;
+            const wrap = document.getElementById('fabric-canvas-wrap');
+            const canvasEl = document.getElementById('fabric-canvas');
+            const canvas = new fabric.Canvas(canvasEl, {
+                width: wrap.clientWidth,
+                height: 330,
+                selection: true,
+                preserveObjectStacking: true
+            });
+
+            function addLane(type, left = 52 + canvas.getObjects().length * 84) {
+                const color = laneColors[type];
+                const width = type === 'frontage' ? 118 : type === 'busstop' ? 106 : 82;
+                const rect = new fabric.Rect({
+                    left: 0,
+                    top: 0,
+                    width,
+                    height: 96,
+                    rx: 6,
+                    ry: 6,
+                    fill: color
+                });
+                const text = new fabric.Text(laneLabels[type], {
+                    left: width / 2,
+                    top: 39,
+                    originX: 'center',
+                    fontFamily: 'Tajawal',
+                    fontSize: 14,
+                    fontWeight: 800,
+                    fill: contrast(color)
+                });
+                const group = new fabric.Group([rect, text], {
+                    left,
+                    top: 118,
+                    hasRotatingPoint: true,
+                    cornerColor: '#6EBECF',
+                    borderColor: '#6EBECF'
+                });
+                canvas.add(group);
+                canvas.setActiveObject(group);
+            }
+
+            function reset() {
+                canvas.clear();
+                ['frontage', 'parking', 'driving', 'busstop', 'driving'].forEach((type, index) => addLane(type, 42 + index * 98));
+                canvas.renderAll();
+            }
+
+            document.querySelectorAll('[data-fabric-add]').forEach(button => {
+                button.addEventListener('click', () => addLane(button.dataset.fabricAdd));
+            });
+            document.querySelector('[data-fabric-reset]').addEventListener('click', reset);
+            reset();
+        }
+
+        initKonva();
+        initFabric();
+
+        function renderDndFallback() {
+            const root = document.getElementById('dnd-root');
+            if (!root || root.dataset.ready === 'true') return;
+
+            const items = [
+                { type: 'driving', label: 'Driving', width: 3.3, color: '#555D71' },
+                { type: 'bike', label: 'Bike', width: 2.0, color: '#6EBECF' },
+                { type: 'parking', label: 'Parking', width: 2.5, color: '#C8AB99' },
+                { type: 'busstop', label: 'Bus Stop', width: 3.0, color: '#D2A747' },
+                { type: 'frontage', label: 'Cafe', width: 3.5, color: '#E4DED3' }
+            ];
+            const lanes = [
+                { ...items[0], id: 'fallback-a' },
+                { ...items[2], id: 'fallback-b' },
+                { ...items[1], id: 'fallback-c' }
+            ];
+
+            root.dataset.ready = 'fallback';
+            root.innerHTML = `
+                <p class="dnd-fallback-note">Fallback preview: ??? workflow ???? dnd-kit? ?? Native DnD ???? ????? ??????.</p>
+                <div class="dnd-palette"></div>
+                <div class="dnd-zone">
+                    <div class="dnd-lanes"></div>
+                    <span class="drop-hint">Drag modules here</span>
+                </div>
+            `;
+
+            const paletteEl = root.querySelector('.dnd-palette');
+            const lanesEl = root.querySelector('.dnd-lanes');
+            const zone = root.querySelector('.dnd-zone');
+            const hint = root.querySelector('.drop-hint');
+
+            function drawLanes() {
+                lanesEl.innerHTML = '';
+                lanes.forEach((lane, index) => {
+                    const laneEl = document.createElement('div');
+                    laneEl.className = 'dnd-lane';
+                    laneEl.draggable = true;
+                    laneEl.dataset.index = index;
+                    laneEl.style.background = lane.color;
+                    laneEl.style.color = contrast(lane.color);
+                    laneEl.style.width = `${lane.width * 34}px`;
+                    laneEl.innerHTML = `${lane.label}<small>${lane.width}m</small>`;
+                    laneEl.addEventListener('dragstart', event => {
+                        event.dataTransfer.setData('lane/index', index);
+                    });
+                    laneEl.addEventListener('dragover', event => event.preventDefault());
+                    laneEl.addEventListener('drop', event => {
+                        event.preventDefault();
+                        const fromIndex = Number(event.dataTransfer.getData('lane/index'));
+                        if (Number.isNaN(fromIndex) || fromIndex === index) return;
+                        const [moved] = lanes.splice(fromIndex, 1);
+                        lanes.splice(index, 0, moved);
+                        drawLanes();
+                    });
+                    lanesEl.appendChild(laneEl);
+                });
+            }
+
+            items.forEach(item => {
+                const source = document.createElement('div');
+                source.className = 'dnd-source';
+                source.draggable = true;
+                source.textContent = item.label;
+                source.style.background = item.color;
+                source.style.color = contrast(item.color);
+                source.addEventListener('dragstart', event => {
+                    event.dataTransfer.setData('module/type', item.type);
+                });
+                paletteEl.appendChild(source);
+            });
+
+            zone.addEventListener('dragover', event => {
+                event.preventDefault();
+                zone.style.outline = '3px solid #6EBECF';
+                hint.textContent = 'Drop here';
+            });
+            zone.addEventListener('dragleave', () => {
+                zone.style.outline = 'none';
+                hint.textContent = 'Drag modules here';
+            });
+            zone.addEventListener('drop', event => {
+                event.preventDefault();
+                zone.style.outline = 'none';
+                hint.textContent = 'Drag modules here';
+                const type = event.dataTransfer.getData('module/type');
+                if (!type) return;
+                const item = items.find(entry => entry.type === type);
+                lanes.push({ ...item, id: `${type}-${Date.now()}` });
+                drawLanes();
+            });
+
+            drawLanes();
+        }
+
+        renderDndFallback();
+    </script>
+</body>
+
+</html>
+

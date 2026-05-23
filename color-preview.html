@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>???? ????? ?????? ?? ???? ??????? ????????</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ui-primary: #465F59;
+            --ui-primary-2: #555D71;
+            --ui-accent: #A57F61;
+            --ui-accent-2: #7B967E;
+            --ui-bg: #E9E7E2;
+            --ui-surface: #FCF5EB;
+            --ui-text: #3A3839;
+            --ui-muted: #696155;
+            --ui-border: #CEC9C2;
+            --radius: 8px;
+            --shadow: 0 18px 45px rgba(58, 56, 57, 0.11);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--ui-bg);
+            color: var(--ui-text);
+            font-family: "Tajawal", Arial, sans-serif;
+            line-height: 1.75;
+        }
+
+        .page {
+            max-width: 1260px;
+            margin: 0 auto;
+            padding: 34px 22px 70px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #465F59 0%, #555D71 100%);
+            color: #FCF5EB;
+            border-radius: var(--radius);
+            padding: 44px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset-inline: 0;
+            bottom: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #A57F61, #7B967E, #6EBECF, #D2A747);
+        }
+
+        .kicker {
+            color: #D2B386;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        h1, h2, h3 {
+            font-family: "Cairo", "Tajawal", Arial, sans-serif;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: clamp(2.1rem, 4vw, 4.4rem);
+            font-weight: 900;
+            max-width: 940px;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            max-width: 900px;
+            color: rgba(252, 245, 235, 0.82);
+            font-size: 1.05rem;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 18px;
+            margin-bottom: 34px;
+        }
+
+        .panel {
+            background: rgba(252, 245, 235, 0.92);
+            border: 1px solid var(--ui-border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel h2 {
+            font-size: 1.45rem;
+            margin-bottom: 10px;
+        }
+
+        .panel p,
+        .panel li {
+            color: var(--ui-muted);
+        }
+
+        .panel ul {
+            display: grid;
+            gap: 8px;
+            padding-right: 18px;
+        }
+
+        .pdf-link {
+            display: inline-block;
+            margin-top: 16px;
+            background: var(--ui-primary);
+            color: #FCF5EB;
+            text-decoration: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-weight: 800;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 16px;
+            border-bottom: 1px solid var(--ui-border);
+            padding-bottom: 14px;
+            margin: 34px 0 18px;
+        }
+
+        .section-title h2 {
+            font-size: 1.55rem;
+        }
+
+        .section-title span {
+            color: var(--ui-muted);
+        }
+
+        .website-system {
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 20px;
+        }
+
+        .tokens {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--ui-border);
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        .tokens th,
+        .tokens td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--ui-border);
+            text-align: right;
+        }
+
+        .tokens th {
+            background: #DCCFB7;
+            color: #3A3839;
+        }
+
+        .tokens tr:last-child td {
+            border-bottom: 0;
+        }
+
+        code {
+            direction: ltr;
+            display: inline-block;
+            font-family: Consolas, "Courier New", monospace;
+            font-weight: 800;
+        }
+
+        .sample-ui {
+            background: #FCF5EB;
+            border: 1px solid var(--ui-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            min-height: 100%;
+        }
+
+        .sample-ui header {
+            background: #465F59;
+            color: #FCF5EB;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .sample-ui nav {
+            display: flex;
+            gap: 18px;
+            color: rgba(252, 245, 235, 0.76);
+            font-size: 0.92rem;
+        }
+
+        .sample-body {
+            padding: 24px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: rgba(165, 127, 97, 0.17);
+            color: #7A573F;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .sample-body h3 {
+            font-size: 1.7rem;
+            color: #3A3839;
+            margin-bottom: 10px;
+        }
+
+        .sample-body p {
+            color: #696155;
+            max-width: 620px;
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-family: inherit;
+            font-weight: 800;
+        }
+
+        .btn.primary {
+            background: #A57F61;
+            color: #FCF5EB;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 1px solid #7B967E;
+            color: #465F59;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: rgba(252, 245, 235, 0.92);
+            border: 1px solid var(--ui-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .card-head {
+            padding: 22px 24px;
+            color: #FCF5EB;
+            min-height: 124px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-head small {
+            color: rgba(252, 245, 235, 0.78);
+            font-weight: 800;
+        }
+
+        .card-head h3 {
+            font-size: 1.65rem;
+            margin-top: 8px;
+        }
+
+        .coast .card-head { background: #619EB2; }
+        .najdi .card-head { background: #7788A2; }
+        .qatif .card-head { background: #0B3869; }
+        .ahsa .card-head { background: #465F59; }
+
+        .card-body {
+            padding: 22px 24px 24px;
+        }
+
+        .card-body p {
+            color: var(--ui-muted);
+            margin-bottom: 18px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin: 18px 0 10px;
+            color: #3A3839;
+            font-weight: 800;
+        }
+
+        .label-row span {
+            color: var(--ui-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .swatches {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--ui-border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .swatches.secondary {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .swatch {
+            min-height: 112px;
+            padding: 12px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            gap: 3px;
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .swatch span {
+            opacity: 0.9;
+        }
+
+        .note {
+            margin-top: 16px;
+            background: rgba(123, 150, 126, 0.14);
+            border-right: 4px solid #7B967E;
+            padding: 12px 14px;
+            border-radius: 4px;
+            color: #465F59;
+        }
+
+        @media (max-width: 980px) {
+            .summary,
+            .website-system,
+            .palette-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .page {
+                padding: 20px 12px 48px;
+            }
+
+            .hero,
+            .panel,
+            .card-head,
+            .card-body,
+            .sample-body {
+                padding: 22px;
+            }
+
+            .section-title,
+            .sample-ui header {
+                flex-direction: column;
+                align-items: start;
+            }
+
+            .sample-ui nav {
+                flex-wrap: wrap;
+            }
+
+            .swatches,
+            .swatches.secondary {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <div class="kicker">?????? ?? ???: ???? ??????? ???????? ?? ??????? ???????? - ????? ??????? ???????</div>
+            <h1>???? ????? ?????? ????? ??? ??????? ???????? ???? ???PDF</h1>
+            <p>
+                ??????? ??? ?????? ?? ????? ??????? ???? ??? ???PDF ????. ??????? ????? ?????? ??? ??? ?? ?????:
+                ????? ?????? ??????? ??????? ??????? ???????? ????? ??????? ?????? ????? ???????.
+            </p>
+        </section>
+
+        <section class="summary">
+            <div class="panel">
+                <h2>????? ??????? ??????</h2>
+                <p>
+                    ??? ?? ?????? ????? ???? ?? ????? ?????? ?? ?????? ?????? ?? ????? ??????? ???? ???? ?????? ?? ??????.
+                    ?? ?????? ???? ??????? ??????? ???? ???? ???? ?? ?? ??????? Palette ????? ????? ?? ????? ?????? ?????:
+                    ????/????? ????? ?????? ????? ??????? ???? ?????? ??accent.
+                </p>
+                <a class="pdf-link" href="New%20folder/%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A3%D9%84%D9%88%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D8%B9%D8%AA%D9%85%D8%AF%D8%A9%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9%20-%20%D8%A3%D9%85%D8%A7%D9%86%D8%A9%20%D8%A7%D9%84%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9%20-%2020250414.pdf">??? ???PDF ??????</a>
+            </div>
+
+            <div class="panel">
+                <h2>?????? ?????????</h2>
+                <ul>
+                    <li>?????? ????? ????? ???????/?????? ?????? UI ?????? ????? ???? ?????.</li>
+                    <li>?????? ????? ???????? ??????? ??????? ?????? ??? ?????? ??????.</li>
+                    <li>?????? ????? ???????? ??????? ?????? ???.</li>
+                    <li>?????? ???? ?????? ?? ?????? ?? ??????? ?????????? ???? ?????? ???? ??? ??????.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="section-title">
+            <h2>Website Palette ?????? ?? ????? ?????? ???</h2>
+            <span>?????? ????? ?????/?????? ??????? ???????</span>
+        </div>
+
+        <section class="website-system">
+            <div class="panel">
+                <table class="tokens">
+                    <thead>
+                        <tr>
+                            <th>????? CSS</th>
+                            <th>????? ?? ??????</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>--clr-primary</td><td><code>#465F59</code></td></tr>
+                        <tr><td>--clr-secondary</td><td><code>#555D71</code></td></tr>
+                        <tr><td>--clr-accent</td><td><code>#A57F61</code></td></tr>
+                        <tr><td>--clr-accent-soft</td><td><code>#7B967E</code></td></tr>
+                        <tr><td>--clr-bg</td><td><code>#E9E7E2</code></td></tr>
+                        <tr><td>--clr-surface</td><td><code>#FCF5EB</code></td></tr>
+                        <tr><td>--clr-text</td><td><code>#3A3839</code></td></tr>
+                        <tr><td>--clr-text-muted</td><td><code>#696155</code></td></tr>
+                        <tr><td>--clr-border</td><td><code>#CEC9C2</code></td></tr>
+                        <tr><td>--clr-info</td><td><code>#6EBECF</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="sample-ui">
+                <header>
+                    <strong>????? ???????</strong>
+                    <nav>
+                        <span>????????</span>
+                        <span>???????</span>
+                        <span>???????</span>
+                        <span>???????</span>
+                    </nav>
+                </header>
+                <div class="sample-body">
+                    <span class="tag">???? ????? ??????? ?????????</span>
+                    <h3>????? ???? ????? ???????? ????????</h3>
+                    <p>
+                        ??????? ???? ????? ?????? ???????? ?? ?????? ????? ???? ??????. ?? ???? ?????? ???? ??????? ?? ?????? ???????.
+                    </p>
+                    <div class="actions">
+                        <button class="btn primary">??????? ??????</button>
+                        <button class="btn secondary">???? ???????</button>
+                    </div>
+                    <div class="note">????? ??????/????? ??? ?????? ?????? ??? ???? ?? ???? ????? ??? ??????.</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-title">
+            <h2>??????? ???????? ????????? ?? ???PDF</h2>
+            <span>??? 4 ????? ?? ?? ???? = ??????? ?????? 8 ????? = ?????? ??? ????? ???? ??????</span>
+        </div>
+
+        <section class="palette-grid">
+            <article class="card coast">
+                <div class="card-head">
+                    <small>???? 01</small>
+                    <h3>????? ?????? ??????</h3>
+                </div>
+                <div class="card-body">
+                    <p>???? ????? ??????? ???? ???? ????? ?????? ???/??? ?????? ????????.</p>
+                    <div class="label-row">??????? ???????? <span>Primary</span></div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#E9E7E2;color:#3A3839;"><span>01</span><code>#E9E7E2</code></div>
+                        <div class="swatch" style="background:#C8AB99;color:#3A3839;"><span>02</span><code>#C8AB99</code></div>
+                        <div class="swatch" style="background:#BDB4AC;color:#3A3839;"><span>03</span><code>#BDB4AC</code></div>
+                        <div class="swatch" style="background:#A57F61;color:#FCF5EB;"><span>04</span><code>#A57F61</code></div>
+                    </div>
+                    <div class="label-row">??????? ???????? <span>Secondary</span></div>
+                    <div class="swatches secondary">
+                        <div class="swatch" style="background:#6EBECF;color:#17211D;"><span>05</span><code>#6EBECF</code></div>
+                        <div class="swatch" style="background:#E4DED3;color:#3A3839;"><span>06</span><code>#E4DED3</code></div>
+                        <div class="swatch" style="background:#9A806E;color:#FCF5EB;"><span>07</span><code>#9A806E</code></div>
+                        <div class="swatch" style="background:#F7C86B;color:#3A3839;"><span>08</span><code>#F7C86B</code></div>
+                        <div class="swatch" style="background:#555D71;color:#FCF5EB;"><span>09</span><code>#555D71</code></div>
+                        <div class="swatch" style="background:#655C50;color:#FCF5EB;"><span>10</span><code>#655C50</code></div>
+                        <div class="swatch" style="background:#7A573F;color:#FCF5EB;"><span>11</span><code>#7A573F</code></div>
+                        <div class="swatch" style="background:#7B967E;color:#FCF5EB;"><span>12</span><code>#7B967E</code></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card najdi">
+                <div class="card-head">
+                    <small>???? 02</small>
+                    <h3>??????? ??????? ???????</h3>
+                </div>
+                <div class="card-body">
+                    <p>???? ????? ???????? ????? ?????? ??????? ??????? ????????? ??? ?????? ??????.</p>
+                    <div class="label-row">??????? ???????? <span>Primary</span></div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#E2B89F;color:#3A3839;"><span>01</span><code>#E2B89F</code></div>
+                        <div class="swatch" style="background:#C19055;color:#FCF5EB;"><span>02</span><code>#C19055</code></div>
+                        <div class="swatch" style="background:#C09F86;color:#3A3839;"><span>03</span><code>#C09F86</code></div>
+                        <div class="swatch" style="background:#9B6A38;color:#FCF5EB;"><span>04</span><code>#9B6A38</code></div>
+                    </div>
+                    <div class="label-row">??????? ???????? <span>Secondary</span></div>
+                    <div class="swatches secondary">
+                        <div class="swatch" style="background:#D4CEBD;color:#3A3839;"><span>05</span><code>#D4CEBD</code></div>
+                        <div class="swatch" style="background:#E7D5C6;color:#3A3839;"><span>06</span><code>#E7D5C6</code></div>
+                        <div class="swatch" style="background:#C99D6C;color:#3A3839;"><span>07</span><code>#C99D6C</code></div>
+                        <div class="swatch" style="background:#EBC778;color:#3A3839;"><span>08</span><code>#EBC778</code></div>
+                        <div class="swatch" style="background:#A99A8D;color:#3A3839;"><span>09</span><code>#A99A8D</code></div>
+                        <div class="swatch" style="background:#CEC9C2;color:#3A3839;"><span>10</span><code>#CEC9C2</code></div>
+                        <div class="swatch" style="background:#5E5751;color:#FCF5EB;"><span>11</span><code>#5E5751</code></div>
+                        <div class="swatch" style="background:#947355;color:#FCF5EB;"><span>12</span><code>#947355</code></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card qatif">
+                <div class="card-head">
+                    <small>???? 03</small>
+                    <h3>????? ??????</h3>
+                </div>
+                <div class="card-body">
+                    <p>???? ???? ???? ???? ?????? ??????. ?????? ?????? ?????? ???????? ?? ??????? ?????? ???????.</p>
+                    <div class="label-row">??????? ???????? <span>Primary</span></div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#CDBBA2;color:#3A3839;"><span>01</span><code>#CDBBA2</code></div>
+                        <div class="swatch" style="background:#C3B2A3;color:#3A3839;"><span>02</span><code>#C3B2A3</code></div>
+                        <div class="swatch" style="background:#8A7A64;color:#FCF5EB;"><span>03</span><code>#8A7A64</code></div>
+                        <div class="swatch" style="background:#C0926E;color:#3A3839;"><span>04</span><code>#C0926E</code></div>
+                    </div>
+                    <div class="label-row">??????? ???????? <span>Secondary</span></div>
+                    <div class="swatches secondary">
+                        <div class="swatch" style="background:#90644F;color:#FCF5EB;"><span>05</span><code>#90644F</code></div>
+                        <div class="swatch" style="background:#CFCDC3;color:#3A3839;"><span>06</span><code>#CFCDC3</code></div>
+                        <div class="swatch" style="background:#747864;color:#FCF5EB;"><span>07</span><code>#747864</code></div>
+                        <div class="swatch" style="background:#AF743F;color:#FCF5EB;"><span>08</span><code>#AF743F</code></div>
+                        <div class="swatch" style="background:#584F44;color:#FCF5EB;"><span>09</span><code>#584F44</code></div>
+                        <div class="swatch" style="background:#C5A17F;color:#3A3839;"><span>10</span><code>#C5A17F</code></div>
+                        <div class="swatch" style="background:#513A30;color:#FCF5EB;"><span>11</span><code>#513A30</code></div>
+                        <div class="swatch" style="background:#696155;color:#FCF5EB;"><span>12</span><code>#696155</code></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card ahsa">
+                <div class="card-head">
+                    <small>???? 04</small>
+                    <h3>????? ????? ???????</h3>
+                </div>
+                <div class="card-body">
+                    <p>???? ??????? ???? ?????: ???? ????? ????? ?????? ?????? ?????? ?????/??????.</p>
+                    <div class="label-row">??????? ???????? <span>Primary</span></div>
+                    <div class="swatches">
+                        <div class="swatch" style="background:#F1EBE1;color:#3A3839;"><span>01</span><code>#F1EBE1</code></div>
+                        <div class="swatch" style="background:#D2B386;color:#3A3839;"><span>02</span><code>#D2B386</code></div>
+                        <div class="swatch" style="background:#DCCFB7;color:#3A3839;"><span>03</span><code>#DCCFB7</code></div>
+                        <div class="swatch" style="background:#A88257;color:#FCF5EB;"><span>04</span><code>#A88257</code></div>
+                    </div>
+                    <div class="label-row">??????? ???????? <span>Secondary</span></div>
+                    <div class="swatches secondary">
+                        <div class="swatch" style="background:#9A907D;color:#FCF5EB;"><span>05</span><code>#9A907D</code></div>
+                        <div class="swatch" style="background:#FCF5EB;color:#3A3839;"><span>06</span><code>#FCF5EB</code></div>
+                        <div class="swatch" style="background:#AC6835;color:#FCF5EB;"><span>07</span><code>#AC6835</code></div>
+                        <div class="swatch" style="background:#98866A;color:#FCF5EB;"><span>08</span><code>#98866A</code></div>
+                        <div class="swatch" style="background:#CC9246;color:#3A3839;"><span>09</span><code>#CC9246</code></div>
+                        <div class="swatch" style="background:#D2A747;color:#3A3839;"><span>10</span><code>#D2A747</code></div>
+                        <div class="swatch" style="background:#3A3839;color:#FCF5EB;"><span>11</span><code>#3A3839</code></div>
+                        <div class="swatch" style="background:#859A8B;color:#FCF5EB;"><span>12</span><code>#859A8B</code></div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+</body>
+</html>
+

@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التنفيذ | أنسنة الشرقية</title>
+    <title>الدليل الفني لتنفيذ عناصر التدخلات الحضرية | أنسنة الشرقية</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -20,66 +22,307 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="principles.html">المبادئ</a></li>
-                    <li><a href="design.html">التصميم</a></li>
-                    <li><a href="execution.html" class="active">التنفيذ</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html" class="active">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
                 </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
             </nav>
         </div>
     </header>
 
-    <section class="sub-hero">
+    <section class="sub-hero execution-hero">
         <div class="container">
             <div class="sub-hero-content">
                 <span class="category-tag">دليل التنفيذ</span>
-                <h2 class="sub-hero-title">مصفوفة المواد والتنفيذ</h2>
-                <p class="sub-hero-desc">مواصفات المواد، طرق التركيب، وجداول الصيانة الدورية.</p>
+                <h2 class="sub-hero-title">الدليل الفني لتنفيذ عناصر التدخلات الحضرية</h2>
+                <p class="sub-hero-desc">يركز هذا القسم على التفاصيل الهندسية التي تضمن استدامة المشروع وتقليل تكاليف
+                    الصيانة المستقبلية، بدءاً من سماكات الخامات وطبقات التركيب، وصولاً إلى نقاط الفحص والأخطاء التي يجب
+                    تجنبها في الموقع.</p>
             </div>
         </div>
     </section>
 
-    <main class="page-content">
-        <div class="container">
-            <div class="placeholder-message">
-                <i class="fas fa-tools"></i>
-                <h3>جاري العمل على تجهيز محتوى التنفيذ</h3>
-                <p>قريباً سيتم إضافة مصفوفة المواد والمواصفات الفنية.</p>
-                <a href="index.html" class="btn-primary">العودة للرئيسية</a>
+    <main class="page-content execution-page execution-tabs-page">
+        <section class="container">
+            <div class="execution-tabs-title">
+                <span class="section-kicker">مراحل التنفيذ</span>
+                <h3 style="font-size: 0.95rem; font-weight: 400;">رغم تنوع التدخلات الحضرية، تظل المنهجية الموحدة للتنفيذ هي الضامن لجودة المخرجات</h3>
             </div>
-        </div>
-    </main>
 
-    <footer class="main-footer">
-        <div class="container footer-grid">
-            <div class="footer-col about">
-                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
-                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
-            </div>
-            <div class="footer-col links">
-                <h4>روابط سريعة</h4>
-                <ul>
-                    <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="principles.html">المبادئ الأساسية</a></li>
-                    <li><a href="design.html">دليل التصميم</a></li>
-                    <li><a href="execution.html">مصفوفة التنفيذ</a></li>
-                </ul>
-            </div>
-            <div class="footer-col contact">
-                <h4>تواصل معنا</h4>
-                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
-                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
-                <div class="social-links">
-                    <a href="#" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <div class="execution-tabs-shell">
+                <nav class="execution-tabs-nav" aria-label="أقسام دليل التنفيذ">
+                    <button class="execution-tab-button is-active" type="button" data-tab="pre-execution">ما قبل
+                        التنفيذ</button>
+                    <button class="execution-tab-button" type="button" data-tab="demolition-prep">الهدم
+                        والتحضير</button>
+                    <button class="execution-tab-button" type="button" data-tab="infrastructure-services">البنية
+                        التحتية</button>
+                    <button class="execution-tab-button" type="button" data-tab="flooring-works">الرصف
+                        والأرضيات</button>
+                    <button class="execution-tab-button" type="button" data-tab="planting-irrigation">التشجير
+                        والري</button>
+                    <button class="execution-tab-button" type="button" data-tab="lighting-power">الإنارة
+                        والكهرباء</button>
+                    <button class="execution-tab-button" type="button" data-tab="urban-furniture">الأثاث الحضري</button>
+                    <button class="execution-tab-button" type="button" data-tab="safety-diversions">السلامة
+                        والتحويلات</button>
+                    <button class="execution-tab-button" type="button" data-tab="inspection-handover">الفحص
+                        والاستلام</button>
+                </nav>
+
+                <div class="execution-tabs-content">
+                    <article class="execution-tab-panel is-active" id="pre-execution" data-panel="pre-execution">
+                        <div class="execution-panel-head">
+                            <span>01</span>
+                            <div>
+                                <p>مرحلة اعتماد وتجهيز</p>
+                                <h4>متطلبات ما قبل التنفيذ</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">يشمل هذا التبويب كل ما يجب مراجعته واعتماده قبل بدء الأعمال في
+                            الموقع.</p>
+                        <ul class="execution-panel-list">
+                            <li><i class="fas fa-check"></i>رفع مساحي حديث للموقع.</li>
+                            <li><i class="fas fa-check"></i>مراجعة مناسيب الأرصفة والمداخل وتصريف مياه الأمطار.</li>
+                            <li><i class="fas fa-check"></i>حصر الخدمات القائمة: كهرباء، مياه، ري، اتصالات، صرف.</li>
+                            <li><i class="fas fa-check"></i>اعتماد المخططات التنفيذية Shop Drawings.</li>
+                            <li><i class="fas fa-check"></i>اعتماد العينات والمواد Mock-up / Material Samples.</li>
+                            <li><i class="fas fa-check"></i>خطة تحويل الحركة المرورية والمشاة أثناء التنفيذ.</li>
+                            <li><i class="fas fa-check"></i>خطة السلامة للموقع.</li>
+                            <li><i class="fas fa-check"></i>حماية الأشجار والعناصر القائمة إن وجدت.</li>
+                            <li><i class="fas fa-check"></i>تحديد مناطق التخزين المؤقت للمواد.</li>
+                        </ul>
+                    </article>
+
+                    <article class="execution-tab-panel" id="demolition-prep" data-panel="demolition-prep" hidden>
+                        <div class="execution-panel-head">
+                            <span>02</span>
+                            <div>
+                                <p>مرحلة تجهيز الموقع</p>
+                                <h4>أعمال الهدم والإزالة والتحضير</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">تركز هذه المرحلة على تنظيف الموقع وإعداده فنياً قبل تنفيذ
+                            الطبقات أو الخدمات الجديدة.</p>
+                        <ul class="execution-panel-list">
+                            <li><i class="fas fa-check"></i>إزالة الأرصفة أو الأسفلت أو البلدورات القائمة.</li>
+                            <li><i class="fas fa-check"></i>إزالة العوائق والتعديات.</li>
+                            <li><i class="fas fa-check"></i>كشط طبقات الأسفلت عند الحاجة.</li>
+                            <li><i class="fas fa-check"></i>تسوية ودك التربة.</li>
+                            <li><i class="fas fa-check"></i>معالجة التربة الضعيفة أو غير الصالحة.</li>
+                            <li><i class="fas fa-check"></i>التخلص من المخلفات بطريقة نظامية.</li>
+                            <li><i class="fas fa-check"></i>حماية الخدمات القائمة أثناء الحفر.</li>
+                        </ul>
+                    </article>
+
+                    <article class="execution-tab-panel" id="infrastructure-services"
+                        data-panel="infrastructure-services" hidden>
+                        <div class="execution-panel-head">
+                            <span>03</span>
+                            <div>
+                                <p>مرحلة حرجة قبل الرصف النهائي</p>
+                                <h4>أعمال البنية التحتية والخدمات</h4>
+                            </div>
+                        </div>
+                        <div class="execution-panel-note">
+                            <i class="fas fa-triangle-exclamation"></i>
+                            <span>مشاريع الأنسنة تفشل كثيراً بسبب تجاهل الخدمات، لذلك يجب إغلاق هذا الملف قبل الرصف
+                                النهائي.</span>
+                        </div>
+                        <ul class="execution-panel-list">
+                            <li><i class="fas fa-check"></i>تمديدات الري.</li>
+                            <li><i class="fas fa-check"></i>تمديدات الكهرباء والإنارة.</li>
+                            <li><i class="fas fa-check"></i>غرف التفتيش والمناهل.</li>
+                            <li><i class="fas fa-check"></i>تصريف مياه الأمطار.</li>
+                            <li><i class="fas fa-check"></i>تمديدات كاميرات المراقبة إن وجدت.</li>
+                            <li><i class="fas fa-check"></i>تمديدات نقاط الكهرباء للأكشاك أو الفعاليات.</li>
+                            <li><i class="fas fa-check"></i>حماية وتمديد Sleeves أسفل الأرصفة ومسارات السيارات.</li>
+                            <li><i class="fas fa-check"></i>التنسيق مع الجهات الخدمية قبل الرصف النهائي.</li>
+                        </ul>
+                    </article>
+
+                    <article class="execution-tab-panel" id="flooring-works"
+                        data-panel="flooring-works" hidden>
+                        <div class="execution-panel-head">
+                            <span>04</span>
+                            <div>
+                                <p>القطاع الهندسي والتفصيلي</p>
+                                <h4>الرصف والأرضيات</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">تفاصيل الطبقات الإنشائية لمسارات المشاة والساحات باستخدام الإنترلوك، لضمان استدامة الرصف وتحمل الأوزان.</p>
+                        
+                        <div class="pavement-execution-layout">
+                            <div class="pavement-explanation">
+                                <h4>خطوات وطريقة التنفيذ</h4>
+                                <ul class="execution-steps-list">
+                                    <li><strong>1. تحضير طبقة الأساس (Subgrade):</strong> يتم تسوية ودك التربة الطبيعية للوصول إلى الكثافة المطلوبة مع التأكد من خلوها من المواد العضوية.</li>
+                                    <li><strong>2. طبقة الأساس الحصوي (Base Course):</strong> فرش وتوريد طبقة من البيسكورس بسمك 15-20 سم ودكها جيداً مع الرش بالماء للوصول إلى نسبة الدمك التصميمية.</li>
+                                    <li><strong>3. صبة النظافة / الخرسانة:</strong> صب طبقة خرسانية مدعمة بالفايبر جلاس لمنع التشققات وتوزيع الأحمال.</li>
+                                    <li><strong>4. طبقة التسوية (Bedding Sand):</strong> فرش طبقة من البحص الزيرو أو الرمل الخشن بسمك 3-5 سم لضمان استواء البلاط.</li>
+                                    <li><strong>5. تركيب الإنترلوك:</strong> تركيب بلاط الإنترلوك بالنمط المعتمد، ثم دكه بالدكاك الهزاز مع رش رمل ناعم لملء الفراغات بين البلاطات (Jointing Sand).</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pavement-visual">
+                                <div class="pavement-section-container">
+                                    <img src="pavement-layers.png" alt="قطاع طبقات الرصيف" class="pavement-image">
+                                    
+                                    <!-- Callouts -->
+                                    <!-- 1. Left side, pointing down-right -->
+                                    <div class="callout callout-left callout-1">
+                                        <div class="callout-content align-y-20">
+                                            <h5>بلاط إنترلوك (6 سم)</h5>
+                                            <p>الطبقة النهائية للرصف</p>
+                                        </div>
+                                        <svg viewBox="0 0 170 60" class="callout-svg">
+                                            <polyline points="0,20 120,20 165,50" fill="none" stroke="currentColor" stroke-width="2"/>
+                                            <polygon points="155,42 170,53 160,55" fill="currentColor" />
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- 2. Right side, pointing down-left -->
+                                    <div class="callout callout-right callout-2">
+                                        <div class="callout-content align-y-20">
+                                            <h5>بحص زيرو (3 - 5 سم)</h5>
+                                            <p>طبقة التسوية أسفل البلاط</p>
+                                        </div>
+                                        <svg viewBox="0 0 170 60" class="callout-svg">
+                                            <polyline points="170,20 50,20 5,50" fill="none" stroke="currentColor" stroke-width="2"/>
+                                            <polygon points="15,42 0,53 10,55" fill="currentColor" />
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- 3. Left side, pointing straight-right -->
+                                    <div class="callout callout-left callout-3">
+                                        <div class="callout-content align-y-20">
+                                            <h5>خرسانة (فايبر جلاس)</h5>
+                                            <p>تسليح خفيف 900 جم/م³</p>
+                                        </div>
+                                        <svg viewBox="0 0 170 60" class="callout-svg">
+                                            <polyline points="0,20 120,20 165,20" fill="none" stroke="currentColor" stroke-width="2"/>
+                                            <polygon points="155,15 170,20 155,25" fill="currentColor" />
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- 4. Right side, pointing up-left -->
+                                    <div class="callout callout-right callout-4">
+                                        <div class="callout-content align-y-40">
+                                            <h5>طبقة بيسكورس (15 - 20 سم)</h5>
+                                            <p>طبقة الأساس الحصوية</p>
+                                        </div>
+                                        <svg viewBox="0 0 170 60" class="callout-svg">
+                                            <polyline points="170,40 50,40 5,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                            <polygon points="15,18 0,7 10,5" fill="currentColor" />
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- 5. Left side, pointing up-right -->
+                                    <div class="callout callout-left callout-5">
+                                        <div class="callout-content align-y-40">
+                                            <h5>تربة طبيعية مدموكة</h5>
+                                            <p>طبقة ما تحت الأساس</p>
+                                        </div>
+                                        <svg viewBox="0 0 170 60" class="callout-svg">
+                                            <polyline points="0,40 120,40 165,10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                            <polygon points="155,18 170,7 160,5" fill="currentColor" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="execution-tab-panel execution-placeholder-panel" id="planting-irrigation"
+                        data-panel="planting-irrigation" hidden>
+                        <div class="execution-panel-head"><span>05</span>
+                            <div>
+                                <p>قيد الإضافة</p>
+                                <h4>التشجير والري</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">سيتم إضافة تفاصيل أحواض الأشجار، التربة الزراعية، شبكات الري،
+                            والحماية أثناء التنفيذ.</p>
+                    </article>
+
+                    <article class="execution-tab-panel execution-placeholder-panel" id="lighting-power"
+                        data-panel="lighting-power" hidden>
+                        <div class="execution-panel-head"><span>06</span>
+                            <div>
+                                <p>قيد الإضافة</p>
+                                <h4>الإنارة والكهرباء</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">سيتم إضافة متطلبات الأعمدة، الكابلات، لوحات التحكم، ونقاط
+                            التغذية للعناصر الحضرية.</p>
+                    </article>
+
+                    <article class="execution-tab-panel execution-placeholder-panel" id="urban-furniture"
+                        data-panel="urban-furniture" hidden>
+                        <div class="execution-panel-head"><span>07</span>
+                            <div>
+                                <p>قيد الإضافة</p>
+                                <h4>الأثاث الحضري</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">سيتم إضافة تفاصيل تثبيت المقاعد، السلال، اللوحات، المظلات،
+                            وحماية التشطيبات المحيطة.</p>
+                    </article>
+
+                    <article class="execution-tab-panel execution-placeholder-panel" id="safety-diversions"
+                        data-panel="safety-diversions" hidden>
+                        <div class="execution-panel-head"><span>08</span>
+                            <div>
+                                <p>قيد الإضافة</p>
+                                <h4>السلامة والتحويلات</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">سيتم إضافة متطلبات عزل الموقع، مسارات المشاة المؤقتة، لوحات
+                            التحذير، وإدارة الحركة.</p>
+                    </article>
+
+                    <article class="execution-tab-panel execution-placeholder-panel" id="inspection-handover"
+                        data-panel="inspection-handover" hidden>
+                        <div class="execution-panel-head"><span>09</span>
+                            <div>
+                                <p>قيد الإضافة</p>
+                                <h4>الفحص والاستلام</h4>
+                            </div>
+                        </div>
+                        <p class="execution-panel-desc">سيتم إضافة قوائم الفحص، اختبارات الجودة، الملاحظات النهائية،
+                            ومتطلبات التسليم.</p>
+                    </article>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
-            </div>
-        </div>
-    </footer>
+        </section>
+    </main>
+
+    <script>
+        document.querySelectorAll('.execution-tab-button').forEach((button) => {
+            button.addEventListener('click', () => {
+                const tab = button.dataset.tab;
+
+                document.querySelectorAll('.execution-tab-button').forEach((item) => {
+                    item.classList.toggle('is-active', item === button);
+                });
+
+                document.querySelectorAll('.execution-tab-panel').forEach((panel) => {
+                    const isActive = panel.dataset.panel === tab;
+                    panel.classList.toggle('is-active', isActive);
+                    panel.hidden = !isActive;
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>

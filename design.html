@@ -20,10 +20,18 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="principles.html">المبادئ</a></li>
-                    <li><a href="design.html" class="active">التصميم</a></li>
-                    <li><a href="execution.html">التنفيذ</a></li>
-                </ul>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html" class="active">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
             </nav>
         </div>
     </header>
@@ -38,15 +46,98 @@
         </div>
     </section>
 
-    <main class="page-content">
-        <div class="container">
-            <div class="placeholder-message">
-                <i class="fas fa-tools"></i>
-                <h3>جاري العمل على تجهيز محتوى التصميم</h3>
-                <p>قريباً سيتم إضافة كافة المعايير التصميمية والجداول الفنية.</p>
-                <a href="index.html" class="btn-primary">العودة للرئيسية</a>
+    <main class="page-content design-page">
+        <section class="content-section">
+            <div class="container">
+                <div class="design-intro">
+                    <div>
+                        <span class="section-kicker">تصنيفات الفراغات الحضرية</span>
+                        <h3>ابدأ من نوع الفراغ، ثم انتقل إلى معاييره التفصيلية</h3>
+                    </div>
+                    <p>تم تنظيم قسم التصميم حول ستة تصنيفات رئيسية للفراغات الحضرية. كل بطاقة تعطي لمحة سريعة عند الوقوف عليها، ثم تمهد لاحقًا لصفحة تفصيلية تشمل المعايير، الأبعاد، عناصر التصميم، وأمثلة التطبيق.</p>
+                </div>
+
+                <div class="urban-typology-grid" aria-label="تصنيفات الفراغات الحضرية">
+                    <a class="urban-typology-card" href="urban-streets.html" aria-label="الشوارع الحضرية">
+                        <img src="streets-guide.png" alt="الشوارع الحضرية">
+                        <div class="typology-content">
+                            <span>01</span>
+                            <h4>الشوارع الحضرية</h4>
+                            <p>ممرات الحركة اليومية التي تجمع المشاة، المركبات، الدراجات، التشجير، والخدمات في قطاع واحد متوازن.</p>
+                        </div>
+                        <div class="typology-hover">
+                            <strong>ما الذي سنفصله لاحقًا؟</strong>
+                            <p>تصنيف الشوارع، عرض الأرصفة، مسارات الحركة، مواقف السيارات، التظليل، التقاطعات، وتهدئة السرعات.</p>
+                        </div>
+                    </a>
+
+                    <a class="urban-typology-card" href="#" aria-label="الساحات العامة">
+                        <img src="plazas-guide.png" alt="الساحات العامة">
+                        <div class="typology-content">
+                            <span>02</span>
+                            <h4>الساحات العامة</h4>
+                            <p>فراغات تجمع حضرية تدعم اللقاء، الانتظار، الفعاليات، وتمنح المدينة نقاط توقف وذاكرة مكانية.</p>
+                        </div>
+                        <div class="typology-hover">
+                            <strong>ما الذي سنفصله لاحقًا؟</strong>
+                            <p>توزيع الحركة والجلوس، الظلال، الأرضيات، الحواف النشطة، نقاط الجذب، وإدارة الفعاليات المؤقتة.</p>
+                        </div>
+                    </a>
+
+                    <a class="urban-typology-card" href="#" aria-label="الحدائق والمتنزهات">
+                        <img src="hero-bg.png" alt="الحدائق والمتنزهات">
+                        <div class="typology-content">
+                            <span>03</span>
+                            <h4>الحدائق والمتنزهات</h4>
+                            <p>مساحات خضراء تعزز الصحة والراحة البيئية وتوفر أنشطة متنوعة للعائلات والأطفال وكبار السن.</p>
+                        </div>
+                        <div class="typology-hover">
+                            <strong>ما الذي سنفصله لاحقًا؟</strong>
+                            <p>مناطق اللعب، المشي، الجلوس، التشجير، الري، الإضاءة، السلامة، والربط مع الأحياء المحيطة.</p>
+                        </div>
+                    </a>
+
+                    <a class="urban-typology-card" href="#" aria-label="الواجهات البحرية">
+                        <img src="plazas-guide.png" alt="الواجهات البحرية">
+                        <div class="typology-content">
+                            <span>04</span>
+                            <h4>الواجهات البحرية</h4>
+                            <p>فراغات مفتوحة مرتبطة بالماء، تجمع بين التنزه، المشاهد الطبيعية، الأنشطة العامة، والهوية الساحلية.</p>
+                        </div>
+                        <div class="typology-hover">
+                            <strong>ما الذي سنفصله لاحقًا؟</strong>
+                            <p>مسارات الكورنيش، نقاط المشاهدة، الحماية، الأثاث، الظلال، الأنشطة، واستمرارية الوصول للماء.</p>
+                        </div>
+                    </a>
+
+                    <a class="urban-typology-card" href="#" aria-label="مسارات المشاة">
+                        <img src="streets-guide.png" alt="مسارات المشاة">
+                        <div class="typology-content">
+                            <span>05</span>
+                            <h4>مسارات المشاة</h4>
+                            <p>شبكات حركة إنسانية تربط الوجهات اليومية بأمان وراحة، وتدعم المشي كخيار أساسي داخل المدينة.</p>
+                        </div>
+                        <div class="typology-hover">
+                            <strong>ما الذي سنفصله لاحقًا؟</strong>
+                            <p>استمرارية المسار، العبور، الميول، العوائق، التوجيه، الإضاءة، ومناطق الراحة على طول الرحلة.</p>
+                        </div>
+                    </a>
+
+                    <a class="urban-typology-card" href="#" aria-label="الفراغات البينية والمفتوحة">
+                        <img src="materials-granite.png" alt="الفراغات البينية والمفتوحة">
+                        <div class="typology-content">
+                            <span>06</span>
+                            <h4>الفراغات البينية والمفتوحة</h4>
+                            <p>مساحات بين المباني أو داخل الأحياء يمكن تحويلها إلى نقاط حياة صغيرة بدل أن تبقى فراغات مهملة.</p>
+                        </div>
+                        <div class="typology-hover">
+                            <strong>ما الذي سنفصله لاحقًا؟</strong>
+                            <p>إعادة التفعيل، الجلسات الصغيرة، التشجير، الاستخدامات المؤقتة، الربط البصري، وحلول الصيانة البسيطة.</p>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <footer class="main-footer">
@@ -83,3 +174,5 @@
     </footer>
 </body>
 </html>
+
+

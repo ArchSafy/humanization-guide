@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منشئ مقطع الطريق | أنسنة الشرقية</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="builder-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html" class="active">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="street-builder-shell">
+        <section class="builder-topbar">
+            <div>
+                <span class="builder-eyebrow">DND-first Street Section Builder</span>
+                <h2>منشئ مقطع الطريق</h2>
+                <p>اسحب العناصر إلى مساحة العمل، رتّبها في مسار snapping واضح، وبعدها يتم توليد مخطط SVG وقطاع هندسي مبدئي تلقائيًا.</p>
+            </div>
+            <div class="builder-summary">
+                <div>
+                    <span>إجمالي العرض</span>
+                    <strong id="total-width">0.0 م</strong>
+                </div>
+                <div>
+                    <span>عدد العناصر</span>
+                    <strong id="lane-count">0</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="builder-document-panel">
+            <label>
+                اسم الطريق
+                <input id="road-name" type="text" placeholder="مثال: شارع محلي مع مواقف 45°">
+            </label>
+            <label>
+                وصف مختصر
+                <input id="road-description" type="text" placeholder="وصف سريع يظهر في المكتبة">
+            </label>
+            <div class="builder-document-actions">
+                <a href="builder-library.html" class="builder-btn ghost"><i class="fas fa-table-cells-large"></i> المكتبة</a>
+                <button id="save-road" class="builder-btn primary" type="button"><i class="fas fa-floppy-disk"></i> حفظ الطريق</button>
+            </div>
+            <div id="save-status" class="builder-save-status">جاهز للعمل</div>
+        </section>
+
+        <section class="builder-layout">
+            <section class="builder-workspace">
+                <div class="module-dock">
+                    <div class="panel-heading">
+                        <h3>العناصر</h3>
+                        <span>اسحب أي عنصر إلى مساحة الـDND أو اضغط للإضافة</span>
+                    </div>
+                    <div id="module-list" class="module-list"></div>
+                </div>
+
+                <div class="workspace-toolbar">
+                    <div class="preset-actions">
+                        <button class="builder-btn ghost" data-preset="avenue"><i class="fas fa-road"></i> شارع حضري</button>
+                        <button class="builder-btn ghost" data-preset="brt"><i class="fas fa-bus"></i> مسار حافلات</button>
+                        <button class="builder-btn ghost" data-preset="calm"><i class="fas fa-person-walking"></i> شارع هادئ</button>
+                    </div>
+                    <div class="workspace-actions">
+                        <button class="builder-btn" onclick="location.href='library-samples.html'"><i class="fas fa-vial"></i> Libraries</button>
+                        <button id="mirror-center" class="builder-btn"><i class="fas fa-clone"></i> Mirror</button>
+                        <button id="export-json" class="builder-btn"><i class="fas fa-code"></i> JSON</button>
+                        <button id="download-svg" class="builder-btn primary"><i class="fas fa-download"></i> SVG</button>
+                        <button id="download-engineering-svg" class="builder-btn primary"><i class="fas fa-drafting-compass"></i> Engineering SVG</button>
+                    </div>
+                </div>
+
+                <div id="section-dropzone" class="section-dropzone dnd-section">
+                    <div id="empty-state" class="empty-section">
+                        <i class="fas fa-layer-group"></i>
+                        <h3>ابدأ بإضافة حارات الطريق</h3>
+                        <p>اسحب العناصر هنا. كل عنصر سيثبت في مكان واضح داخل ترتيب المقطع.</p>
+                    </div>
+                    <div class="snap-workspace-header">
+                        <strong>Snapping DND workspace</strong>
+                        <span>هذه هي مساحة العمل الأساسية. اسحب العناصر أو أعد ترتيبها هنا.</span>
+                    </div>
+                    <div id="lane-strip" class="lane-strip snap-track" aria-label="Lane order"></div>
+                </div>
+
+                <div class="lane-controls-row">
+                    <div id="trash-zone" class="trash-zone">
+                        <i class="fas fa-trash"></i>
+                        <span>اسحب هنا للحذف</span>
+                    </div>
+                </div>
+
+                <div class="svg-preview-panel">
+                    <div class="panel-heading">
+                        <h3>SVG Output Preview</h3>
+                        <span>يتم توليده من ترتيب الـDND أعلاه</span>
+                    </div>
+                    <svg id="street-svg" class="street-svg" viewBox="0 0 1200 360" role="img" aria-label="Street section preview"></svg>
+                </div>
+
+                <div class="engineering-preview-panel">
+                    <div class="panel-heading">
+                        <h3>Engineering Section Output</h3>
+                        <span>قطاع معماري/حضري مبدئي قابل للتطوير من نفس ترتيب الـDND</span>
+                    </div>
+                    <svg id="engineering-svg" class="engineering-svg" viewBox="0 0 1200 560" role="img" aria-label="Engineering street section output"></svg>
+                </div>
+            </section>
+
+            <aside class="builder-panel properties-panel">
+                <div class="panel-heading">
+                    <h3>خصائص العنصر</h3>
+                    <span id="selected-hint">اختر عنصرًا من المقطع</span>
+                </div>
+
+                <div id="properties-empty" class="properties-empty">
+                    <i class="fas fa-sliders"></i>
+                    <p>اضغط على أي عنصر في مساحة الـDND لتعديل العرض، الاتجاه، الاسم، أو اللون.</p>
+                </div>
+
+                <form id="properties-form" class="properties-form hidden">
+                    <label>
+                        الاسم
+                        <input id="prop-label" type="text">
+                    </label>
+                    <label>
+                        العرض بالمتر
+                        <input id="prop-width" type="number" min="0.5" max="12" step="0.1">
+                    </label>
+                    <label>
+                        الاتجاه
+                        <select id="prop-direction">
+                            <option value="none">بدون اتجاه</option>
+                            <option value="right">Away / رايح لقدام</option>
+                            <option value="left">Toward / جاي عليك</option>
+                            <option value="both">Two-way / رايح وجاي</option>
+                        </select>
+                    </label>
+                    <label>
+                        اللون
+                        <input id="prop-color" type="color">
+                    </label>
+
+                    <div class="property-actions">
+                        <button id="move-right" type="button" class="builder-btn ghost"><i class="fas fa-arrow-right"></i> يمين</button>
+                        <button id="move-left" type="button" class="builder-btn ghost"><i class="fas fa-arrow-left"></i> يسار</button>
+                        <button id="duplicate-lane" type="button" class="builder-btn ghost"><i class="fas fa-copy"></i> نسخ</button>
+                        <button id="delete-lane" type="button" class="builder-btn danger"><i class="fas fa-trash"></i> حذف</button>
+                    </div>
+                </form>
+            </aside>
+        </section>
+
+        <section class="builder-output">
+            <div class="panel-heading">
+                <h3>بيانات المقطع</h3>
+                <span>جاهزة للحفظ لاحقًا في قاعدة بيانات</span>
+            </div>
+            <textarea id="json-output" readonly spellcheck="false"></textarea>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="supabase-api.js"></script>
+    <script src="street-builder.js"></script>
+</body>
+
+</html>
+
+

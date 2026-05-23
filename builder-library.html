@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صمم بنفسك | أنسنة الشرقية</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="builder-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html" class="active">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="builder-library-shell">
+        <section class="builder-library-hero">
+            <div>
+                <span class="builder-eyebrow">Road Section Library</span>
+                <h2>صمم بنفسك</h2>
+                <p>افتح أي طريق محفوظ وكمّل عليه، أو ابدأ ملفًا جديدًا من الصفر داخل منشئ المقاطع.</p>
+            </div>
+            <div class="builder-library-actions">
+                <a href="street-builder.html?new=1" class="builder-btn primary"><i class="fas fa-plus"></i> طريق جديد</a>
+            </div>
+        </section>
+
+        <section class="builder-library-panel">
+            <div class="panel-heading">
+                <h3>المكتبة</h3>
+                <span id="library-status">جاري تحميل المشاريع...</span>
+            </div>
+            <div id="library-error" class="builder-library-error hidden"></div>
+            <div id="library-empty" class="builder-library-empty hidden">
+                <i class="fas fa-folder-open"></i>
+                <h3>لا توجد طرق محفوظة بعد</h3>
+                <p>ابدأ بأول طريق، وبعد الحفظ سيظهر هنا لفتحه وتعديله لاحقًا.</p>
+                <a href="street-builder.html?new=1" class="builder-btn primary"><i class="fas fa-plus"></i> طريق جديد</a>
+            </div>
+            <div id="library-grid" class="builder-library-grid"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="supabase-api.js"></script>
+    <script src="builder-library.js"></script>
+</body>
+
+</html>
+
+

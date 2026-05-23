@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="الخريطة التفاعلية - دليل أنسنة مدن المنطقة الشرقية">
+    <title>الخريطة التفاعلية | أنسنة الشرقية</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Google Fonts: Tajawal & Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="map-page-body">
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <!-- Header / Navigation -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="builder-library.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html" class="active">الخريطة التفاعلية</a></li>
+                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Map Layout -->
+    <main class="interactive-map-layout">
+        <!-- Sidebar / Filter Panel -->
+        <aside class="map-sidebar">
+            <div class="map-sidebar-header">
+                <h2>استكشف المنطقة</h2>
+                <p>قم بتصفية المواقع لعرض الفراغات الحضرية في المنطقة الشرقية.</p>
+            </div>
+            
+            <div class="map-filters">
+                <button class="map-filter-btn active" data-filter="all">
+                    <i class="fas fa-layer-group"></i> الكل
+                </button>
+                <button class="map-filter-btn" data-filter="parks">
+                    <i class="fas fa-tree"></i> الحدائق
+                </button>
+                <button class="map-filter-btn" data-filter="plazas">
+                    <i class="fas fa-city"></i> الساحات الحضرية
+                </button>
+                <button class="map-filter-btn" data-filter="walkways">
+                    <i class="fas fa-walking"></i> المماشي
+                </button>
+                <button class="map-filter-btn" data-filter="waterfronts">
+                    <i class="fas fa-water"></i> الواجهات البحرية
+                </button>
+                <button class="map-filter-btn" data-filter="leftovers">
+                    <i class="fas fa-vector-square"></i> الزوائد التنظيمية
+                </button>
+            </div>
+            
+            <div class="map-legend">
+                <h3>دليل الخريطة</h3>
+                <ul>
+                    <li><span class="legend-color color-parks"></span> الحدائق</li>
+                    <li><span class="legend-color color-plazas"></span> الساحات الحضرية</li>
+                    <li><span class="legend-color color-walkways"></span> المماشي</li>
+                    <li><span class="legend-color color-waterfronts"></span> الواجهات البحرية</li>
+                    <li><span class="legend-color color-leftovers"></span> الزوائد التنظيمية</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Map Container -->
+        <div class="map-container-wrapper">
+            <div id="map-container"></div>
+        </div>
+    </main>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+    <script src="map-script.js"></script>
+</body>
+
+</html>
+
