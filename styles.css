@@ -462,11 +462,12 @@ body {
 
 .category-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 30px;
 }
 
 .category-card {
+    grid-column: span 2;
     position: relative;
     aspect-ratio: 1 / 1;
     overflow: hidden;
@@ -474,6 +475,80 @@ body {
     background: var(--clr-secondary);
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Centering the 4th and 5th cards on the second row */
+.category-card:nth-child(4) {
+    grid-column: 2 / span 2;
+}
+
+.category-card:nth-child(5) {
+    grid-column: 4 / span 2;
+}
+
+/* =========================================
+   Skyline Section with Wipe Animation
+   ========================================= */
+.skyline-section {
+    position: relative;
+    width: 100%;
+    background-color: #555D71;
+    padding: 20px 0 0 0;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+[data-theme="dark"] .skyline-section {
+    background-color: #4A5265;
+}
+
+.skyline-wrapper {
+    width: 100%;
+    max-width: none;
+    height: 220px;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+.skyline-image {
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/dammam_khobar_skyline.png');
+    background-size: 100% auto;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    opacity: 0.85;
+    filter: brightness(0) invert(1); /* Inverts the black line drawing to white */
+    
+    /* Reveal animation from right to left (RTL) using clip-path */
+    clip-path: inset(0 0 0 100%);
+    transition: clip-path 8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease;
+}
+
+/* When the section becomes visible, run the wipe animation and pulse glow */
+.skyline-section.visible .skyline-image {
+    clip-path: inset(0 0 0 0%);
+    opacity: 0.95;
+    animation: blue-pulse 3s infinite ease-in-out;
+    animation-delay: 8s; /* Starts exactly after the 8s wipe is complete */
+}
+
+@keyframes blue-pulse {
+    0% {
+        filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(110, 190, 207, 0.45));
+    }
+    50% {
+        filter: brightness(0) invert(1) drop-shadow(0 0 22px rgba(110, 190, 207, 0.95));
+    }
+    100% {
+        filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(110, 190, 207, 0.45));
+    }
+}
+
 
 .card-image-container {
     width: 100%;
@@ -558,6 +633,7 @@ body {
     .hero-title-new { max-width: 100%; align-items: center; }
     .hero-stones { justify-content: center; transform: scale(0.85); }
     .category-container { grid-template-columns: 1fr; }
+    .category-card { grid-column: auto / auto !important; }
 }
 
 @media (max-width: 580px) {
@@ -1437,8 +1513,8 @@ body {
 }
 
 .principles-matrix {
-    margin-top: 38px;
-    padding: 28px;
+    margin-top: 50px;
+    padding: 36px;
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
     border-radius: 8px;
@@ -1447,28 +1523,37 @@ body {
 .matrix-heading {
     display: flex;
     justify-content: space-between;
-    gap: 24px;
+    gap: 30px;
     align-items: end;
-    margin-bottom: 22px;
+    margin-bottom: 30px;
 }
 
 .matrix-heading h3 {
-    max-width: 680px;
+    max-width: 720px;
     font-size: clamp(1.8rem, 3vw, 2.7rem);
+    line-height: 1.25;
 }
 
 .matrix-grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
+    gap: 20px;
 }
 
 .matrix-grid div {
-    min-height: 150px;
-    padding: 18px;
-    background: rgba(233, 231, 226, 0.5);
+    min-height: 165px;
+    padding: 22px;
+    background: rgba(233, 231, 226, 0.42);
     border: 1px solid var(--clr-border);
     border-radius: 8px;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+
+.matrix-grid div:hover {
+    transform: translateY(-4px);
+    border-color: var(--clr-primary);
+    box-shadow: var(--shadow-md);
+    background: var(--clr-surface);
 }
 
 .matrix-grid strong,
@@ -1478,13 +1563,15 @@ body {
 
 .matrix-grid strong {
     color: var(--clr-secondary);
-    font-size: 1.05rem;
-    margin-bottom: 10px;
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+    font-weight: 800;
 }
 
 .matrix-grid span {
     color: var(--clr-text-muted);
-    line-height: 1.6;
+    line-height: 1.75;
+    font-size: 0.95rem;
 }
 
 /* =========================================
@@ -2951,7 +3038,7 @@ body {
 .engineering-svg {
     display: block;
     width: 100%;
-    height: 520px;
+    height: 950px;
 }
 
 .properties-empty {
@@ -3256,7 +3343,7 @@ body {
     }
 
     .engineering-svg {
-        height: 620px;
+        height: 950px;
     }
 }
 

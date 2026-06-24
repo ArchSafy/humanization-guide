@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الواجهات البحرية | دليل التصميم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="sub-page guide-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html" class="active">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="interactive-street-builder.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
+                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="guide-hero">
+        <div class="container guide-hero-grid">
+            <div class="guide-copy">
+                <div class="breadcrumbs">
+                    <a href="index.html">الرئيسية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <a href="design.html">تصنيفات الفراغات الحضرية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <span>الواجهات البحرية</span>
+                </div>
+                <h2>إرشادات تصميم الواجهات البحرية</h2>
+                <p>إطار معايير تصميمية يهدف إلى تهيئة الكورنيش والواجهات البحرية كمتنفس عام ومقصد ترفيهي ورياضي متكامل، وتأمين وصول سهل ومباشر للجمهور إلى ساحل البحر بالمنطقة الشرقية.</p>
+            </div>
+            <div class="guide-visual">
+                <img src="waterfronts_hero.png" alt="تصميم واجهة بحرية متكاملة">
+            </div>
+        </div>
+    </section>
+
+    <main class="page-content guide-content">
+        <section class="container">
+            <div class="guide-summary">
+                <div>
+                    <strong>3</strong>
+                    <span>أنماط واجهات رئيسية</span>
+                </div>
+                <div>
+                    <strong>5</strong>
+                    <span>مكونات أساسية للكورنيش</span>
+                </div>
+                <div>
+                    <strong>6</strong>
+                    <span>محاور معايير تصميمية</span>
+                </div>
+            </div>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أهداف التصميم</span>
+                    <h3>الواجهات البحرية كفضاء ترفيهي وبيئي مستدام يعزز الهوية الساحلية</h3>
+                </div>
+                <div class="guide-objectives-grid">
+                    <div><i class="fas fa-water"></i><span>تعظيم الاستفادة من الواجهات البحرية كمتنفس عام ومقصد سياحي ورياضي رئيسي.</span></div>
+                    <div><i class="fas fa-eye"></i><span>تأمين الوصول السهل والمباشر للجمهور إلى ساحل البحر بدون حواجز مادية.</span></div>
+                    <div><i class="fas fa-bicycle"></i><span>دمج مسارات المشاة والجري والدراجات الممتدة على طول الكورنيش.</span></div>
+                    <div><i class="fas fa-cloud-sun"></i><span>توفير التظليل الواسع والراحة المناخية في مواجهة شمس الصيف المباشرة.</span></div>
+                    <div><i class="fas fa-seedling"></i><span>الحفاظ على البيئة البحرية الطبيعية وتعزيز التنوع البيولوجي الساحلي.</span></div>
+                    <div><i class="fas fa-lightbulb"></i><span>تحسين الهوية الجمالية والبصرية وتوفير إضاءة وأثاث ذي تصميم متميز.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أنماط الواجهات البحرية</span>
+                    <h3>تصنيفات تحدد أسلوب تفاعل الفراغ مع البحر والزوار</h3>
+                </div>
+                <div class="guide-type-grid">
+                    <article class="guide-type-card">
+                        <img src="waterfronts_hero.png" alt="الكورنيش العام النشط">
+                        <div>
+                            <span>نمط الواجهة</span>
+                            <h4>الكورنيش العام النشط (Active Promenade)</h4>
+                            <p>ممتد بمحاذاة الشاطئ ويشهد كثافة عالية من الزوار لممارسة الرياضة والمشي والتنزه يومياً.</p>
+                            <ul>
+                                <li>مسارات جري ومشي ودراجات عريضة ومفصولة.</li>
+                                <li>ألعاب أطفال وجلسات عائلية متعددة ومظللة.</li>
+                                <li>أكشاك بيع ومقاهٍ ومطاعم موزعة بذكاء.</li>
+                                <li>مواقف سيارات كافية بعيدة عن الشاطئ.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="regulatory_offsets.png" alt="الشاطئ الطبيعي أو الرملي">
+                        <div>
+                            <span>نمط الواجهة</span>
+                            <h4>الشاطئ الطبيعي أو الرملي (Natural Beach)</h4>
+                            <p>يركز على الحفاظ على الطابع البيئي الطبيعي ويوفر اتصالاً مباشراً مع رمال البحر والمياه.</p>
+                            <ul>
+                                <li>مسارات مشاة رملية أو خشبية خفيفة.</li>
+                                <li>نقاط مراقبة وإنقاذ لسلامة السباحة.</li>
+                                <li>مظلات شمسية خفيفة ذات طابع طبيعي.</li>
+                                <li>تجنب الهياكل الخرسانية الكبيرة.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="plazas_hero.png" alt="المارينا أو مرفأ القوارب">
+                        <div>
+                            <span>نمط الواجهة</span>
+                            <h4>المارينا أو مرفأ القوارب (Marina Waterfront)</h4>
+                            <p>فراغات مطورة تحيط بمرافئ القوارب واليخوت وتجمع بين الاستخدام الترفيهي والتجاري المتميز.</p>
+                            <ul>
+                                <li>أرصفة مشاة خشبية (Decking) مرتفعة.</li>
+                                <li>مطاعم وجلسات مطلة مباشرة على الماء.</li>
+                                <li>ساحات عامة صغيرة للفعاليات والاحتفالات.</li>
+                                <li>إنارة تجميلية ليلية متميزة.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">مبادئ التصميم</span>
+                    <h3>خمسة مبادئ تضمن استدامة ونجاح الفراغ الساحلي</h3>
+                </div>
+                <div class="guide-principles-list">
+                    <div><strong>الانفتاح واستمرارية الوصول</strong><span>عدم قطع مسار الكورنيش بأي أملاك خاصة وضمان استمرارية حركة المشاة.</span></div>
+                    <div><strong>التنوع الوظيفي والترفيهي</strong><span>دمج الرياضة والتنزه واللعب والخدمات في تجربة ساحلية متكاملة.</span></div>
+                    <div><strong>التصميم المتوافق مع البيئة البحرية</strong><span>استخدام مواد مقاومة للملوحة والرطوبة العالية وتدعم الحياة الفطرية.</span></div>
+                    <div><strong>التخفيف من الحرارة المباشرة</strong><span>التظليل الكثيف بالتشجير والمظلات ونوافير الرذاذ لتبريد الهواء.</span></div>
+                    <div><strong>السلامة والحماية من السقوط</strong><span>تأمين حواف البحر بحواجز حماية أنيقة وواضحة دون حجب الرؤية البصرية.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المكونات الرئيسية</span>
+                    <h3>العناصر المادية المكونة لقطاع الكورنيش النموذجي</h3>
+                </div>
+                <div class="guide-components-grid">
+                    <div><i class="fas fa-road"></i><strong>ممشى الكورنيش الصافي</strong><span>مسار مشاة واسع محاذٍ للبحر خروجاً عن حركة السيارات تماماً.</span></div>
+                    <div><i class="fas fa-bicycle"></i><strong>حارات الدراجات والجري</strong><span>مسارات مستقلة ذات أرضيات ملائمة ومفصولة بصرياً عن المشاة.</span></div>
+                    <div><i class="fas fa-umbrella-beach"></i><strong>مناطق الجلوس والتأمل المظللة</strong><span>منصات ومقاعد مواجهة للبحر ومظللة بالبرجولات الخشبية أو القماشية.</span></div>
+                    <div><i class="fas fa-bars-staggered"></i><strong>حواجز الحماية الساحلية (Balustrades)</strong><span>سياج حماية أنيق على طول حافة الكورنيش يمنع السقوط بسلامة.</span></div>
+                    <div><i class="fas fa-volleyball"></i><strong>المسطحات العشبية والملاعب</strong><span>مساحات لعب وحركة مرنة للأطفال والعائلات بقلب الكورنيش.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المعايير التصميمية</span>
+                    <h3>الضوابط والمقاييس الفنية المعتمدة للواجهات البحرية</h3>
+                </div>
+                <div class="guide-standards-accordion">
+                    <details open>
+                        <summary>معايير استمرارية المسار وعرضه الصافي</summary>
+                        <p>يجب ألا يقل العرض الصافي لممشى المشاة الرئيسي المحاذي للبحر عن 4.0 أمتار لاستيعاب تدفق الزوار بكثافة عالية دون تداخل أو عوائق.</p>
+                    </details>
+                    <details>
+                        <summary>اشتراطات اختيار وتثبيت المواد المقاومة للملوحة</summary>
+                        <p>استخدام مواد ذات مقاومة عالية للرطوبة والأملاح مثل الأخشاب المعالجة (WPC) وبراغي الإستانلس ستيل (Grade 316) والخرسانة عالية المقاومة للكبريتات.</p>
+                    </details>
+                    <details>
+                        <summary>معايير السلامة وتأمين الحواف من السقوط</summary>
+                        <p>تركيب حواجز حماية (Balustrades) بارتفاع لا يقل عن 1.1 متر على الحواف المباشرة للماء، مصممة بفتحات تمنع تسلق الأطفال ودون حجب المظهر البصري للبحر.</p>
+                    </details>
+                    <details>
+                        <summary>متطلبات التظليل والراحة الحرارية الساحلية</summary>
+                        <p>توفير برجولات وهياكل تظليل كبرى وارفة على مسافات منتظمة وتكثيف زراعة أشجار النخيل والأنواع المحلية المتكيفة مع الملوحة على طول الكورنيش.</p>
+                    </details>
+                    <details>
+                        <summary>الإنارة التجميلية وأمان الحركة ليلاً</summary>
+                        <p>استخدام إضاءة دافئة موجهة للأسفل لمسارات المشاة بارتفاع لا يزيد عن 4 أمتار لمنع الوهج البصري، مع إضاءة تجميلية خفيفة لحافة البحر لتعزيز الأمان البصري ليلاً.</p>
+                    </details>
+                    <details>
+                        <summary>منحدرات الوصول المريحة لشاطئ البحر</summary>
+                        <p>تأمين ممرات خشبية مائلة بميول لا تتجاوز 1:12 تمتد من الأرصفة الرئيسية مباشرة إلى الشاطئ الرملي لتسهيل حركة عربات الأطفال وذوي الإعاقة.</p>
+                    </details>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
+                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

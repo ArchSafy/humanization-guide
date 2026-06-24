@@ -397,15 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 directionLabel.setAttribute('font-weight', '900');
                 directionLabel.textContent = getDirectionLabel(lane.direction);
                 group.appendChild(directionLabel);
-
-                const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                arrow.setAttribute('x', cursor + widthPx / 2);
-                arrow.setAttribute('y', baseY + 24);
-                arrow.setAttribute('text-anchor', 'middle');
-                arrow.setAttribute('fill', getContrastColor(lane.color));
-                arrow.setAttribute('font-size', '18');
-                arrow.textContent = getDirectionArrow(lane.direction);
-                group.appendChild(arrow);
             }
 
             group.addEventListener('click', () => {
@@ -414,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             streetSvg.appendChild(group);
+
             cursor += widthPx;
         });
     };
@@ -426,11 +418,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderTree = (group, x, groundY, scale = 1) => {
-        const h = 150 * scale;
-        const w = 116 * scale;
+        const h = 160 * scale;
+        const w = 382 * scale;
         group.appendChild(svgEl('image', {
-            href: 'assets/tree2.png',
-            x: x - w / 2,
+            href: 'assets/tree new2.png',
+            x: x - w / 2 - 5,
             y: groundY - h,
             width: w,
             height: h,
@@ -438,29 +430,56 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     };
 
-    const renderPerson = (group, x, groundY, direction = 'right') => {
-        const h = 66;
-        const w = 38;
+    const peopleAssets = [
+        { path: 'assets/people/man 1.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/people/woman 1.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/people/child 1.png', w: 26, h: 50, offsetY: 0 },
+        { path: 'assets/people/old man 1.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/people/man 2.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/people/woman 2.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/people/child 2.png', w: 26, h: 50, offsetY: 0 },
+        { path: 'assets/people/old man 2.png', w: 32, h: 70, offsetY: 0 }
+    ];
+
+    const seededRandom = (seed) => {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+    };
+
+    const renderPerson = (group, x, groundY, laneIndex = 0, personIdx = 0, laneId = '') => {
+        let seed = 0;
+        if (laneId) {
+            for (let i = 0; i < laneId.length; i++) {
+                seed = laneId.charCodeAt(i) + ((seed << 5) - seed);
+            }
+            seed = Math.abs(seed);
+        } else {
+            seed = laneIndex;
+        }
+        seed += personIdx * 13.7;
+
+        const rand = seededRandom(seed);
+        const personIndex = Math.floor(rand * peopleAssets.length);
+        const person = peopleAssets[personIndex];
+        const yOffset = 0;
+        const offsetY = person.offsetY || 0;
+
         group.appendChild(svgEl('image', {
-            href: direction === 'left' ? 'assets/street-builder/person-front-real.png' : 'assets/street-builder/person-rear-real.png',
-            x: x - w / 2,
-            y: groundY - h,
-            width: w,
-            height: h,
+            href: person.path,
+            x: x - person.w / 2,
+            y: groundY + yOffset + offsetY - person.h,
+            width: person.w,
+            height: person.h,
             preserveAspectRatio: 'xMidYMax meet'
         }));
     };
 
     const renderVehicle = (group, x, groundY, width, type = 'car', direction = 'right') => {
         const isBus = type === 'bus';
-        const h = isBus ? 58 : 46;
-        const w = isBus
-            ? Math.min(Math.max(width * 0.48, 62), Math.max(width - 14, 48), 96)
-            : Math.min(Math.max(width * 0.42, 44), Math.max(width - 16, 36), 66);
-        const src = direction === 'none'
-            ? 'assets/street-builder/car-side-real.png'
-            : isBus
-            ? (direction === 'left' ? 'assets/street-builder/bus-front-real.png' : 'assets/street-builder/bus-rear-real.png')
+        const w = isBus ? Math.min(Math.max(width * 1.92, 150), 220) : Math.min(Math.max(width * 0.96, 70), 105);
+        const h = isBus ? 120 : 34;
+        const src = isBus
+            ? (direction === 'left' ? 'assets/bus front.png' : 'assets/bus back.png')
             : (direction === 'left' ? 'assets/car front.png' : 'assets/car back.png');
         const displayW = direction === 'none' ? Math.min(Math.max(width * 0.9, 70), 105) : w;
         const displayH = direction === 'none' ? Math.min(34, h) : h;
@@ -511,10 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const total = lanes.reduce((sum, lane) => sum + Number(lane.width), 0);
         const minX = 64;
         const maxWidth = 1072;
-        const sectionGroundY = 232;
+        const sectionGroundY = 240;
         const sectionDeckHeight = 38;
-        const planY = 346;
-        const planHeight = 142;
+        const planY = 350;
+        const planHeight = 520;
         const scale = total > 0 ? maxWidth / total : 1;
         let cursor = minX;
 
@@ -531,11 +550,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const renderPlanCar = (group, x, y, w, h, fill = '#DDE3E3', direction = 'right', angle = 0) => {
             const isBus = fill === '#2F6671';
-            const safeW = isBus ? Math.max(w, 42) : Math.max(w, 36);
-            const safeH = isBus ? Math.max(h, 92) : Math.max(h, 68);
-            const rotation = angle + (direction === 'left' ? 180 : 0);
+            const scaledW = isBus ? w * 2.8 : w * 1.4;
+            const scaledH = isBus ? h * 2.8 : h * 1.4;
+            const safeW = isBus ? Math.max(scaledW, 117.6) : Math.max(scaledW, 50.4);
+            const safeH = isBus ? Math.max(scaledH, 257.6) : Math.max(scaledH, 95.2);
+            const busDirectionRotation = direction === 'left' ? 0 : 180;
+            const carDirectionRotation = direction === 'left' ? 180 : 0;
+            const rotation = angle + (isBus ? busDirectionRotation : carDirectionRotation);
             group.appendChild(svgEl('image', {
-                href: isBus ? 'assets/street-builder/bus-top-real.png' : 'assets/car top.png',
+                href: isBus ? 'assets/bus top.png' : 'assets/car top.png',
                 x: x - safeW / 2,
                 y: y - safeH / 2,
                 width: safeW,
@@ -546,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const renderPlanTree = (group, x, y, r = 22) => {
-            const size = Math.max(r * 2.7, 42);
+            const size = Math.max(r * 4.4, 84);
             group.appendChild(svgEl('image', {
                 href: 'assets/tree plan3.png',
                 x: x - size / 2,
@@ -568,7 +591,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         engineeringSvg.innerHTML = '';
-        engineeringSvg.appendChild(svgEl('rect', { x: 0, y: 0, width: 1200, height: 560, fill: '#FAFAF8' }));
+        engineeringSvg.appendChild(svgEl('rect', { x: 0, y: 0, width: 1200, height: 950, fill: '#FAFAF8' }));
+
+        const bgGroup = svgEl('g', { id: 'eng-bg-group' });
+        const fgGroup = svgEl('g', { id: 'eng-fg-group' });
+        engineeringSvg.appendChild(bgGroup);
+        engineeringSvg.appendChild(fgGroup);
 
         const defs = svgEl('defs');
         defs.innerHTML = `
@@ -610,10 +638,10 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         engineeringSvg.appendChild(defs);
 
-        engineeringSvg.appendChild(svgEl('text', { x: minX, y: 36, fill: '#555D71', 'font-size': 20, 'font-weight': 900 }, 'Street section + plan output'));
-        engineeringSvg.appendChild(svgEl('text', { x: minX, y: 58, fill: '#7A573F', 'font-size': 12, 'font-weight': 800 }, `Total right-of-way: ${total.toFixed(1)}m`));
-        engineeringSvg.appendChild(svgEl('line', { x1: minX, y1: sectionGroundY, x2: minX + maxWidth, y2: sectionGroundY, stroke: '#3A3839', 'stroke-width': 1.5 }));
-        engineeringSvg.appendChild(svgEl('rect', { x: minX, y: sectionGroundY + sectionDeckHeight, width: maxWidth, height: 26, fill: '#E4DED3' }));
+        fgGroup.appendChild(svgEl('text', { x: minX, y: 36, fill: '#555D71', 'font-size': 20, 'font-weight': 900 }, 'Street section + plan output'));
+        fgGroup.appendChild(svgEl('text', { x: minX, y: 58, fill: '#7A573F', 'font-size': 12, 'font-weight': 800 }, `Total right-of-way: ${total.toFixed(1)}m`));
+        bgGroup.appendChild(svgEl('line', { x1: minX, y1: sectionGroundY, x2: minX + maxWidth, y2: sectionGroundY, stroke: '#3A3839', 'stroke-width': 1.5 }));
+        bgGroup.appendChild(svgEl('rect', { x: minX, y: sectionGroundY + sectionDeckHeight, width: maxWidth, height: 26, fill: '#E4DED3' }));
 
         lanes.forEach((lane, index) => {
             const widthPx = Math.max(lane.width * scale, 18);
@@ -621,29 +649,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const surface = getLaneSurface(lane);
             const group = svgEl('g', { class: 'engineering-lane' });
 
-            group.appendChild(svgEl('rect', { x: cursor, y: sectionGroundY, width: widthPx, height: sectionDeckHeight, fill: surface, opacity: '0.92' }));
-            group.appendChild(svgEl('rect', { x: cursor, y: planY, width: widthPx, height: planHeight, fill: surface, opacity: '0.9', stroke: '#F7F4EF', 'stroke-width': 1 }));
+            bgGroup.appendChild(svgEl('rect', { x: cursor, y: sectionGroundY, width: widthPx, height: sectionDeckHeight, fill: surface, opacity: '0.92' }));
+            bgGroup.appendChild(svgEl('rect', { x: cursor, y: planY, width: widthPx, height: planHeight, fill: surface, opacity: '0.9', stroke: '#F7F4EF', 'stroke-width': 1 }));
 
             if (lane.type === 'sidewalk' || lane.type === 'frontage') {
                 renderPaving(group, cursor, planY, widthPx, planHeight);
-                const personDirection = lane.type === 'frontage' ? 'left' : 'right';
-                renderPerson(group, centerX - Math.min(18, widthPx * 0.18), sectionGroundY, personDirection);
-                if (widthPx > 72) renderPerson(group, centerX + 20, sectionGroundY, flipDirection(personDirection));
+                const numPeople = Math.min(5, Math.max(1, Math.floor(lane.width / 2) + 1));
+                for (let i = 0; i < numPeople; i++) {
+                    const px = cursor + (i + 0.5) * (widthPx / numPeople);
+                    renderPerson(group, px, sectionGroundY, index, i, lane.id);
+                }
                 if (lane.type === 'frontage') {
-                    group.appendChild(svgEl('rect', { x: cursor + 4, y: 84, width: Math.max(widthPx - 8, 30), height: 138, fill: '#E4DED3', stroke: '#BDB4AC' }));
-                    group.appendChild(svgEl('line', { x1: cursor + 4, y1: 128, x2: cursor + widthPx - 4, y2: 128, stroke: '#9A806E', 'stroke-width': 3 }));
-                    group.appendChild(svgEl('text', { x: centerX, y: 106, 'text-anchor': 'middle', fill: '#7A573F', 'font-size': 11, 'font-weight': 900 }, 'Mixed-use'));
-                    group.appendChild(svgEl('rect', { x: cursor + 12, y: planY + 18, width: Math.max(widthPx - 24, 20), height: 24, rx: 3, fill: '#B99678', opacity: '0.45' }));
-                    group.appendChild(svgEl('circle', { cx: centerX - 12, cy: planY + 66, r: 7, fill: '#A57F61', opacity: '0.6' }));
-                    group.appendChild(svgEl('circle', { cx: centerX + 12, cy: planY + 66, r: 7, fill: '#A57F61', opacity: '0.6' }));
-                    group.appendChild(svgEl('rect', { x: centerX - 20, y: planY + 84, width: 40, height: 18, rx: 3, fill: '#655C50', opacity: '0.18' }));
+                    group.appendChild(svgEl('rect', { x: cursor + 4, y: sectionGroundY - 148, width: Math.max(widthPx - 8, 30), height: 138, fill: '#E4DED3', stroke: '#BDB4AC' }));
+                    group.appendChild(svgEl('line', { x1: cursor + 4, y1: sectionGroundY - 104, x2: cursor + widthPx - 4, y2: sectionGroundY - 104, stroke: '#9A806E', 'stroke-width': 3 }));
+                    group.appendChild(svgEl('text', { x: centerX, y: sectionGroundY - 126, 'text-anchor': 'middle', fill: '#7A573F', 'font-size': 11, 'font-weight': 900 }, 'Mixed-use'));
+                    group.appendChild(svgEl('rect', { x: cursor + 12, y: planY + 72, width: Math.max(widthPx - 24, 20), height: 24, rx: 3, fill: '#B99678', opacity: '0.45' }));
+                    group.appendChild(svgEl('circle', { cx: centerX - 12, cy: planY + 264, r: 7, fill: '#A57F61', opacity: '0.6' }));
+                    group.appendChild(svgEl('circle', { cx: centerX + 12, cy: planY + 264, r: 7, fill: '#A57F61', opacity: '0.6' }));
+                    group.appendChild(svgEl('rect', { x: centerX - 20, y: planY + 336, width: 40, height: 18, rx: 3, fill: '#655C50', opacity: '0.18' }));
                 }
             }
 
             if (lane.type === 'planting') {
                 renderTree(group, centerX, sectionGroundY, widthPx < 56 ? 0.72 : 0.95);
-                renderPlanTree(group, centerX, planY + 36, Math.min(24, widthPx * 0.34));
-                renderPlanTree(group, centerX, planY + 103, Math.min(24, widthPx * 0.34));
+                renderPlanTree(group, centerX, planY, Math.min(32, widthPx * 0.45));
+                renderPlanTree(group, centerX, planY + planHeight, Math.min(32, widthPx * 0.45));
             }
 
             if (lane.type.startsWith('parking')) {
@@ -654,8 +684,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     ? (parkingFlow === 'right' ? 45 : 270)
                     : lane.type === 'parking90' ? 90 : 0;
                 const carW = lane.type === 'parking' ? Math.min(Math.max(widthPx * 0.96, 54), widthPx - 2) : Math.min(Math.max(widthPx * 0.96, 58), widthPx - 2);
-                const carH = lane.type === 'parking' ? 70 : 78;
-                const offsets = lane.type === 'parking' ? [38, 98] : [32, 72, 112];
+                const carH = lane.type === 'parking' ? 100 : 110;
+                const offsets = lane.type === 'parking' ? [152, 392] : [128, 288, 448];
                 offsets.forEach((offset, carIndex) => {
                     if (widthPx < 62 && carIndex > 1) return;
                     renderPlanCar(
@@ -665,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         carW,
                         carH,
                         carIndex % 2 === 0 ? '#DAD7D1' : '#CFCAC3',
-                        'right',
+                        parkingFlow,
                         parkingAngle
                     );
                 });
@@ -675,21 +705,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderVehicle(group, centerX, sectionGroundY, widthPx, lane.type === 'bus' ? 'bus' : 'car', lane.direction);
                 group.appendChild(svgEl('line', { x1: cursor, y1: planY, x2: cursor, y2: planY + planHeight, stroke: '#F7F4EF', 'stroke-width': 1, opacity: '0.55' }));
                 const carFill = lane.type === 'bus' ? '#2F6671' : '#E8ECEC';
+                const carY = (lane.direction === 'left')
+                    ? ((index % 2 === 0) ? planY + 130 : planY + 250)
+                    : ((index % 2 === 0) ? planY + 290 : planY + 410);
                 renderPlanCar(
                     group,
                     centerX,
-                    lane.direction === 'left' ? planY + 48 : planY + 94,
+                    carY,
                     Math.min(Math.max(widthPx * 0.96, lane.type === 'bus' ? 62 : 58), widthPx - 2),
-                    lane.type === 'bus' ? 104 : 72,
+                    lane.type === 'bus' ? 140 : 100,
                     carFill,
                     lane.direction
                 );
             }
 
             if (lane.type === 'bike') {
+                const medianIdx = getMedianIndex(lanes);
+                const isRightSide = medianIdx === -1
+                    ? (index >= Math.ceil(lanes.length / 2))
+                    : (index > medianIdx);
+
+                // Section view cyclist
+                const bikeW = 24;
+                const bikeH = 70;
+                group.appendChild(svgEl('image', {
+                    href: isRightSide ? 'assets/bike back.png' : 'assets/bike front.png',
+                    x: centerX - bikeW / 2,
+                    y: sectionGroundY - bikeH,
+                    width: bikeW,
+                    height: bikeH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+
                 group.appendChild(svgEl('text', { x: centerX, y: sectionGroundY + 27, 'text-anchor': 'middle', fill: '#F7F4EF', 'font-size': 18, 'font-weight': 900 }, getDirectionArrow(lane.direction)));
-                group.appendChild(svgEl('path', { d: `M ${centerX} ${planY + 28} L ${centerX} ${planY + 112}`, stroke: '#F7F4EF', 'stroke-width': 3, 'marker-end': lane.direction === 'right' ? 'url(#flowArrow)' : '', 'marker-start': lane.direction === 'left' ? 'url(#flowArrow)' : '' }));
-                group.appendChild(svgEl('text', { x: centerX, y: planY + 78, 'text-anchor': 'middle', fill: '#F7F4EF', 'font-size': 18, 'font-weight': 900 }, 'Bike'));
+                group.appendChild(svgEl('path', { d: `M ${centerX} ${planY + 112} L ${centerX} ${planY + 448}`, stroke: '#F7F4EF', 'stroke-width': 3, 'marker-end': lane.direction === 'right' ? 'url(#flowArrow)' : '', 'marker-start': lane.direction === 'left' ? 'url(#flowArrow)' : '' }));
+                group.appendChild(svgEl('text', { x: centerX, y: planY + 312, 'text-anchor': 'middle', fill: '#F7F4EF', 'font-size': 18, 'font-weight': 900 }, 'Bike'));
+
+                // Plan view cyclists
+                const planBikeW = 34;
+                const planBikeH = 94;
+                const rotation = lane.direction === 'left' ? 0 : 180;
+
+                const bike1Y = planY + planHeight * 0.25;
+                group.appendChild(svgEl('image', {
+                    href: 'assets/bike top.png',
+                    x: centerX - planBikeW / 2,
+                    y: bike1Y - planBikeH / 2,
+                    width: planBikeW,
+                    height: planBikeH,
+                    preserveAspectRatio: 'xMidYMid meet',
+                    transform: `rotate(${rotation} ${centerX} ${bike1Y})`
+                }));
+
+                const bike2Y = planY + planHeight * 0.75;
+                group.appendChild(svgEl('image', {
+                    href: 'assets/bike top.png',
+                    x: centerX - planBikeW / 2,
+                    y: bike2Y - planBikeH / 2,
+                    width: planBikeW,
+                    height: planBikeH,
+                    preserveAspectRatio: 'xMidYMid meet',
+                    transform: `rotate(${rotation} ${centerX} ${bike2Y})`
+                }));
             }
 
             if (lane.type === 'busstop') {
@@ -697,33 +774,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 group.appendChild(svgEl('rect', { x: cursor + 12, y: sectionGroundY - 58, width: Math.max(widthPx - 24, 28), height: 54, rx: 3, fill: '#F7F4EF', stroke: '#7F8B91', 'stroke-width': 1.8, opacity: '0.92' }));
                 group.appendChild(svgEl('line', { x1: cursor + 18, y1: sectionGroundY - 58, x2: cursor + 18, y2: sectionGroundY, stroke: '#7F8B91', 'stroke-width': 2 }));
                 group.appendChild(svgEl('line', { x1: cursor + widthPx - 18, y1: sectionGroundY - 58, x2: cursor + widthPx - 18, y2: sectionGroundY, stroke: '#7F8B91', 'stroke-width': 2 }));
-                group.appendChild(svgEl('rect', { x: cursor + 8, y: planY + 16, width: Math.max(widthPx - 16, 28), height: planHeight - 32, rx: 3, fill: '#F7F4EF', opacity: '0.78', stroke: '#7F8B91' }));
-                group.appendChild(svgEl('rect', { x: cursor + 14, y: planY + 24, width: Math.max(widthPx - 28, 18), height: 16, rx: 2, fill: '#7F8B91', opacity: '0.55' }));
-                group.appendChild(svgEl('text', { x: centerX, y: planY + 84, 'text-anchor': 'middle', fill: '#7A573F', 'font-size': 12, 'font-weight': 900 }, 'BUS'));
+                group.appendChild(svgEl('rect', { x: cursor + 8, y: planY + 64, width: Math.max(widthPx - 16, 28), height: planHeight - 128, rx: 3, fill: '#F7F4EF', opacity: '0.78', stroke: '#7F8B91' }));
+                group.appendChild(svgEl('rect', { x: cursor + 14, y: planY + 96, width: Math.max(widthPx - 28, 18), height: 64, rx: 2, fill: '#7F8B91', opacity: '0.55' }));
+                group.appendChild(svgEl('text', { x: centerX, y: planY + 336, 'text-anchor': 'middle', fill: '#7A573F', 'font-size': 12, 'font-weight': 900 }, 'BUS'));
             }
 
             if (lane.type === 'median') {
-                renderTree(group, centerX - Math.min(widthPx * 0.18, 18), sectionGroundY - 8, 0.72);
+                renderTree(group, centerX - Math.min(widthPx * 0.18, 18), sectionGroundY - 8, 0.648);
                 renderLamp(group, centerX, sectionGroundY - 8);
-                renderPlanTree(group, centerX, planY + 46, Math.min(24, widthPx * 0.35));
-                renderPlanTree(group, centerX, planY + 102, Math.min(24, widthPx * 0.35));
+                renderPlanTree(group, centerX, planY, Math.min(32, widthPx * 0.45));
+                renderPlanTree(group, centerX, planY + planHeight, Math.min(32, widthPx * 0.45));
             }
 
             if (lane.direction !== 'none' && lane.type !== 'bike') {
                 group.appendChild(svgEl('text', { x: centerX, y: sectionGroundY + 27, 'text-anchor': 'middle', fill: getContrastColor(surface), 'font-size': 18, 'font-weight': 900 }, getDirectionArrow(lane.direction)));
-                group.appendChild(svgEl('text', { x: centerX, y: lane.direction === 'left' ? planY + 122 : planY + 28, 'text-anchor': 'middle', fill: '#F7F4EF', 'font-size': 22, 'font-weight': 900 }, getDirectionArrow(lane.direction)));
+                group.appendChild(svgEl('text', { x: centerX, y: lane.direction === 'left' ? planY + 488 : planY + 112, 'text-anchor': 'middle', fill: '#F7F4EF', 'font-size': 22, 'font-weight': 900 }, getDirectionArrow(lane.direction)));
             }
 
-            group.appendChild(svgEl('line', { x1: cursor, y1: 300, x2: cursor + widthPx, y2: 300, stroke: '#555D71', 'stroke-width': 1.4, 'marker-start': 'url(#dimTick)', 'marker-end': 'url(#dimTick)' }));
-            group.appendChild(svgEl('text', { x: centerX, y: 324, 'text-anchor': 'middle', fill: '#555D71', 'font-size': widthPx < 55 ? 10 : 12, 'font-weight': 900 }, `${lane.width}m`));
-            group.appendChild(svgEl('text', { x: centerX, y: 536, 'text-anchor': 'middle', fill: '#655C50', 'font-size': widthPx < 62 ? 8 : 10, 'font-weight': 800 }, lane.label));
+            group.appendChild(svgEl('line', { x1: cursor, y1: planY - 46, x2: cursor + widthPx, y2: planY - 46, stroke: '#555D71', 'stroke-width': 1.4, 'marker-start': 'url(#dimTick)', 'marker-end': 'url(#dimTick)' }));
+            group.appendChild(svgEl('text', { x: centerX, y: planY - 22, 'text-anchor': 'middle', fill: '#555D71', 'font-size': widthPx < 55 ? 10 : 12, 'font-weight': 900 }, `${lane.width}m`));
+            group.appendChild(svgEl('text', { x: centerX, y: planY + planHeight + 36, 'text-anchor': 'middle', fill: '#655C50', 'font-size': widthPx < 62 ? 8 : 10, 'font-weight': 800 }, lane.label));
 
-            engineeringSvg.appendChild(group);
+            fgGroup.appendChild(group);
             cursor += widthPx;
         });
 
-        engineeringSvg.appendChild(svgEl('text', { x: minX, y: 78, fill: '#9A806E', 'font-size': 11, 'font-weight': 900 }, 'SECTION'));
-        engineeringSvg.appendChild(svgEl('text', { x: minX, y: 334, fill: '#9A806E', 'font-size': 11, 'font-weight': 900 }, 'PLAN'));
+        fgGroup.appendChild(svgEl('text', { x: minX, y: 92, fill: '#9A806E', 'font-size': 11, 'font-weight': 900 }, 'SECTION'));
+        fgGroup.appendChild(svgEl('text', { x: minX, y: planY - 12, fill: '#9A806E', 'font-size': 11, 'font-weight': 900 }, 'PLAN'));
     };
 
     const renderProperties = () => {

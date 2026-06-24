@@ -50,30 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. Mock Data for Eastern Province
-    const locations = [
-        // Parks
-        { id: 1, name: "حديقة الملك فهد", lat: 26.3980, lng: 50.1450, category: "parks", desc: "أكبر حديقة في الدمام تتميز بمسطحات خضراء واسعة." },
-        { id: 2, name: "منتزه الإسكان", lat: 26.3020, lng: 50.1850, category: "parks", desc: "حديقة نموذجية تخدم الأحياء السكنية." },
-        { id: 3, name: "حديقة الأمير سعود بن نايف", lat: 26.2800, lng: 50.2100, category: "parks", desc: "حديقة ذكية في الخبر بتصميم عصري." },
-        
-        // Plazas
-        { id: 4, name: "ساحة أمانة المنطقة الشرقية", lat: 26.4350, lng: 50.1050, category: "plazas", desc: "ساحة حضرية رئيسية للاحتفالات والتجمعات." },
-        { id: 5, name: "ميدان التوحيد", lat: 26.2900, lng: 50.2150, category: "plazas", desc: "ميدان حيوي يربط المحاور الرئيسية في الخبر." },
-        
-        // Walkways
-        { id: 6, name: "ممشى الضباب", lat: 26.4150, lng: 50.1200, category: "walkways", desc: "مسار مشاة رياضي متكامل." },
-        { id: 7, name: "ممشى شارع الأمير تركي", lat: 26.2950, lng: 50.2200, category: "walkways", desc: "ممشى حيوي محاذي للمناطق التجارية بالخبر." },
-        { id: 8, name: "ممشى تلال الظهران", lat: 26.2500, lng: 50.1300, category: "walkways", desc: "مسار مشاة هادئ ومظلل." },
-        
-        // Waterfronts
-        { id: 9, name: "واجهة الدمام البحرية (الكورنيش)", lat: 26.4550, lng: 50.1150, category: "waterfronts", desc: "واجهة ممتدة تضم مناطق ترفيهية ورياضية." },
-        { id: 10, name: "كورنيش الخبر الجنوبي", lat: 26.2600, lng: 50.2250, category: "waterfronts", desc: "واجهة بحرية عصرية مع مسارات للمشاة والدراجات." },
-        { id: 11, name: "كورنيش نصف القمر", lat: 26.1500, lng: 50.0500, category: "waterfronts", desc: "منطقة شاطئية واسعة للرحلات العائلية." },
-        
-        // Leftovers (الزوائد التنظيمية)
-        { id: 12, name: "زائدة تنظيمية - حي الشاطئ", lat: 26.4400, lng: 50.1250, category: "leftovers", desc: "مساحة غير مستغلة سيتم تحويلها إلى فراغ حضري صغير." }
-    ];
+    // 5. Load Data from window.mapLocations (defined in locations-data.js)
+    const locations = window.mapLocations || [];
 
     // 6. Add markers to the map and store them in an array
     const markers = [];
@@ -84,18 +62,38 @@ document.addEventListener('DOMContentLoaded', () => {
             category: loc.category
         });
         
-        const popupContent = `
+        let popupContent = `
             <div class="map-popup">
                 <span class="popup-badge" style="background-color: ${categoryColors[loc.category]}">${categoryNames[loc.category]}</span>
                 <h4>${loc.name}</h4>
-                <p>${loc.desc}</p>
-            </div>
         `;
+        
+        if (loc.desc) {
+            popupContent += `<p>${loc.desc}</p>`;
+        }
+        
+        if (loc.link) {
+            popupContent += `
+                <div class="popup-link-wrapper" style="margin-top: 10px;">
+                    <a href="${loc.link}" target="_blank" class="popup-link-btn" style="color: ${categoryColors[loc.category]}; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-external-link-alt"></i> عرض الموقع على الخريطة
+                    </a>
+                </div>
+            `;
+        }
+        
+        popupContent += `</div>`;
         
         marker.bindPopup(popupContent);
         marker.addTo(map);
         markers.push(marker);
     });
+
+    // Fit map bounds to show all markers initially
+    if (markers.length > 0) {
+        const group = L.featureGroup(markers);
+        map.fitBounds(group.getBounds().pad(0.1));
+    }
 
     // 7. Filter Logic
     const filterButtons = document.querySelectorAll('.map-filter-btn');
@@ -124,8 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            // Adjust map view when filtering (optional)
-            // If we wanted to re-center the map based on visible markers, we could do it here
+            // Re-fit map bounds to visible markers
+            const visibleMarkers = markers.filter(m => map.hasLayer(m));
+            if (visibleMarkers.length > 0) {
+                const group = L.featureGroup(visibleMarkers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
         });
     });
 });

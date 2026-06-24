@@ -157,6 +157,7 @@
             align-items: center;
             gap: 2px;
             box-shadow: var(--shadow-sm);
+            direction: ltr; /* Force sequence order to match SVG left-to-right drawing */
         }
 
         .isb-sequence-container.drag-over {
@@ -251,6 +252,127 @@
             opacity: 0.5;
         }
 
+        /* Interactive builder styles */
+        .isb-btn {
+            background-color: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            color: var(--clr-text);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            outline: none;
+            text-decoration: none;
+        }
+        
+        .isb-btn:hover {
+            border-color: var(--clr-primary);
+            color: var(--clr-primary);
+            background: rgba(165, 127, 97, 0.05);
+        }
+        
+        .isb-btn.icon-only {
+            padding: 0.4rem;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .isb-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .isb-drop-marker {
+            width: 6px;
+            background-color: var(--clr-primary);
+            border-radius: 3px;
+            margin: 0 6px;
+            align-self: stretch;
+            transition: all 0.2s ease;
+        }
+
+        /* Card internals */
+        .isb-sequence-item {
+            min-height: 80px;
+            height: auto !important;
+            box-sizing: border-box;
+            direction: rtl; /* Keep internal text and inputs RTL for correct Arabic rendering */
+        }
+
+        .isb-card-content-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            box-sizing: border-box;
+            padding: 4px;
+        }
+
+        .isb-card-left-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            overflow: hidden;
+            height: 100%;
+            gap: 2px;
+        }
+
+        .isb-card-right-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 100%;
+        }
+
+        .isb-card-width-input {
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .isb-card-width-input:focus {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .isb-card-arrow-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 40%;
+            outline: none;
+            transition: background 0.1s;
+            padding: 0;
+        }
+
+        .isb-card-arrow-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
     </style>
 </head>
 
@@ -267,26 +389,70 @@
                     <li><a href="principles.html">المبادئ الأساسية</a></li>
                     <li><a href="design.html">دليل التصميم</a></li>
                     <li><a href="execution.html">دليل التنفيذ</a></li>
-                    <li><a href="builder-library.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-street-builder.html" class="active">صمم بنفسك</a></li>
                     <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
-                    <li><a href="interactive-street-builder.html" class="active">Street Builder</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="isb-shell">
+    <main class="isb-shell" style="margin-top: 80px;">
         <aside class="isb-sidebar" id="isb-sidebar">
             <!-- Sidebar content populated by JS -->
         </aside>
         
         <section class="isb-viewport">
-            <div class="isb-toolbar">
-                <div class="isb-toolbar-title">
-                    <h2>Street Section Builder</h2>
+            <div class="isb-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding: 1rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <div class="isb-toolbar-title" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <h2 style="font-size: 1rem; font-weight: 800; font-family: 'Cairo', sans-serif; margin: 0; color: var(--clr-primary);">اسم الشارع:</h2>
+                        <input type="text" id="isb-street-name" value="شارع غير مسمى" style="font-size: 0.95rem; padding: 0.4rem 0.8rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); background: var(--clr-bg); color: var(--clr-text); font-family: 'Cairo', sans-serif; font-weight: bold; width: 180px;" placeholder="أدخل اسم الشارع...">
+                    </div>
+                    
+                    <!-- Templates Dropdown -->
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.9rem; font-weight: bold; color: var(--clr-text-muted);">النماذج الجاهزة:</span>
+                        <select onchange="if(this.value) { loadTemplate(this.value); this.value=''; }" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); background: var(--clr-bg); color: var(--clr-text); font-family: 'Cairo', sans-serif; cursor: pointer; outline: none;">
+                            <option value="">اختر نموذجاً...</option>
+                            <option value="arterial_waterfront">طريق رئيسي واجهة بحرية</option>
+                            <option value="collector_30m">شارع تجميعي 30م</option>
+                            <option value="collector_bus_37m">شارع تجميعي مع موقف حافلات 37م</option>
+                            <option value="commercial_residential_33m">شارع تجاري سكني 33م</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="isb-total-width" id="isb-total-width">
-                    Total Street Width: 0.0m
+
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <!-- Zoom Controls -->
+                    <div class="isb-zoom-controls" style="display: flex; align-items: center; gap: 0.3rem; background: var(--clr-bg); padding: 0.2rem 0.4rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border);">
+                        <button class="isb-btn icon-only" onclick="adjustZoom(0.1)" title="تكبير" style="padding: 0.3rem 0.5rem; font-size: 0.85rem;"><i class="fas fa-magnifying-glass-plus"></i></button>
+                        <span id="isb-zoom-level" style="font-size: 0.8rem; font-weight: bold; min-width: 40px; text-align: center; color: var(--clr-text);">100%</span>
+                        <button class="isb-btn icon-only" onclick="adjustZoom(-0.1)" title="تصغير" style="padding: 0.3rem 0.5rem; font-size: 0.85rem;"><i class="fas fa-magnifying-glass-minus"></i></button>
+                        <button class="isb-btn icon-only" onclick="zoomToFit()" title="ملائمة الشاشة" style="padding: 0.3rem 0.5rem; font-size: 0.85rem;"><i class="fas fa-maximize"></i></button>
+                    </div>
+
+                    <!-- Actions -->
+                    <button class="isb-btn" onclick="mirrorSequence()" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;" title="تماثل">
+                        <i class="fas fa-clone"></i> تماثل
+                    </button>
+                    <button class="isb-btn" id="isb-export-image-btn" onclick="exportToPng()" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">
+                        <i class="fas fa-image"></i> تصدير صورة
+                    </button>
+                    <button class="isb-btn" onclick="clearSequence()" style="background-color: #d9534f; border-color: #d9534f; color: var(--clr-surface); padding: 0.4rem 0.8rem; font-size: 0.9rem;">
+                        <i class="fas fa-trash"></i> مسح الكل
+                    </button>
+
+                    <!-- Save & Database Status -->
+                    <div style="display: flex; align-items: center; gap: 0.5rem; border-right: 1px solid var(--clr-border); padding-right: 0.5rem; margin-right: 0.25rem;">
+                        <button class="isb-btn" id="isb-save-btn" onclick="saveRoad()" style="background-color: var(--clr-primary); border-color: var(--clr-primary); color: var(--clr-surface); padding: 0.4rem 0.8rem; font-size: 0.9rem;">
+                            <i class="fas fa-floppy-disk"></i> حفظ الطريق
+                        </button>
+                        <span id="isb-save-status" style="font-size: 0.8rem; font-weight: bold; color: var(--clr-text-muted); min-width: 70px;">جاهز للعمل</span>
+                    </div>
+
+                    <div class="isb-total-width" id="isb-total-width" style="font-size: 0.95rem; font-weight: 800; color: var(--clr-primary); background: var(--clr-bg); padding: 0.4rem 1rem; border-radius: 30px; border: 1px solid var(--clr-border);">
+                        إجمالي عرض الشارع: 0.0 م
+                    </div>
                 </div>
             </div>
             
@@ -296,20 +462,123 @@
                     <div class="isb-sequence-container" id="isb-sequence-container">
                         <div class="isb-empty-state" id="isb-empty-state" style="padding: 20px 40px;">
                             <i class="fas fa-hand-holding-hand"></i>
-                            <p>Drag and drop street components here</p>
+                            <p>اسحب عناصر الشارع وأفلتها هنا لتصميم المقطع</p>
                         </div>
                     </div>
 
                     <!-- The rendered visual -->
                     <div class="isb-render-area" id="isb-render-area" style="display: none;">
-                        <div class="isb-render-title">Elevation & Plan View</div>
+                        <div class="isb-render-title" id="isb-render-title">واجهة القطاع والمخطط الأفقي</div>
                         <svg class="isb-svg-canvas" id="isb-svg-canvas" preserveAspectRatio="xMidYMid meet"></svg>
+                    </div>
+
+                    <!-- Evaluation and Performance Panel -->
+                    <div class="isb-evaluation-panel" id="isb-evaluation-panel" style="display: none; width: 100%; max-width: 1200px; margin-top: 20px; background: var(--clr-surface); border-radius: var(--border-radius); padding: 30px; box-shadow: var(--shadow-md); border: 1px solid var(--clr-border);">
+                        <h3 style="font-family: 'Cairo', sans-serif; color: var(--clr-primary); border-bottom: 2px solid var(--clr-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chart-line"></i> تقييم ومؤشرات أنسنة الشارع</h3>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                            <!-- Capacity Card -->
+                            <div style="background: var(--clr-bg); padding: 1.5rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <h4 style="font-family: 'Cairo', sans-serif; color: var(--clr-text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-road"></i> القدرة الاستيعابية للشارع</h4>
+                                    <p style="font-size: 0.85rem; color: var(--clr-text-muted); line-height: 1.5; margin-bottom: 1rem;">حساب التدفق المتوقع للمركبات والأشخاص بناءً على مكونات الشارع:</p>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--clr-text);">
+                                        <span>السيارات:</span>
+                                        <strong id="isb-car-capacity" style="color: var(--clr-primary);">0 مركبة/ساعة</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--clr-text);">
+                                        <span>حافلات النقل الجماعي:</span>
+                                        <strong id="isb-bus-capacity" style="color: #d66c5c;">0 راكب/ساعة</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--clr-text);">
+                                        <span>راكبو الدراجات:</span>
+                                        <strong id="isb-bike-capacity" style="color: #2980b9;">0 شخص/ساعة</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--clr-text);">
+                                        <span>المشاة:</span>
+                                        <strong id="isb-pedestrian-capacity" style="color: #8e44ad;">0 شخص/ساعة</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; border-top: 1px solid var(--clr-border); padding-top: 0.5rem; margin-top: 0.5rem; color: var(--clr-text);">
+                                        <span>إجمالي سعة التدفق للأفراد:</span>
+                                        <strong id="isb-total-person-capacity" style="color: #27ae60; font-size: 1.05rem;">0 شخص/ساعة</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Humanization Index Card -->
+                            <div style="background: var(--clr-bg); padding: 1.5rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <h4 style="font-family: 'Cairo', sans-serif; color: var(--clr-text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-heart-pulse"></i> مؤشر كفاءة الأنسنة</h4>
+                                    <p style="font-size: 0.85rem; color: var(--clr-text-muted); line-height: 1.5; margin-bottom: 1rem;">نسبة توزيع مساحة الشارع لصالح الفراغات العامة والمشاة والتشجير مقابل مسارات السيارات:</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div id="isb-humanization-score" style="font-size: 3rem; font-weight: 900; color: var(--clr-primary); line-height: 1; margin-bottom: 0.5rem;">0%</div>
+                                    <div style="width: 100%; height: 10px; background: var(--clr-border); border-radius: 5px; overflow: hidden; margin-bottom: 0.5rem;">
+                                        <div id="isb-humanization-bar" style="width: 0%; height: 100%; background: var(--clr-primary); transition: width 0.5s ease;"></div>
+                                    </div>
+                                    <span id="isb-humanization-rating" style="font-size: 0.85rem; font-weight: bold; color: var(--clr-text-muted);">تحليل المقطع...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3 Sub-Indicators -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; border-top: 1px solid var(--clr-border); padding-top: 2rem;">
+                            <!-- Indicator 1 -->
+                            <div style="text-align: center; background: var(--clr-bg); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border);">
+                                <i class="fas fa-tree" style="font-size: 1.8rem; color: #27ae60; margin-bottom: 0.5rem;"></i>
+                                <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.5rem; color: var(--clr-text);">مؤشر الاستجابة للمناخ والظل</h5>
+                                <div id="isb-shading-score" style="font-size: 1.5rem; font-weight: bold; color: #27ae60;">0%</div>
+                            </div>
+                            
+                            <!-- Indicator 2 -->
+                            <div style="text-align: center; background: var(--clr-bg); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border);">
+                                <i class="fas fa-shield-halved" style="font-size: 1.8rem; color: #2980b9; margin-bottom: 0.5rem;"></i>
+                                <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.5rem; color: var(--clr-text);">مؤشر سلامة الحركة وحماية المشاة</h5>
+                                <div id="isb-safety-score" style="font-size: 1.5rem; font-weight: bold; color: #2980b9;">0%</div>
+                            </div>
+                            
+                            <!-- Indicator 3 -->
+                            <div style="text-align: center; background: var(--clr-bg); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border);">
+                                <i class="fas fa-couch" style="font-size: 1.8rem; color: #8e44ad; margin-bottom: 0.5rem;"></i>
+                                <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.5rem; color: var(--clr-text);">مؤشر جودة الفراغ العام والأثاث</h5>
+                                <div id="isb-quality-score" style="font-size: 1.5rem; font-weight: bold; color: #8e44ad;">0%</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Confirm Clear Modal -->
+    <div id="isb-confirm-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: var(--clr-surface); padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-lg); text-align: center; max-width: 400px; width: 90%;">
+            <h3 style="margin-bottom: 1rem; font-family: 'Cairo', sans-serif;">تأكيد مسح التصميم</h3>
+            <p style="margin-bottom: 1.5rem; color: var(--clr-text-muted);">هل أنت متأكد من رغبتك في مسح كافة العناصر الحالية؟ لا يمكن التراجع عن هذا الإجراء.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="isb-btn" onclick="confirmClear(true)" style="background-color: #d9534f; border-color: #d9534f; color: var(--clr-surface); padding: 0.5rem 1rem;">نعم، امسح الكل</button>
+                <button class="isb-btn" onclick="confirmClear(false)" style="padding: 0.5rem 1rem;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Confirm Modal -->
+    <div id="isb-template-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: var(--clr-surface); padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-lg); text-align: center; max-width: 400px; width: 90%;">
+            <h3 style="margin-bottom: 1rem; font-family: 'Cairo', sans-serif;">تأكيد استبدال النموذج</h3>
+            <p style="margin-bottom: 1.5rem; color: var(--clr-text-muted);">سيتم استبدال التصميم الحالي بالنموذج المختار. هل أنت متأكد؟</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="isb-btn" id="confirm-template-btn" style="background-color: var(--clr-primary); border-color: var(--clr-primary); color: var(--clr-surface); padding: 0.5rem 1rem;">نعم، استبدل</button>
+                <button class="isb-btn" onclick="closeTemplateModal()" style="padding: 0.5rem 1rem;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="supabase-api.js"></script>
     <script src="interactive-street-builder.js"></script>
 </body>
 

@@ -731,4 +731,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     initNeuronConstellation();
+
+    // 11. Skyline Wipe Scroll Reveal
+    const initSkylineReveal = () => {
+        const skylineSection = document.querySelector('.skyline-section');
+        if (skylineSection) {
+            const skylineObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            skylineObserver.observe(skylineSection);
+        }
+    };
+    initSkylineReveal();
 });

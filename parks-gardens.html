@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الحدائق والمتنزهات | دليل التصميم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="sub-page guide-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html" class="active">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="interactive-street-builder.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
+                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="guide-hero">
+        <div class="container guide-hero-grid">
+            <div class="guide-copy">
+                <div class="breadcrumbs">
+                    <a href="index.html">الرئيسية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <a href="design.html">تصنيفات الفراغات الحضرية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <span>الحدائق والمتنزهات</span>
+                </div>
+                <h2>إرشادات تصميم الحدائق والمتنزهات</h2>
+                <p>إطار معايير تصميمية شامل يهدف إلى التوسع في المسطحات الخضراء والحدائق السكنية وتطويرها كبيئات صحية واجتماعية آمنة تعزز التنوع البيئي وتدعم الصحة العامة والراحة المناخية للمجتمع.</p>
+            </div>
+            <div class="guide-visual">
+                <img src="parks_hero.png" alt="تصميم حديقة حضرية متكاملة">
+            </div>
+        </div>
+    </section>
+
+    <main class="page-content guide-content">
+        <section class="container">
+            <div class="guide-summary">
+                <div>
+                    <strong>4</strong>
+                    <span>أنماط حدائق رئيسية</span>
+                </div>
+                <div>
+                    <strong>6</strong>
+                    <span>مكونات أساسية للحديقة</span>
+                </div>
+                <div>
+                    <strong>7</strong>
+                    <span>محاور معايير تصميمية</span>
+                </div>
+            </div>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أهداف التصميم</span>
+                    <h3>الرقعة الخضراء كمصدر للحياة والراحة والصحة المستدامة</h3>
+                </div>
+                <div class="guide-objectives-grid">
+                    <div><i class="fas fa-heart-pulse"></i><span>تحسين الصحة الجسدية والنفسية عبر الأنشطة الخارجية والرياضة.</span></div>
+                    <div><i class="fas fa-seedling"></i><span>مكافحة التلوث وزيادة غاز الأكسجين عبر زراعة مكثفة للأشجار المحلية.</span></div>
+                    <div><i class="fas fa-child"></i><span>تأمين بيئة لعب حرة واجتماعية آمنة ومحفزة للأطفال.</span></div>
+                    <div><i class="fas fa-temperature-arrow-down"></i><span>تخفيض درجات الحرارة السطحية ومكافحة الجزر الحرارية بالمدن.</span></div>
+                    <div><i class="fas fa-droplet-slash"></i><span>استهلاك مرشد للمياه من خلال استخدام النباتات البرية المتكيفة ونظم ري ذكية.</span></div>
+                    <div><i class="fas fa-eye"></i><span>رفع القيمة البصرية للمشهد العمراني وكسر كتل المباني الصماء.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أنماط الحدائق</span>
+                    <h3>تصنيفات فرعية تضمن سهولة الوصول للغطاء النباتي</h3>
+                </div>
+                <div class="guide-type-grid">
+                    <article class="guide-type-card">
+                        <img src="parks_hero.png" alt="حديقة الحي السكنية">
+                        <div>
+                            <span>حسب النطاق</span>
+                            <h4>حديقة الحي السكنية</h4>
+                            <p>تخدم نطاق المشي المباشر للعائلات والأطفال داخل المربع السكني (نصف قطر تغطية 400 متر-600 متر).</p>
+                            <ul>
+                                <li>ملاعب أطفال متطورة وآمنة.</li>
+                                <li>جلسات عائلية مظللة وموزعة.</li>
+                                <li>مسارات مشي محيطية قصيرة.</li>
+                                <li>حواجز خضراء لحماية الخصوصية.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="regulatory_offsets.png" alt="حديقة الجيب أو الحديقة المصغرة">
+                        <div>
+                            <span>حسب النطاق</span>
+                            <h4>حديقة الجيب (Pocket Park)</h4>
+                            <p>مساحات خضراء بالغة الصغر تستغل الأراضي غير المبنية وتوفر نقاط تنفس بصري واستراحة للمشاة.</p>
+                            <ul>
+                                <li>مناسبة للمناطق ذات الكثافة العمرانية المرتفعة.</li>
+                                <li>عناصر مقاعد وشبكة ري مصغرة.</li>
+                                <li>أشجار ظل كبيرة منفردة لتوفير مساحة تغطية مناخية.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="plazas_hero.png" alt="المتنزه العام المركزي">
+                        <div>
+                            <span>حسب النطاق</span>
+                            <h4>المتنزه العام المركزي</h4>
+                            <p>مساحات شاسعة على مستوى المدينة تهدف إلى الاستجمام والرياضة وتضم مرافق متنوعة تلبي تطلعات السياح والسكان.</p>
+                            <ul>
+                                <li>مسارات جري ودراجات ممتدة ومستقلة.</li>
+                                <li>بحيرات مائية وملاعب رياضية متنوعة.</li>
+                                <li>أماكن مخصصة للمطاعم والمقاهي.</li>
+                                <li>مواقف سيارات خارجية منظمة بشكل دقيق.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="pedestrian_hero.png" alt="الحديقة الطولية">
+                        <div>
+                            <span>حسب النطاق</span>
+                            <h4>الحديقة الطولية (Linear Park)</h4>
+                            <p>تمتد بمحاذاة الطرق الرئيسية أو قنوات تصريف السيول أو ممرات المشاة الطويلة لربط أجزاء المدينة وتأمين المشي المظلل.</p>
+                            <ul>
+                                <li>مسار مشاة طويل مستمر بقلب الحديقة.</li>
+                                <li>مناطق استراحة متتالية على مسافات منتظمة.</li>
+                                <li>دور تشجير وقائي ومصدات للغبار وعادم السيارات.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">مبادئ التصميم</span>
+                    <h3>خمسة مبادئ تدعم نجاح الفراغ الأخضر واستدامته</h3>
+                </div>
+                <div class="guide-principles-list">
+                    <div><strong>تناغم الطبيعة والمدينة</strong><span>خلق اتصال سلس للمتنزه مع شبكة الشوارع والأحياء المجاورة دون حاجز أصم.</span></div>
+                    <div><strong>التنوع البيولوجي</strong><span>زراعة نباتات تدعم البيئة المحلية والحشرات المفيدة والطيور لتعزيز الحياة البرية.</span></div>
+                    <div><strong>السلامة والمراقبة الطبيعية</strong><span>تجنب الشجيرات الكثيفة التي تحجب الرؤية لضمان رؤية الأطفال بشكل دائم ومفتوح.</span></div>
+                    <div><strong>كفاءة الموارد</strong><span>تقليل المساحات العشبية التي تستهلك كميات مياه ضخمة والاعتماد على مغطيات التربة المحلية.</span></div>
+                    <div><strong>مرونة الاستخدام</strong><span>توفير فراغات عشبية مفتوحة تتيح ممارسة مختلف الأنشطة (اليوغا، الجري، الاسترخاء).</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المكونات الرئيسية</span>
+                    <h3>العناصر المادية التي تشكل فراغ الحديقة</h3>
+                </div>
+                <div class="guide-components-grid">
+                    <div><i class="fas fa-bounce"></i><strong>منطقة ألعاب الأطفال</strong><span>ملاعب مقسمة فئوياً ومزودة بأرضيات مطاطية ماصة للصدمات والحرارة.</span></div>
+                    <div><i class="fas fa-person-running"></i><strong>مسار المشي والجري</strong><span>مسارات ممهدة بمواد مرنة متصلة ومنفصلة عن حركة ألعاب الأطفال.</span></div>
+                    <div><i class="fas fa-seedling"></i><strong>المروج والمناطق العشبية</strong><span>مساحات خضراء مفتوحة مصممة للجلوس الحر والأنشطة الاجتماعية الخفيفة.</span></div>
+                    <div><i class="fas fa-tent"></i><strong>البرجولات والمظلات</strong><span>هياكل تظليل خشبية أو صناعية متسقة مع مواقع الكراسي وحركة الشمس.</span></div>
+                    <div><i class="fas fa-restroom"></i><strong>دورات المياه وغرف الخدمات</strong><span>مرافق صحية موزعة، ومستودعات صيانة، ومصليات صغيرة مهيأة.</span></div>
+                    <div><i class="fas fa-wind"></i><strong>الأحزمة الخضراء والمصدات</strong><span>خطوط أشجار كثيفة وسواتر ترابية مزروعة لعزل الحديقة عن الطرق السريعة.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المعايير التصميمية</span>
+                    <h3>معايير هندسية ملزمة لضمان الجودة والاستدامة</h3>
+                </div>
+                <div class="guide-standards-accordion">
+                    <details open>
+                        <summary>اختيار النباتات المحلية والملائمة للتربة</summary>
+                        <p>تشترط الإرشادات زراعة ما لا يقل عن 70% من نباتات وأشجار الحديقة من الأنواع المحلية المتكيفة مع مناخ المنطقة الشرقية الجاف والملوحة (مثل السمر، السدر، الغاف الخليجي، والياسمين البري)، مع الحد من النباتات الدخيلة المستهلكة للمياه.</p>
+                    </details>
+                    <details>
+                        <summary>كفاءة الري واستخدام المياه الرمادية</summary>
+                        <p>يجب تصميم شبكات ري آلية تعمل بالتنقيط أو الرشاشات الموجهة تحت السطح لتقليل التبخر، مع الاعتماد التام على المياه المعالجة أو مياه الصرف الرمادي المفلترة، وتجنب الري في ساعات النهار الحارة (تحديد ساعات الري ليلاً أو فجراً).</p>
+                    </details>
+                    <details>
+                        <summary>حماية ألعاب الأطفال ومواد امتصاص الصدمات</summary>
+                        <p>يجب تزويد كافة مناطق اللعب بأرضيات مطاطية معتمدة (EPDM/SBR) بسماكة تتناسب مع ارتفاع السقوط للألعاب، مع توفير مظلات قماشية معالجة ضد الأشعة فوق البنفسجية لتغطية كامل منطقة اللعب بنسبة تظليل 100%.</p>
+                    </details>
+                    <details>
+                        <summary>الإنارة الموجهة والأمان ليلاً</summary>
+                        <p>استخدام أعمدة إنارة بارتفاع منخفض (3.5 متر - 4.5 متر) موجهة للأسفل لمسارات المشي، مع الحفاظ على شدة إضاءة لا تقل عن 15 لوكس في المعابر والمناطق المخصصة للأطفال لتأمين الرؤية العامة دون وهج يضر بالنمو الطبيعي للأشجار.</p>
+                    </details>
+                    <details>
+                        <summary>مسارات المشي ومرونة الأرضيات</summary>
+                        <p>يُفضل رصف مسارات المشاة الرياضية بمواد مرنة ذات مرونة نسبية مثل الإسفلت المطاطي أو الرمل المدكوك المعالج، وتجنب استخدام البلاط الصلب اللامع أو المواد العاكسة للضوء والحرارة.</p>
+                    </details>
+                    <details>
+                        <summary>الربط وسهولة الوصول مع الأحياء المجاورة</summary>
+                        <p>يجب ألا تُحاط حديقة الحي السكنية بأسوار مادية مغلقة. يجب أن تكون مفتوحة من جميع الجهات مع توفير معابر مشاة آمنة ومرفوعة تربط الأرصفة المحيطة مباشرة بمداخل الحديقة دون فروق في المناسيب.</p>
+                    </details>
+                    <details>
+                        <summary>تأمين مرافق الخدمات وتوزيع دورات المياه</summary>
+                        <p>توزيع مرافق دورات المياه بشكل متوازن بحيث لا تزيد المسافة بين أي نقطة في الحديقة وأقرب دورة مياه عن 150 متراً، وتصميم مداخلها بخصوصية بصرية تامة مع إتاحتها بالكامل لذوي الإعاقة وكبار السن.</p>
+                    </details>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
+                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

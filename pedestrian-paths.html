@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسارات المشاة | دليل التصميم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="sub-page guide-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html" class="active">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="interactive-street-builder.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
+                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="guide-hero">
+        <div class="container guide-hero-grid">
+            <div class="guide-copy">
+                <div class="breadcrumbs">
+                    <a href="index.html">الرئيسية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <a href="design.html">تصنيفات الفراغات الحضرية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <span>مسارات المشاة</span>
+                </div>
+                <h2>إرشادات تصميم مسارات المشاة</h2>
+                <p>إطار إرشادي وهندسي يهدف إلى توفير شبكة مسارات مشاة متصلة وآمنة تربط الوجهات اليومية، وتجعل المشي خياراً سهلاً وصحياً للجميع في المنطقة الشرقية.</p>
+            </div>
+            <div class="guide-visual">
+                <img src="pedestrian_hero.png" alt="تصميم مسار مشاة متكامل">
+            </div>
+        </div>
+    </section>
+
+    <main class="page-content guide-content">
+        <section class="container">
+            <div class="guide-summary">
+                <div>
+                    <strong>3</strong>
+                    <span>أنماط مسارات رئيسية</span>
+                </div>
+                <div>
+                    <strong>5</strong>
+                    <span>مكونات أساسية للمسار</span>
+                </div>
+                <div>
+                    <strong>6</strong>
+                    <span>محاور معايير تصميمية</span>
+                </div>
+            </div>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أهداف التصميم</span>
+                    <h3>مسار المشاة كحلقة ربط آمنة وصحية تخدم رحلة المشي اليومية</h3>
+                </div>
+                <div class="guide-objectives-grid">
+                    <div><i class="fas fa-route"></i><span>تحقيق الاستمرارية والاتصال لشبكة المشاة داخل المدينة دون انقطاع.</span></div>
+                    <div><i class="fas fa-person-walking-arrow-right"></i><span>تشجيع الوصول النشط وتقليل الاعتماد الكلي على السيارات للرحلات القصيرة.</span></div>
+                    <div><i class="fas fa-road-barrier"></i><span>إزالة العوائق المادية وتوحيد مناسيب الأرصفة والعبور.</span></div>
+                    <div><i class="fas fa-umbrella"></i><span>توفير الراحة المناخية من خلال التظليل المستمر وحماية الشمس.</span></div>
+                    <div><i class="fas fa-wheelchair"></i><span>ضمان الوصول الشامل وتوفير إشارات ومسارات أرضية حسية واضحة.</span></div>
+                    <div><i class="fas fa-compass"></i><span>تسهيل التوجيه الذاتي للمشاة عبر أنظمة إرشادية بصرية ولوحات واضحة.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أنماط مسارات المشاة</span>
+                    <h3>تصنيفات وظيفية تدعم مستويات الحركة المتنوعة</h3>
+                </div>
+                <div class="guide-type-grid">
+                    <article class="guide-type-card">
+                        <img src="pedestrian_hero.png" alt="الممشى الرئيسي للمدينة">
+                        <div>
+                            <span>نمط المسار</span>
+                            <h4>الممشى الرئيسي للمدينة (Urban Promenade)</h4>
+                            <p>مسارات مشاة ممتدة وواسعة تربط بين وجهات حضرية كبرى ومصممة للرياضة والتنزه والتسوق النشط.</p>
+                            <ul>
+                                <li>عرض صافٍ كبير يستوعب الكثافة العالية.</li>
+                                <li>مناطق استراحة وجلسات على امتداد المسار.</li>
+                                <li>دمج أنشطة خفيفة ومناطق لعب أطفال ومقاهٍ.</li>
+                                <li>إنارة مميزة وإرشادات متكاملة للرحلة.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="regulatory_offsets.png" alt="ممر المشاة المحلي">
+                        <div>
+                            <span>نمط المسار</span>
+                            <h4>ممر المشاة المحلي (Neighborhood Link)</h4>
+                            <p>ممرات هادئة داخل الأحياء السكنية تهدف إلى ربط المنازل بالخدمات الأساسية كالمساجد والمدارس والحدائق.</p>
+                            <ul>
+                                <li>تأمين عزل تام عن حركة المركبات السريعة.</li>
+                                <li>تصميم بسيط ومواد متناسقة مع طابع الحي.</li>
+                                <li>تظليل شجري كثيف للأرصفة ومداخل البيوت.</li>
+                                <li>سرعات تصميمية منخفضة جداً للتقاطعات.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="parks_hero.png" alt="المسار المشترك">
+                        <div>
+                            <span>نمط المسار</span>
+                            <h4>المسار المشترك (Shared Path)</h4>
+                            <p>مسارات مصممة بعناية لدمج حركة المشاة مع راكبي الدراجات الهوائية أو وسائل التنقل الدقيق في قطاع واحد واسع.</p>
+                            <ul>
+                                <li>فصل بصري للأرصفة عبر الألوان أو البلاط.</li>
+                                <li>علامات أرضية مخصصة لتنظيم الاتجاهات والحركة.</li>
+                                <li>توفير حارة أمان تفصل بين السرعات المختلفة.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">مبادئ التصميم</span>
+                    <h3>خمسة مبادئ تحكم قرارات تصميم المسارات</h3>
+                </div>
+                <div class="guide-principles-list">
+                    <div><strong>الاستمرارية والربط</strong><span>أن يكون المسار خالياً تماماً من الفجوات أو فروق الارتفاع المفاجئة عند المداخل.</span></div>
+                    <div><strong>التظليل الطبيعي</strong><span>توفير تظليل متصل عبر غطاء شجري كثيف أو مظلات لتأمين الحماية المناخية طوال اليوم.</span></div>
+                    <div><strong>أولوية السلامة</strong><span>تأمين عبور المشاة عند التقاطعات وتصميم معابر مرفوعة وواضحة لقائدي السيارات.</span></div>
+                    <div><strong>الوضوح البصري</strong><span>توفير خطوط رؤية مفتوحة خالية من العوائق والإعلانات التي تشوش على حركة المشاة.</span></div>
+                    <div><strong>الوصول الشامل والراحة</strong><span>تأمين منحدرات عبور مثالية وبلاط إرشادي حسي وتوزيع مقاعد الاستراحة بانتظام.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المكونات الرئيسية</span>
+                    <h3>العناصر المكونة لقطاع مسار المشاة النموذجي</h3>
+                </div>
+                <div class="guide-components-grid">
+                    <div><i class="fas fa-road"></i><strong>المسار الصافي للمشاة (Clear Path)</strong><span>المساحة المخصصة للمشي الحر والمستمر وبدون أي عوائق أو أعمدة.</span></div>
+                    <div><i class="fas fa-bench"></i><strong>منطقة الأثاث والخدمات</strong><span>شريط جانبي يضم مقاعد الجلوس، أعمدة الإضاءة، سلال المهملات، والأشجار.</span></div>
+                    <div><i class="fas fa-person-walking-with-cane"></i><strong>معابر ومنحدرات عبور المشاة</strong><span>منحدرات مريحة وبلاط حسي لتأمين الانتقال الآمن بين الأرصفة عند الشوارع.</span></div>
+                    <div><i class="fas fa-map-signs"></i><strong>لوحات الإرشاد والتوجيه البصري</strong><span>علامات بصرية تحدد الاتجاهات والمسافات نحو الوجهات العامة الهامة المجاورة.</span></div>
+                    <div><i class="fas fa-tree"></i><strong>أشجار التظليل المتتالية</strong><span>أشجار مزروعة بانتظام بموازاة مسار الحركة لتشكيل نفق ظلي طبيعي للمشاة.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المعايير التصميمية</span>
+                    <h3>الضوابط والمقاييس الهندسية المعتمدة للترخيص</h3>
+                </div>
+                <div class="guide-standards-accordion">
+                    <details open>
+                        <summary>استمرارية المناسيب والارتفاعات للمسار</summary>
+                        <p>يُمنع استخدام درجات أو فروق مناسيب مفاجئة بداخله. ويجب الحفاظ على استمرارية ارتفاع الرصيف عند التقاطعات والمداخل، مع توفير منحدرات للمركبات بداخل نطاق المنحنيات لا بداخل الرصيف العام.</p>
+                    </details>
+                    <details>
+                        <summary>السلامة والعبور الآمن للتقاطعات</summary>
+                        <p>يجب تزويد كافة المعابر بمطبات عبور مشاة مرفوعة (Raised Crosswalks) بمستوى الرصيف نفسه (ارتفاع 15 سم) لتأمين عبور متصل وإجبار السيارات على التهدئة، مع توفير إشارات تحذيرية ضوئية وصوتية تفاعلية.</p>
+                    </details>
+                    <details>
+                        <summary>أبعاد المسار الصافي ومقاومة الانزلاق</summary>
+                        <p>يجب ألا يقل عرض المسار الصافي المخصص للمشي الحر (Clear Path) عن 2.0 متر في المسارات المحلية، و 3.0 متر في المماشى الرئيسية لتسهيل حركة شخصين متجاورين أو مستخدم الكرسي المتحرك وعربة الأطفال، مع رصفه بإنترلوك خشن مقاوم للانزلاق.</p>
+                    </details>
+                    <details>
+                        <summary>الإنارة المخصصة والمنتظمة للمشاة</summary>
+                        <p>يُشترط استخدام أعمدة إنارة مخصصة للمشاة (Pedestrian-scale lighting) بارتفاع لا يزيد عن 4.0 أمتار لضمان توزيع ضوئي منتظم على طول الرصيف، وتجنب الاعتماد الكامل على إنارة الشوارع الموجهة للمركبات.</p>
+                    </details>
+                    <details>
+                        <summary>تظليل مسارات المشي بنباتات وأشجار ملائمة</summary>
+                        <p>زراعة أشجار الظل الكثيفة (مثل البونسيانا، والياسمين الهندي، والسدر) على مسافات متقاربة لا تزيد عن 6.0 أمتار بين الشجرة والأخرى، لضمان تشابك الأغصان وتوفير مظلة تظليل مستمرة للمسار الصافي.</p>
+                    </details>
+                    <details>
+                        <summary>معايير الإرشاد البصري واللوحات</summary>
+                        <p>تثبيت لوحات توجيهية وإرشادية بارتفاع مناسب ومقروء لمستوى العين عند كل تقاطع وممشى، تتضمن اسم الوجهة، المسافة بالكيلومتر، والزمن التقريبي للمشي، مع دمج رموز وخرائط مبسطة للفراغات المحيطة.</p>
+                    </details>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
+                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

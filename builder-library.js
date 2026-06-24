@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <h3>${item.name || 'بدون اسم'}</h3>
                     <p>${item.description || 'مقطع طريق محفوظ وجاهز للتعديل.'}</p>
                 </div>
-                <a class="builder-btn primary" href="street-builder.html?id=${item.id}"><i class="fas fa-pen-ruler"></i> فتح</a>
+                <a class="builder-btn primary" href="interactive-street-builder.html?id=${item.id}"><i class="fas fa-pen-ruler"></i> فتح</a>
             </div>
             <div class="builder-library-metrics">
                 <div><span>العرض</span><strong>${totalWidth}</strong></div>

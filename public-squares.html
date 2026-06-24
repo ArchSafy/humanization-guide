@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الساحات العامة | دليل التصميم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="sub-page guide-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html" class="active">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="interactive-street-builder.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
+                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="guide-hero">
+        <div class="container guide-hero-grid">
+            <div class="guide-copy">
+                <div class="breadcrumbs">
+                    <a href="index.html">الرئيسية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <a href="design.html">تصنيفات الفراغات الحضرية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <span>الساحات العامة</span>
+                </div>
+                <h2>إرشادات تصميم الساحات العامة</h2>
+                <p>إطار معايير يهدف لتطوير الساحات كفراغات تجمع عامة نابضة بالحياة تعزز التفاعل الاجتماعي، وتوفر التظليل والتبريد وتدعم الأنشطة الثقافية والتجارية بالمنطقة الشرقية.</p>
+            </div>
+            <div class="guide-visual">
+                <img src="plazas_hero.png" alt="تصميم ساحة حضرية متكاملة">
+            </div>
+        </div>
+    </section>
+
+    <main class="page-content guide-content">
+        <section class="container">
+            <div class="guide-summary">
+                <div>
+                    <strong>3</strong>
+                    <span>أنماط ساحات رئيسية</span>
+                </div>
+                <div>
+                    <strong>5</strong>
+                    <span>مكونات أساسية للساحة</span>
+                </div>
+                <div>
+                    <strong>6</strong>
+                    <span>محاور معايير تصميمية</span>
+                </div>
+            </div>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أهداف التصميم</span>
+                    <h3>الساحات كفراغ حضري حيوي يدعم التلاقي والترابط المجتمعي</h3>
+                </div>
+                <div class="guide-objectives-grid">
+                    <div><i class="fas fa-users"></i><span>توفير فراغات تجمع عامة نابضة بالحياة تدعم الترابط الاجتماعي والتلاقي.</span></div>
+                    <div><i class="fas fa-map-pin"></i><span>خلق معالم مميزة تمنح المدينة نقاط توقف وذاكرة مكانية قوية.</span></div>
+                    <div><i class="fas fa-droplet"></i><span>توفير الراحة المناخية من خلال التظليل الواسع ونوافير المياه والتبريد الطبيعي.</span></div>
+                    <div><i class="fas fa-store"></i><span>تنشيط حواف الساحات من خلال الواجهات التجارية والمقاهي والأكشاك المؤقتة.</span></div>
+                    <div><i class="fas fa-shoe-prints"></i><span>تنظيم حركة المشاة والدخول الآمن للساحات من مختلف الجهات.</span></div>
+                    <div><i class="fas fa-wrench"></i><span>تحقيق سهولة الصيانة واستخدام مواد متينة ملائمة للظروف الجوية المحلية.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أنماط الساحات</span>
+                    <h3>تصنيفات وظيفية تدعم مختلف أشكال التجمعات الحضرية</h3>
+                </div>
+                <div class="guide-type-grid">
+                    <article class="guide-type-card">
+                        <img src="plazas_hero.png" alt="الساحة المركزية للمدينة">
+                        <div>
+                            <span>نمط الساحة</span>
+                            <h4>الساحة المركزية للمدينة (Civic Plaza)</h4>
+                            <p>فراغات شاسعة المساحة تقع في قلب المدينة أو بجوار المباني الحكومية الهامة، ومخصصة للفعاليات الوطنية والتجمعات الكبرى.</p>
+                            <ul>
+                                <li>تصميم رسمي ومواد فخمة كالجرانيت.</li>
+                                <li>نوافير مائية تفاعلية كبرى للتبريد.</li>
+                                <li>إضاءة احتفالية مميزة للساحة.</li>
+                                <li>مساحات مفتوحة مرنة للمعارض والفعاليات.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="regulatory_offsets.png" alt="ساحة الحي السكنية">
+                        <div>
+                            <span>نمط الساحة</span>
+                            <h4>ساحة الحي السكنية (Neighborhood Plaza)</h4>
+                            <p>فراغات تجمع صغيرة الحجم تتوسط المربعات السكنية وتوفر مكاناً يومياً لالتقاء العائلات واستراحة كبار السن.</p>
+                            <ul>
+                                <li>مقاعد مريحة مظللة بالبرجولات الخشبية.</li>
+                                <li>ألعاب أطفال بسيطة وحركية آمنة.</li>
+                                <li>تظليل شجري كثيف وجلسات موزعة.</li>
+                                <li>مسطحات عشبية صغيرة لدعم الترابط.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="pedestrian_hero.png" alt="الساحة التجارية النشطة">
+                        <div>
+                            <span>نمط الساحة</span>
+                            <h4>الساحة التجارية النشطة (Commercial Plaza)</h4>
+                            <p>تقع بجوار الأسواق والمجمعات التجارية والواجهات الحيوية، وتتميز بحركة كثيفة وديناميكية طوال اليوم.</p>
+                            <ul>
+                                <li>أرصفة تتيح جلسات خارجية للمقاهي.</li>
+                                <li>أكشاك بيع وتوزيع مؤقتة منظمة.</li>
+                                <li>أثاث ذو تصميم معاصر ومقاوم للجو.</li>
+                                <li>إضاءة تجميلية دافئة تدعم البيئة.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">مبادئ التصميم</span>
+                    <h3>خمسة مبادئ تدعم حيوية الفراغ التجمعي وأنسنته</h3>
+                </div>
+                <div class="guide-principles-list">
+                    <div><strong>حواف نشطة وجاذبة</strong><span>تفعيل الواجهات المحيطة بالمحلات والأبواب المفتوحة لمنع الانعزال البصري.</span></div>
+                    <div><strong>التنوع الوظيفي</strong><span>توفير عناصر تخدم فئات متعددة (أطفال، شباب، عائلات، كبار سن) في نفس الفراغ.</span></div>
+                    <div><strong>الراحة الحرارية</strong><span>مكافحة شمس الصيف الحارة بالظل المكثف والمسطحات المائية والنباتات المتكيفة.</span></div>
+                    <div><strong>المرونة البنائية</strong><span>تصميم أرضية الساحة بدون عوائق ثابتة لتسهيل تعديل الاستخدام للفعاليات.</span></div>
+                    <div><strong>الهوية والتصميم المحلي</strong><span>استخدام مواد وتفاصيل تعبر عن الطابع البصري التراثي للمنطقة الشرقية.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المكونات الرئيسية</span>
+                    <h3>العناصر المكونة لهيكل الساحات العامة</h3>
+                </div>
+                <div class="guide-components-grid">
+                    <div><i class="fas fa-border-all"></i><strong>الفناء المفتوح أو الساحة</strong><span>مساحة التجمع الرئيسية الممهدة بأرضيات الجرانيت أو الإنترلوك المتين.</span></div>
+                    <div><i class="fas fa-water"></i><strong>النوافير وعناصر المياه</strong><span>توفير رطوبة وتبريد للمناخ مع إضفاء عنصر الحركة الجمالي.</span></div>
+                    <div><i class="fas fa-chair"></i><strong>مقاعد وجلسات التجمع</strong><span>مقاعد فردية وجماعية ومصاطب مبنية مظللة بشكل كافٍ ومريح.</span></div>
+                    <div><i class="fas fa-masks-theater"></i><strong>البرجولات والمسارح المفتوحة</strong><span>منصات تظليل كبرى وأماكن مخصصة للعروض والفعاليات الثقافية المصغرة.</span></div>
+                    <div><i class="fas fa-store"></i><strong>الأكشاك ومناطق الخدمات</strong><span>وحدات بيع وتغذية مصممة بلغة بصرية موحدة متكاملة مع الساحة.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المعايير التصميمية</span>
+                    <h3>الضوابط الهندسية الملزمة لضمان الجودة والاستخدام</h3>
+                </div>
+                <div class="guide-standards-accordion">
+                    <details open>
+                        <summary>معايير التظليل والتغطية للمناطق المفتوحة</summary>
+                        <p>تشترط الإرشادات توفير مظلات صناعية أو أشجار ظل وارفة لتغطية ما لا يقل عن 50% من المساحة الإجمالية المخصصة للمشاة والجلوس، لتقليل درجات الحرارة السطحية والإجهاد الحراري.</p>
+                    </details>
+                    <details>
+                        <summary>معايير تشغيل وصيانة النوافير وعناصر المياه</summary>
+                        <p>استخدام شبكات مياه ري مغلقة وفلاتر تنقية وإعادة تدوير المياه تلقائياً، مع فحص دوري للسلامة الكهربائية لنظم الإضاءة والمضخات الغاطسة لتجنب أي تسريب تيار.</p>
+                    </details>
+                    <details>
+                        <summary>نوعية ومواصفات مواد الأرضيات المعتمدة للساحات</summary>
+                        <p>رصف الساحات ببلاطات جرانيت خشن مقاوم للانزلاق بسماكة لا تقل عن 6 سم للساحات العامة، و 8 سم في مسارات سيارات الخدمة والطوارئ لضمان تحمل الأوزان ودون تآكل أو هبوط.</p>
+                    </details>
+                    <details>
+                        <summary>متطلبات تنشيط الواجهات والحواف</summary>
+                        <p>يمنع استخدام أسوار صماء تحجب الرؤية بين الساحة والمباني المطلة. ويجب أن تكون نسبة الشفافية للواجهات الأرضية المطلة على الساحات (نوافذ وأبواب زجاجية) لا تقل عن 60% لتعزيز المراقبة الطبيعية.</p>
+                    </details>
+                    <details>
+                        <summary>توزيع الإنارة والأمان والجمالية ليلاً</summary>
+                        <p>استخدام دمج ذكي بين الإنارة العامة للساحة من أعمدة مرتفعة موجهة للأسفل وإنارة تجميلية للأشجار والنوافير بضوء دافئ ومريح بصرياً لتهيئة بيئة ليلية جاذبة وآمنة لجميع الفئات.</p>
+                    </details>
+                    <details>
+                        <summary>تأمين وتكامل منحدرات الوصول الشامل</summary>
+                        <p>الالتزام بتوفير منحدرات وصول مريحة بميول لا تزيد عن 1:12 عند جميع مداخل ومخارج الساحات، مع وضع بلاط إرشادي حسي (Tactile Paving) لتوجيه المكفوفين بشكل آمن للساحة.</p>
+                    </details>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
+                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

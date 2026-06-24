@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الزوائد التنظيمية | دليل التصميم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="sub-page guide-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل Mظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html" class="active">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="interactive-street-builder.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
+                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="guide-hero">
+        <div class="container guide-hero-grid">
+            <div class="guide-copy">
+                <div class="breadcrumbs">
+                    <a href="index.html">الرئيسية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <a href="design.html">تصنيفات الفراغات الحضرية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <span>الزوائد التنظيمية</span>
+                </div>
+                <h2>إرشادات تصميم الزوائد التنظيمية</h2>
+                <p>إطار معايير فني يهدف لتهيئة الارتدادات والزوائد التنظيمية وتحويلها إلى مساحات عامة مكملة للأرصفة الحضرية، تدعم حركة المشاة وتمنع الوقوف العشوائي في المنطقة الشرقية.</p>
+            </div>
+            <div class="guide-visual">
+                <img src="regulatory_offsets.png" alt="تصميم الزوائد التنظيمية">
+            </div>
+        </div>
+    </section>
+
+    <main class="page-content guide-content">
+        <section class="container">
+            <div class="guide-summary">
+                <div>
+                    <strong>3</strong>
+                    <span>أنماط ارتدادات رئيسية</span>
+                </div>
+                <div>
+                    <strong>5</strong>
+                    <span>مكونات أساسية للفراغ</span>
+                </div>
+                <div>
+                    <strong>6</strong>
+                    <span>محاور معايير تصميمية</span>
+                </div>
+            </div>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أهداف التصميم</span>
+                    <h3>الارتدادات والزوائد التنظيمية كجزء متكامل وحي من الفراغ العام</h3>
+                </div>
+                <div class="guide-objectives-grid">
+                    <div><i class="fas fa-arrows-alt-h"></i><span>تهيئة وتطوير الارتدادات والزوائد التنظيمية لتكون جزءاً حياً من الفراغ العام.</span></div>
+                    <div><i class="fas fa-walking"></i><span>تعزيز تجربة المشاة وزيادة العرض الصافي للأرصفة الحضرية.</span></div>
+                    <div><i class="fas fa-comments"></i><span>تشجيع التفاعل الاجتماعي والتجمعات الصغيرة المريحة في الفراغات المفتوحة.</span></div>
+                    <div><i class="fas fa-hotel"></i><span>تحسين المشهد البصري للمباني وتكامل واجهاتها مع الرصيف العام.</span></div>
+                    <div><i class="fas fa-cloud-sun"></i><span>توفير مناطق تشجير وظل وجلسات جانبية تدعم الراحة المناخية.</span></div>
+                    <div><i class="fas fa-ban"></i><span>منع العشوائية والاستخدامات غير النظامية للارتدادات والزوائد.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">أنماط الارتدادات والزوائد</span>
+                    <h3>تصنيفات تحدد العلاقة بين حد الملكية وحركة الشارع</h3>
+                </div>
+                <div class="guide-type-grid">
+                    <article class="guide-type-card">
+                        <img src="streets-guide.png" alt="ارتداد المباني التجاري">
+                        <div>
+                            <span>نمط الارتداد</span>
+                            <h4>ارتداد المباني التجاري (Commercial Setback)</h4>
+                            <p>المساحة المخصصة أمام المحلات والمجمعات التجارية والواقعة بين حد الملكية ورصيف المشاة العام.</p>
+                            <ul>
+                                <li>تهيئتها كمسار مشاة إضافي مستمر ومظلل.</li>
+                                <li>توفير جلسات ومقاعد للعامة.</li>
+                                <li>تكامل تام في مناسيب الأرضيات والمواد.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="regulatory_offsets.png" alt="ارتداد المباني السكني">
+                        <div>
+                            <span>نمط الارتداد</span>
+                            <h4>ارتداد المباني السكني (Residential Setback)</h4>
+                            <p>المساحة الأمامية للمباني السكنية المجاورة للشارع والتي يمكن دمجها بصرياً وتجميلياً مع ممر الحركة.</p>
+                            <ul>
+                                <li>استخدام تشجير كثيف لتوفير الخصوصية.</li>
+                                <li>تجنب الأسوار الصماء العالية لجمال الشارع.</li>
+                                <li>تكامل المداخل والمنحدرات بذكاء.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="guide-type-card">
+                        <img src="plazas_hero.png" alt="الزوائد التنظيمية أو الفراغات البينية">
+                        <div>
+                            <span>نمط الارتداد</span>
+                            <h4>الزوائد التنظيمية (Pocket Offsets)</h4>
+                            <p>المساحات الصغيرة المتبقية نتيجة لتغيير الخطوط التنظيمية للشوارع أو زوايا التقاطعات.</p>
+                            <ul>
+                                <li>تحويلها إلى حدائق جيب صغيرة للاستراحة.</li>
+                                <li>تجهيزها بمقاعد وسلال مهملات مناسبة.</li>
+                                <li>أشجار ظل ذات تظليل كبير ووارف.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">مبادئ التصميم</span>
+                    <h3>خمسة مبادئ تدعم تكامل الارتدادات مع الأرصفة العامة</h3>
+                </div>
+                <div class="guide-principles-list">
+                    <div><strong>التكامل البصري والوظيفي</strong><span>دمج الزوائد والارتدادات مع شبكة الأرصفة العامة لتشكل فراغاً حضرياً واحداً.</span></div>
+                    <div><strong>الخصوصية والتفاعل المتوازن</strong><span>توفير الخصوصية للمباني السكنية مع الحفاظ على حيوية وتفاعل المباني التجارية.</span></div>
+                    <div><strong>الراحة والتظليل المناخي</strong><span>زراعة الأشجار المحلية وتثبيت البرجولات والمظلات لتأمين الحماية من شمس الصيف.</span></div>
+                    <div><strong>سهولة الوصول الشامل</strong><span>إلغاء الفروق العشوائية في الارتفاعات وتأمين منحدرات عبور مريحة للجميع.</span></div>
+                    <div><strong>الجودة والمتانة للمواد</strong><span>استخدام مواد أرضيات متينة وسهلة الصيانة وذات ألوان طبيعية متسقة.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المكونات الرئيسية</span>
+                    <h3>العناصر المادية المهيئة للزوائد والارتدادات</h3>
+                </div>
+                <div class="guide-components-grid">
+                    <div><i class="fas fa-couch"></i><strong>مساحات التهيئة والجلوس</strong><span>مناطق جلوس مجهزة بمقاعد برجولات ومقاعد مدمجة مع أحواض النباتات.</span></div>
+                    <div><i class="fas fa-seedling"></i><strong>مناطق التشجير ومغطيات التربة</strong><span>أحواض نباتات منسقة بأشجار ظل كثيفة ومغطيات تربة محلية موفرة للمياه.</span></div>
+                    <div><i class="fas fa-shoe-prints"></i><strong>ممرات المشاة الإضافية</strong><span>مسارات ممهدة للمشي بداخل الارتدادات لزيادة السعة الاستيعابية للمشاة.</span></div>
+                    <div><i class="fas fa-lightbulb"></i><strong>عناصر الإضاءة التجميلية</strong><span>إضاءة الأعمدة القصيرة ووحدات الإضاءة الجدارية الدافئة لتحسين الأمان ليلاً.</span></div>
+                    <div><i class="fas fa-shield-halved"></i><strong>حواجز الحماية والمصدات</strong><span>أعمدة حماية (Bollards) ذات تصميم أنيق لمنع وقوف السيارات العشوائي بداخلها.</span></div>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="guide-section-heading">
+                    <span class="section-kicker">المعايير التصميمية</span>
+                    <h3>الضوابط الهندسية المنظمة لاعتماد تهيئة الارتدادات</h3>
+                </div>
+                <div class="guide-standards-accordion">
+                    <details open>
+                        <summary>معايير الدمج والتسوية للمناسيب</summary>
+                        <p>يُمنع وجود فروق مناسيب أو حواف حادة بين الارتدادات والرصيف العام في القطاعات التجارية، ويجب ربطهما بميول مستمرة خفيفة لضمان حركة مشاة سلسة وآمنة.</p>
+                    </details>
+                    <details>
+                        <summary>اشتراطات التشجير والتظليل البيئي</summary>
+                        <p>زراعة أشجار محلية (مثل الغاف والسدر) على امتداد الارتدادات وتصميم أحواض الزراعة بشكل يسهم في توفير الظل الطبيعي للمشاة والحد من الحرارة السطحية.</p>
+                    </details>
+                    <details>
+                        <summary>نوعية ومواصفات مواد الرصف المعتمدة</summary>
+                        <p>الالتزام باستخدام مواد رصف موحدة أو متكاملة مع مواد الرصيف العام (مثل بلاطات الإنترلوك الخشن أو الجرانيت المطفي بسماكة لا تقل عن 6 سم) لمنع التشويه البصري.</p>
+                    </details>
+                    <details>
+                        <summary>منع الاستخدامات العشوائية والتنظيم للمواقف</summary>
+                        <p>يمنع استخدام الزوائد التنظيمية أو ارتدادات المشاة كمواقف للمركبات بشكل عشوائي، ويجب استخدام أعمدة حماية (Bollards) تجميلية لتأمين الفراغ للمشاة بالكامل.</p>
+                    </details>
+                    <details>
+                        <summary>متطلبات الإنارة والأمان والجمالية ليلاً</summary>
+                        <p>تركيب إضاءات تجميلية دافئة موجهة للأسفل والواجهات لتحسين الرؤية والمظهر الجمالي ليلاً، وتفادي الكشافات الساطعة المزعجة التي تسبب تلوثاً ضوئياً.</p>
+                    </details>
+                    <details>
+                        <summary>الربط الشامل وممرات المشاة المهيأة</summary>
+                        <p>توفير ممرات حركة بعرض لا يقل عن 1.5 متر بداخل الارتداد التجاري للمشاة، مجهزة بمنحدرات مريحة وتتكامل بالكامل مع اشتراطات الوصول الشامل لذوي الإعاقة.</p>
+                    </details>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-map-marker-alt"></i> أمانة المنطقة الشرقية - الدمام</p>
+                <p><i class="fas fa-phone"></i> 940 - مركز البلاغات البلدي</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
