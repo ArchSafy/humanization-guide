@@ -2244,6 +2244,16 @@ async function loadRoadFromLibrary(id) {
     closeLibraryModal();
 }
 
+function openCapacitySourceModal() {
+    const modal = document.getElementById('isb-capacity-source-modal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeCapacitySourceModal() {
+    const modal = document.getElementById('isb-capacity-source-modal');
+    if (modal) modal.style.display = 'none';
+}
+
 async function saveRoad() {
     const statusEl = document.getElementById('isb-save-status');
     const streetInput = document.getElementById('isb-street-name');
