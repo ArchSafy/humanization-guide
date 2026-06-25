@@ -2102,9 +2102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let currentRoadId = null;
 
-async function loadRoadFromDb() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
+async function loadRoadById(id) {
     if (!id) return;
 
     const statusEl = document.getElementById('isb-save-status');
@@ -2142,9 +2140,108 @@ async function loadRoadFromDb() {
         updateStreetHeader(totalWidth);
         setTimeout(zoomToFit, 100);
     } catch (err) {
-        console.error('loadRoadFromDb error:', err);
+        console.error('loadRoadById error:', err);
         if (statusEl) statusEl.textContent = 'خطأ في التحميل';
     }
+}
+
+async function loadRoadFromDb() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (id) {
+        await loadRoadById(id);
+    }
+}
+
+// ─── Library Modal Functions ───────────────────────────────────────────────
+
+function closeLibraryModal() {
+    const modal = document.getElementById('isb-library-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+async function openLibraryModal() {
+    const modal = document.getElementById('isb-library-modal');
+    const grid = document.getElementById('isb-library-modal-grid');
+    const status = document.getElementById('isb-library-modal-status');
+    
+    if (!modal || !grid || !status) return;
+    
+    modal.style.display = 'flex';
+    status.textContent = 'جاري تحميل المشاريع...';
+    grid.innerHTML = '';
+    
+    try {
+        const rows = await window.roadSectionApi.list();
+        if (!rows || !rows.length) {
+            status.textContent = 'لا توجد عناصر محفوظة بعد';
+            grid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--clr-text-muted);">
+                    <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem; color: var(--clr-border);"></i>
+                    <p style="font-size: 1.1rem; font-weight: bold; margin: 0 0 1rem 0; font-family: 'Cairo', sans-serif;">لا توجد شوارع محفوظة في مكتبتك الشخصية بعد</p>
+                    <p style="font-size: 0.9rem; margin: 0;">صمم مقطعاً واضغط على زر "حفظ الطريق" ليظهر هنا لاحقاً.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        status.textContent = `${rows.length} مشروع محفوظ`;
+        
+        rows.forEach(item => {
+            const payload = item.data || {};
+            const lanes = Array.isArray(payload.lanes) ? payload.lanes : [];
+            const totalWidth = typeof payload.totalWidth === 'number'
+                ? `${payload.totalWidth.toFixed(1)} م`
+                : `${lanes.reduce((sum, l) => sum + Number(l.width || 0), 0).toFixed(1)} م`;
+                
+            const card = document.createElement('div');
+            card.style.cssText = 'background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--border-radius); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; cursor: default;';
+            card.onmouseenter = () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.boxShadow = 'var(--shadow-md)';
+                card.style.borderColor = 'var(--clr-primary)';
+            };
+            card.onmouseleave = () => {
+                card.style.transform = 'none';
+                card.style.boxShadow = 'none';
+                card.style.borderColor = 'var(--clr-border)';
+            };
+            
+            card.innerHTML = `
+                <div style="margin-bottom: 1rem; text-align: right;">
+                    <h4 style="font-family: 'Cairo', sans-serif; font-size: 1.1rem; margin: 0 0 0.5rem 0; color: var(--clr-text); font-weight: 800;">${item.name || 'بدون اسم'}</h4>
+                    <p style="font-size: 0.85rem; color: var(--clr-text-muted); margin: 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.description || 'مقطع طريق محفوظ وجاهز للتعديل.'}</p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--clr-border); border-bottom: 1px solid var(--clr-border); padding: 0.5rem 0; margin-bottom: 1rem; font-size: 0.8rem; color: var(--clr-text-muted); direction: rtl;">
+                    <div>العرض: <strong style="color: var(--clr-text);">${totalWidth}</strong></div>
+                    <div>العناصر: <strong style="color: var(--clr-text);">${lanes.length}</strong></div>
+                </div>
+                
+                <button onclick="loadRoadFromLibrary('${item.id}')" class="isb-btn" style="background-color: var(--clr-primary); border-color: var(--clr-primary); color: var(--clr-surface); width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem; font-size: 0.9rem;">
+                    <i class="fas fa-pen-ruler"></i> فتح وتعديل
+                </button>
+            `;
+            grid.appendChild(card);
+        });
+    } catch (err) {
+        console.error('openLibraryModal error:', err);
+        status.textContent = 'تعذّر تحميل المكتبة';
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #d9534f;">
+                <i class="fas fa-circle-exclamation" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p style="font-size: 1.1rem; font-weight: bold; margin: 0 0 0.5rem 0; font-family: 'Cairo', sans-serif;">خطأ في تحميل قاعدة البيانات</p>
+                <p style="font-size: 0.9rem; margin: 0;">تعذر قراءة المكتبة من Supabase. تأكد من إنشاء الجدول وتفعيل صلاحيات القراءة والكتابة له.</p>
+            </div>
+        `;
+    }
+}
+
+async function loadRoadFromLibrary(id) {
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?id=${id}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+    await loadRoadById(id);
+    closeLibraryModal();
 }
 
 async function saveRoad() {
