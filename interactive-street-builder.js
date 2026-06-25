@@ -2296,8 +2296,8 @@ function updateEvaluation(totalWidth) {
 
     if (sequence.length === 0 || totalWidth <= 0) {
         // Reset everything to zero
-        document.getElementById('isb-car-capacity').textContent = `0 مركبة/ساعة`;
-        document.getElementById('isb-bus-capacity').textContent = `0 راكب/ساعة`;
+        document.getElementById('isb-car-capacity').textContent = `0 شخص/ساعة`;
+        document.getElementById('isb-bus-capacity').textContent = `0 شخص/ساعة`;
         document.getElementById('isb-bike-capacity').textContent = `0 شخص/ساعة`;
         document.getElementById('isb-pedestrian-capacity').textContent = `0 شخص/ساعة`;
         document.getElementById('isb-total-person-capacity').textContent = `0 شخص/ساعة`;
@@ -2315,23 +2315,23 @@ function updateEvaluation(totalWidth) {
 
     panel.style.display = 'block';
 
-    // 1. Capacity Calculations
+    // 1. Capacity Calculations (Based on NACTO Minimum Values Reference)
     const carLanesCount = sequence.filter(c => c.id === 'standard_car_lane').length;
-    const carCapacity = carLanesCount * 1600;
+    const carCapacity = carLanesCount * 600; // 600 people/hour per lane (NACTO Min)
 
     const busLanesCount = sequence.filter(c => c.id === 'hov_transit_lane').length;
-    const busCapacity = busLanesCount * 6000;
+    const busCapacity = busLanesCount * 1000; // 1000 people/hour per lane (NACTO Min for Mixed Traffic with Frequent Buses)
 
     const sidewalkWidth = sequence.filter(c => c.id === 'clear_sidewalk').reduce((sum, c) => sum + c.default_width_m, 0);
-    const pedestrianCapacity = Math.round(sidewalkWidth * 400);
+    const pedestrianCapacity = Math.round(sidewalkWidth * 2667); // 8000 per 3m lane (NACTO Min), which is ~2667 per meter
 
     const bikeLanesCount = sequence.filter(c => c.id === 'bike_lane').length;
-    const bikeCapacity = bikeLanesCount * 1200;
+    const bikeCapacity = bikeLanesCount * 3250; // 6500 per 2-way lane (NACTO Min), halved to 3250 for 1-way
     const totalPersonCapacity = Math.round(carCapacity + busCapacity + pedestrianCapacity + bikeCapacity);
 
     // Update Capacity UI
-    document.getElementById('isb-car-capacity').textContent = `${carCapacity.toLocaleString('ar-SA')} مركبة/ساعة`;
-    document.getElementById('isb-bus-capacity').textContent = `${busCapacity.toLocaleString('ar-SA')} راكب/ساعة`;
+    document.getElementById('isb-car-capacity').textContent = `${carCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
+    document.getElementById('isb-bus-capacity').textContent = `${busCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
     document.getElementById('isb-bike-capacity').textContent = `${bikeCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
     document.getElementById('isb-pedestrian-capacity').textContent = `${pedestrianCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
     document.getElementById('isb-total-person-capacity').textContent = `${totalPersonCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
