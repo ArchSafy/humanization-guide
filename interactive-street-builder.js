@@ -43,7 +43,7 @@ const componentData = [
         "category":  "التنقل والبنية التحتية",
         "components":  [
                            {
-                               "color":  "#6ebecf",
+                               "color":  "#8AC645",
                                "default_width_m":  1.2,
                                "description":  "مسار دراجات أحادي الاتجاه معزول عن حركة السيارات.",
                                "id":  "bike_lane",

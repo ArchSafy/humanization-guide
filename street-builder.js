@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'sidewalk', label: 'رصيف مشاة', width: 3.0, color: '#E9E7E2', icon: 'fa-person-walking', direction: 'none', variant: 'sidewalk' },
         { type: 'frontage', label: 'واجهة مقاهي', width: 3.5, color: '#E4DED3', icon: 'fa-mug-saucer', direction: 'none', variant: 'frontage' },
         { type: 'planting', label: 'شريط تشجير', width: 1.5, color: '#7B967E', icon: 'fa-tree', direction: 'none', variant: 'planting' },
-        { type: 'bike', label: 'مسار دراجات', width: 2.0, color: '#6EBECF', icon: 'fa-bicycle', direction: 'right', variant: 'bike' },
+        { type: 'bike', label: 'مسار دراجات', width: 2.0, color: '#8AC645', icon: 'fa-bicycle', direction: 'right', variant: 'bike' },
         { type: 'parking', label: 'مواقف طولية', width: 2.5, color: '#C8AB99', icon: 'fa-square-parking', direction: 'none', variant: 'parallel' },
         { type: 'parking45', label: 'مواقف 45°', width: 5.0, color: '#BDB4AC', icon: 'fa-square-parking', direction: 'none', variant: 'angle45' },
         { type: 'parking90', label: 'مواقف 90°', width: 5.5, color: '#9A806E', icon: 'fa-square-parking', direction: 'none', variant: 'angle90' },
