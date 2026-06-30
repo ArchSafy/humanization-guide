@@ -757,6 +757,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     transform: `rotate(${rotation} ${centerX} ${bike1Y})`
                 }));
 
+                // Pavement Bicycle Symbol in the middle
+                const symH = 40;
+                const symW = symH * 1.58;
+                const symbolY = planY + planHeight * 0.5;
+                const symbolRotation = (lane.direction === 'left') ? 90 : 270;
+                group.appendChild(svgEl('image', {
+                    href: 'assets/bicycle symbol.png',
+                    x: centerX - symW / 2,
+                    y: symbolY - symH / 2,
+                    width: symW,
+                    height: symH,
+                    preserveAspectRatio: 'xMidYMid meet',
+                    transform: `rotate(${symbolRotation} ${centerX} ${symbolY})`
+                }));
+
                 const bike2Y = planY + planHeight * 0.75;
                 group.appendChild(svgEl('image', {
                     href: 'assets/bike top.png',

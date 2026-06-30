@@ -1635,6 +1635,22 @@ function renderDualView(totalWidth) {
                 preserveAspectRatio: 'xMidYMid meet',
                 transform: rotation ? `rotate(${rotation} ${bikeX} ${bike1Y})` : ''
             }));            
+
+            // Pavement Bicycle Symbol in the middle
+            const symH = 40;
+            const symW = symH * 1.58;
+            const symbolY = planY + planHeight * 0.5;
+            const symbolRotation = useBackView ? 270 : 90;
+            fgGroup.appendChild(createSvgElement('image', {
+                href: 'assets/bicycle symbol.png',
+                x: bikeX - symW / 2,
+                y: symbolY - symH / 2,
+                width: symW,
+                height: symH,
+                preserveAspectRatio: 'xMidYMid meet',
+                transform: `rotate(${symbolRotation} ${bikeX} ${symbolY})`
+            }));
+
             const bike2Y = planY + planHeight * 0.75;
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/bike top.png',
