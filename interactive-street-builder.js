@@ -620,6 +620,14 @@ function toggleLighting(instanceId) {
     }
 }
 
+function toggleBikeLaneLevel(instanceId) {
+    const comp = sequence.find(c => c.instanceId === instanceId);
+    if (comp) {
+        comp.isStreetLevel = !comp.isStreetLevel;
+        renderSequence();
+    }
+}
+
 function renderSequence() {
     const sequenceContainer = document.getElementById('isb-sequence-container');
     const emptyState = document.getElementById('isb-empty-state');
@@ -655,9 +663,10 @@ function renderSequence() {
         item.dataset.instanceId = comp.instanceId;
         
         const hasVeg = comp.id === 'median_island' || comp.id === 'urban_furniture_buffer';
+        const hasButtons = hasVeg || comp.id === 'median_island' || comp.id === 'urban_furniture_buffer' || comp.id === 'bike_lane';
         const baseWidth = Math.max(80, comp.default_width_m * 30);
         item.style.width = (baseWidth * zoomLevel) + 'px';
-        item.style.height = (((hasVeg ? 105 : 80) * zoomLevel)) + 'px';
+        item.style.height = (((hasButtons ? 105 : 80) * zoomLevel)) + 'px';
         item.style.fontSize = (12 * zoomLevel) + 'px';
         item.style.padding = '0';
         item.style.backgroundColor = comp.color;
@@ -695,6 +704,15 @@ function renderSequence() {
             `;
         }
 
+        let bikeLevelBtnHtml = '';
+        if (comp.id === 'bike_lane') {
+            bikeLevelBtnHtml = `
+                <button class="isb-toggle-bike-level-btn" onclick="toggleBikeLaneLevel(${comp.instanceId})" style="margin-top: 5px; padding: 2px 4px; font-size: ${9 * zoomLevel}px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); background: rgba(255,255,255,0.85); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: bold; color: #333; outline: none; line-height: 1; height: ${18 * zoomLevel}px;">
+                    ${comp.isStreetLevel ? 'مستوى الشارع 🛣️' : 'مستوى الرصيف 🏙️'}
+                </button>
+            `;
+        }
+
         item.innerHTML = `
             <button class="remove-btn" style="width: ${18 * zoomLevel}px; height: ${18 * zoomLevel}px; font-size: ${10 * zoomLevel}px;" onclick="removeComponent(${comp.instanceId})"><i class="fas fa-times"></i></button>
             <div class="isb-card-content-wrapper">
@@ -708,6 +726,7 @@ function renderSequence() {
                     <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; width: 100%;">
                         ${vegBtnHtml}
                         ${lightBtnHtml}
+                        ${bikeLevelBtnHtml}
                     </div>
                 </div>
                 <div class="isb-card-right-col" style="width: ${20 * zoomLevel}px;">
@@ -904,7 +923,7 @@ function renderDualView(totalWidth) {
         const isRaised = comp.id === 'commercial_edge' || 
                          comp.id === 'clear_sidewalk' || 
                          comp.id === 'residential_edge' || 
-                         comp.id === 'bike_lane' || 
+                         (comp.id === 'bike_lane' && comp.isStreetLevel !== true) || 
                          comp.id === 'urban_furniture_buffer' || 
                          comp.id === 'median_island' ||
                          comp.id === 'seafront' ||
@@ -932,7 +951,7 @@ function renderDualView(totalWidth) {
             const isPrevRaised = prevComp.id === 'commercial_edge' || 
                                  prevComp.id === 'clear_sidewalk' || 
                                  prevComp.id === 'residential_edge' || 
-                                 prevComp.id === 'bike_lane' || 
+                                 (prevComp.id === 'bike_lane' && prevComp.isStreetLevel !== true) || 
                                  prevComp.id === 'urban_furniture_buffer' || 
                                  prevComp.id === 'median_island' ||
                                  prevComp.id === 'seafront' ||
@@ -2299,6 +2318,7 @@ async function saveRoad() {
 }
 
 window.saveRoad = saveRoad;
+window.toggleBikeLaneLevel = toggleBikeLaneLevel;
 
 function updateEvaluation(totalWidth) {
     const panel = document.getElementById('isb-evaluation-panel');
