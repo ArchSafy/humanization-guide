@@ -1158,7 +1158,7 @@ function renderDualView(totalWidth) {
             const bikeW = 24;
             const bikeH = 70;
             fgGroup.appendChild(createSvgElement('image', {
-                href: useBackView ? 'assets/bike back.png' : 'assets/bike front.png',
+                href: useBackView ? 'assets/bike back 2.png' : 'assets/bike front 2.png',
                 x: currentX + widthPx/2 - bikeW/2,
                 y: compY - bikeH,
                 width: bikeW,

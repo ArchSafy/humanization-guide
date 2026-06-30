@@ -729,7 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const bikeW = 24;
                 const bikeH = 70;
                 group.appendChild(svgEl('image', {
-                    href: isRightSide ? 'assets/bike back.png' : 'assets/bike front.png',
+                    href: isRightSide ? 'assets/bike back 2.png' : 'assets/bike front 2.png',
                     x: centerX - bikeW / 2,
                     y: sectionGroundY - bikeH,
                     width: bikeW,
