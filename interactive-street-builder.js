@@ -346,7 +346,7 @@ let carDrawCount = 0;
 function calculateStreetWidth() {
     let total = 0;
     sequence.forEach(c => {
-        if (c.id !== 'commercial_edge' && c.id !== 'residential_edge') {
+        if (c.id !== 'commercial_edge' && c.id !== 'residential_edge' && c.id !== 'seafront') {
             total += c.default_width_m;
         }
     });
@@ -672,7 +672,7 @@ function renderSequence() {
     let totalWidth = 0;
     
     sequence.forEach(comp => {
-        if (comp.id !== 'commercial_edge' && comp.id !== 'residential_edge') {
+        if (comp.id !== 'commercial_edge' && comp.id !== 'residential_edge' && comp.id !== 'seafront') {
             totalWidth += comp.default_width_m;
         }
         
@@ -2326,7 +2326,7 @@ async function saveRoad() {
         showPalm: !!c.showPalm,
         showLight: !!c.showLight
     }));
-    const totalWidth = Number(lanes.filter(l => l.id !== 'commercial_edge' && l.id !== 'residential_edge').reduce((s, l) => s + Number(l.width), 0).toFixed(1));
+    const totalWidth = Number(lanes.filter(l => l.id !== 'commercial_edge' && l.id !== 'residential_edge' && l.id !== 'seafront').reduce((s, l) => s + Number(l.width), 0).toFixed(1));
 
     const payload = {
         name,
