@@ -10,7 +10,7 @@ const componentData = [
                                "name":  "حد تجاري"
                            },
                            {
-                               "color":  "#dcdedd",
+                               "color":  "#4C7B9C",
                                "default_width_m":  3,
                                "description":  "مسار حركة خالي من العوائق ومخصص بالكامل لحركة المشاة.",
                                "id":  "clear_sidewalk",

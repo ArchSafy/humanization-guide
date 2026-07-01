@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
 
     const moduleTypes = [
-        { type: 'sidewalk', label: 'رصيف مشاة', width: 3.0, color: '#E9E7E2', icon: 'fa-person-walking', direction: 'none', variant: 'sidewalk' },
+        { type: 'sidewalk', label: 'رصيف مشاة', width: 3.0, color: '#4C7B9C', icon: 'fa-person-walking', direction: 'none', variant: 'sidewalk' },
         { type: 'frontage', label: 'واجهة مقاهي', width: 3.5, color: '#E4DED3', icon: 'fa-mug-saucer', direction: 'none', variant: 'frontage' },
         { type: 'planting', label: 'شريط تشجير', width: 1.5, color: '#909C28', icon: 'fa-tree', direction: 'none', variant: 'planting' },
         { type: 'bike', label: 'مسار دراجات', width: 2.0, color: '#8AC645', icon: 'fa-bicycle', direction: 'right', variant: 'bike' },
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             type: lane.type,
             label: lane.label || template.label || 'عنصر',
             width: Number(lane.width || template.width || 1),
-            color: lane.color || template.color || '#E9E7E2',
+            color: lane.color || template.color || '#4C7B9C',
             direction: lane.direction || template.direction || 'none',
             variant: lane.variant || template.variant || 'custom'
         };
@@ -554,7 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lane.type === 'median') return '#909C28';
             if (lane.type.startsWith('parking')) return '#CDB5A6';
             if (lane.type === 'frontage') return '#D7B4A3';
-            return '#E9E7E2';
+            return '#4C7B9C';
         };
 
         const renderPlanCar = (group, x, y, w, h, fill = '#DDE3E3', direction = 'right', angle = 0) => {
