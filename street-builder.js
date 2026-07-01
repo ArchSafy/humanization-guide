@@ -726,6 +726,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     carFill,
                     lane.direction
                 );
+                
+                if (lane.type === 'bus') {
+                    const symbolW = 90;
+                    const symbolH = symbolW * (557 / 924);
+                    const symbolY = planY + planHeight * 0.8;
+                    const isRightDirection = lane.direction !== 'left';
+                    const symbolRotation = isRightDirection ? 90 : 270;
+                    group.appendChild(svgEl('image', {
+                        href: 'assets/Bus Stop Floor Symbol.png',
+                        x: centerX - symbolW/2,
+                        y: symbolY - symbolH/2,
+                        width: symbolW,
+                        height: symbolH,
+                        preserveAspectRatio: 'xMidYMid meet',
+                        transform: `rotate(${symbolRotation} ${centerX} ${symbolY})`
+                    }));
+                }
             }
 
             if (lane.type === 'bike') {
