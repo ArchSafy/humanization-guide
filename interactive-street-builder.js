@@ -1520,8 +1520,8 @@ function renderDualView(totalWidth) {
             const symbolW = 90;
             const symbolH = symbolW * (557 / 924);
             const symbolX = currentX + widthPx/2;
-            const symbolY = planY + planHeight * 0.8;
-            const symbolRotation = isRightSide ? 90 : 270;
+            const symbolY = isRightSide ? (planY + planHeight * 0.2) : (planY + planHeight * 0.8);
+            const symbolRotation = 270;
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/Bus Stop Floor Symbol.png',
                 x: symbolX - symbolW/2,
@@ -1529,7 +1529,7 @@ function renderDualView(totalWidth) {
                 width: symbolW,
                 height: symbolH,
                 preserveAspectRatio: 'xMidYMid meet',
-                transform: symbolRotation ? `rotate(${symbolRotation} ${symbolX} ${symbolY})` : ''
+                transform: `rotate(${symbolRotation} ${symbolX} ${symbolY})`
             }));
         } else if (comp.id === 'flex_zone') {
             const carW = 76;

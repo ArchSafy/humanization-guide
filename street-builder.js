@@ -730,9 +730,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (lane.type === 'bus') {
                     const symbolW = 90;
                     const symbolH = symbolW * (557 / 924);
-                    const symbolY = planY + planHeight * 0.8;
                     const isRightDirection = lane.direction !== 'left';
-                    const symbolRotation = isRightDirection ? 90 : 270;
+                    const symbolY = isRightDirection ? (planY + planHeight * 0.2) : (planY + planHeight * 0.8);
+                    const symbolRotation = 270;
                     group.appendChild(svgEl('image', {
                         href: 'assets/Bus Stop Floor Symbol.png',
                         x: centerX - symbolW/2,
