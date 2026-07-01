@@ -1521,7 +1521,7 @@ function renderDualView(totalWidth) {
             const symbolH = symbolW * (557 / 924);
             const symbolX = currentX + widthPx/2;
             const symbolY = isRightSide ? (planY + planHeight * 0.2) : (planY + planHeight * 0.8);
-            const symbolRotation = 270;
+            const symbolRotation = isRightSide ? 90 : 270;
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/Bus Stop Floor Symbol.png',
                 x: symbolX - symbolW/2,
