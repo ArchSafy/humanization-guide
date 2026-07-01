@@ -343,6 +343,24 @@ let draggedInstanceId = null;
 let dragOverIndex = null;
 let carDrawCount = 0;
 
+function calculateStreetWidth() {
+    let total = 0;
+    sequence.forEach(c => {
+        if (c.id !== 'commercial_edge' && c.id !== 'residential_edge') {
+            total += c.default_width_m;
+        }
+    });
+    return total;
+}
+
+function calculateVisualTotalWidth() {
+    let total = 0;
+    sequence.forEach(c => {
+        total += c.default_width_m;
+    });
+    return total;
+}
+
 function updateStreetHeader(totalWidth) {
     const streetInput = document.getElementById('isb-street-name');
     const renderTitle = document.getElementById('isb-render-title');
@@ -541,8 +559,7 @@ function updateComponentWidth(instanceId, val) {
             card.style.width = (Math.max(80, width * 30) * zoomLevel) + 'px';
         }
         
-        let totalWidth = 0;
-        sequence.forEach(c => totalWidth += c.default_width_m);
+        const totalWidth = calculateStreetWidth();
         document.getElementById('isb-total-width').textContent = `إجمالي عرض الشارع: ${totalWidth.toFixed(1)} م`;
         updateStreetHeader(totalWidth);
         renderDualView(totalWidth);
@@ -593,8 +610,7 @@ function adjustComponentWidth(instanceId, delta) {
             card.style.width = (Math.max(80, newWidth * 30) * zoomLevel) + 'px';
         }
         
-        let totalWidth = 0;
-        sequence.forEach(c => totalWidth += c.default_width_m);
+        const totalWidth = calculateStreetWidth();
         document.getElementById('isb-total-width').textContent = `إجمالي عرض الشارع: ${totalWidth.toFixed(1)} م`;
         if (typeof updateStreetHeader === 'function') {
             updateStreetHeader(totalWidth);
@@ -656,7 +672,9 @@ function renderSequence() {
     let totalWidth = 0;
     
     sequence.forEach(comp => {
-        totalWidth += comp.default_width_m;
+        if (comp.id !== 'commercial_edge' && comp.id !== 'residential_edge') {
+            totalWidth += comp.default_width_m;
+        }
         
         const item = document.createElement('div');
         item.className = 'isb-sequence-item';
@@ -763,6 +781,8 @@ function renderDualView(totalWidth) {
     const svg = document.getElementById('isb-svg-canvas');
     svg.innerHTML = '';
     
+    const visualTotalWidth = calculateVisualTotalWidth();
+    
     let carDrawCount = 0;
     const getCarSize = (model) => {
         const isAlt1 = model.front.includes('Alt 01');
@@ -771,7 +791,7 @@ function renderDualView(totalWidth) {
     };
     
     const scale = 40; // 40px = 1 meter
-    const svgWidth = Math.max(800, totalWidth * scale + 100);
+    const svgWidth = Math.max(800, visualTotalWidth * scale + 100);
     const svgHeight = 820;
     
     svg.setAttribute('viewBox', `-250 -200 ${svgWidth + 500} 1450`);
@@ -821,7 +841,7 @@ function renderDualView(totalWidth) {
     const seafrontRightExtension = buildingWidthForBg - blockWallLeftOffset;
     
     const skyLeftX = (sequence.length > 0 && sequence[0].id === 'seafront') ? (startX - blockWallRightOffset) : startX;
-    const skyRightX = (sequence.length > 0 && sequence[sequence.length - 1].id === 'seafront') ? (startX + totalWidth * scale + seafrontRightExtension) : (startX + totalWidth * scale);
+    const skyRightX = (sequence.length > 0 && sequence[sequence.length - 1].id === 'seafront') ? (startX + visualTotalWidth * scale + seafrontRightExtension) : (startX + visualTotalWidth * scale);
     const skyWidth = skyRightX - skyLeftX;
     
     const skyBottomY = hasSeafront 
@@ -1817,10 +1837,7 @@ function setZoom(level) {
 }
 
 function zoomToFit() {
-    let totalWidth = 0;
-    sequence.forEach(comp => {
-        totalWidth += comp.default_width_m;
-    });
+    const totalWidth = calculateVisualTotalWidth();
     if (totalWidth === 0) return;
     
     const container = document.getElementById('isb-dropzone');
@@ -1945,8 +1962,7 @@ function prepareClonedSvg(svg) {
     const streetName = (streetInput && streetInput.value.trim()) || "شارع غير مسمى";
     const primaryColor = window.getComputedStyle(document.documentElement).getPropertyValue('--clr-primary').trim() || '#A57F61';
     
-    let totalWidth = 0;
-    sequence.forEach(c => totalWidth += c.default_width_m);
+    const totalWidth = calculateStreetWidth();
     
     const textEl = createSvgElement('text', {
         x: '50', // startX is 50
@@ -2133,8 +2149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const streetInput = document.getElementById('isb-street-name');
     if (streetInput) {
         streetInput.addEventListener('input', () => {
-            let totalWidth = 0;
-            sequence.forEach(c => totalWidth += c.default_width_m);
+            const totalWidth = calculateStreetWidth();
             updateStreetHeader(totalWidth);
         });
     }
@@ -2178,8 +2193,7 @@ async function loadRoadById(id) {
 
         renderSequence();
         
-        let totalWidth = 0;
-        sequence.forEach(c => totalWidth += c.default_width_m);
+        const totalWidth = calculateStreetWidth();
         if (statusEl) statusEl.textContent = 'تم التحميل';
         updateStreetHeader(totalWidth);
         setTimeout(zoomToFit, 100);
@@ -2312,7 +2326,7 @@ async function saveRoad() {
         showPalm: !!c.showPalm,
         showLight: !!c.showLight
     }));
-    const totalWidth = Number(lanes.reduce((s, l) => s + Number(l.width), 0).toFixed(1));
+    const totalWidth = Number(lanes.filter(l => l.id !== 'commercial_edge' && l.id !== 'residential_edge').reduce((s, l) => s + Number(l.width), 0).toFixed(1));
 
     const payload = {
         name,
