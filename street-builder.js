@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const moduleTypes = [
         { type: 'sidewalk', label: 'رصيف مشاة', width: 3.0, color: '#E9E7E2', icon: 'fa-person-walking', direction: 'none', variant: 'sidewalk' },
         { type: 'frontage', label: 'واجهة مقاهي', width: 3.5, color: '#E4DED3', icon: 'fa-mug-saucer', direction: 'none', variant: 'frontage' },
-        { type: 'planting', label: 'شريط تشجير', width: 1.5, color: '#7B967E', icon: 'fa-tree', direction: 'none', variant: 'planting' },
+        { type: 'planting', label: 'شريط تشجير', width: 1.5, color: '#909C28', icon: 'fa-tree', direction: 'none', variant: 'planting' },
         { type: 'bike', label: 'مسار دراجات', width: 2.0, color: '#8AC645', icon: 'fa-bicycle', direction: 'right', variant: 'bike' },
         { type: 'parking', label: 'مواقف طولية', width: 2.5, color: '#C8AB99', icon: 'fa-square-parking', direction: 'none', variant: 'parallel' },
         { type: 'parking45', label: 'مواقف 45°', width: 5.0, color: '#BDB4AC', icon: 'fa-square-parking', direction: 'none', variant: 'angle45' },
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'driving', label: 'حارة مركبات', width: 3.3, color: '#555D71', icon: 'fa-car-side', direction: 'right', variant: 'driving' },
         { type: 'bus', label: 'حارة حافلات', width: 3.5, color: '#F7C86B', icon: 'fa-bus', direction: 'right', variant: 'bus' },
         { type: 'busstop', label: 'موقف حافلات', width: 3.0, color: '#D2A747', icon: 'fa-bus-simple', direction: 'none', variant: 'stop' },
-        { type: 'median', label: 'جزيرة وسطية', width: 2.0, color: '#A57F61', icon: 'fa-grip-lines-vertical', direction: 'none', variant: 'median' },
+        { type: 'median', label: 'جزيرة وسطية', width: 2.0, color: '#909C28', icon: 'fa-grip-lines-vertical', direction: 'none', variant: 'median' },
         { type: 'service', label: 'حارة خدمة', width: 3.0, color: '#9A806E', icon: 'fa-truck', direction: 'right', variant: 'service' }
     ];
 
@@ -540,9 +540,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const getLaneSurface = (lane) => {
             if (lane.type === 'driving' || lane.type === 'service') return '#7B8190';
             if (lane.type === 'bus') return '#6D7484';
-            if (lane.type === 'bike') return '#83C8D5';
-            if (lane.type === 'planting') return '#9BB39B';
-            if (lane.type === 'median') return '#B99678';
+            if (lane.type === 'bike') return '#8AC645';
+            if (lane.type === 'planting') return '#909C28';
+            if (lane.type === 'median') return '#909C28';
             if (lane.type.startsWith('parking')) return '#CDB5A6';
             if (lane.type === 'frontage') return '#D7B4A3';
             return '#E9E7E2';

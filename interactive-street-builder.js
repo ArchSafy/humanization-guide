@@ -24,7 +24,7 @@ const componentData = [
                                "name":  "حد سكني"
                            },
                            {
-                               "color":  "#b8a392",
+                               "color":  "#909C28",
                                "default_width_m":  1,
                                "description":  "يحتوي على الإنارة، سلال النفايات، اللوحات الإرشادية، والمسطحات الخضراء المنخفضة.",
                                "id":  "urban_furniture_buffer",
@@ -71,7 +71,7 @@ const componentData = [
                                "name":  "مواقف بزاوية 90°"
                            },
                            {
-                               "color":  "#9bb39b",
+                               "color":  "#909C28",
                                "default_width_m":  2,
                                "description":  "فاصل وسطي يحتوي على إنارة الشارع، التشجير، أو مساحة أمان للمشاة.",
                                "id":  "median_island",
