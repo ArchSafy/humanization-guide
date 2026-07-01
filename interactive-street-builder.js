@@ -877,9 +877,18 @@ function renderDualView(totalWidth) {
     };
 
     const drawPersonSeeded = (group, x, y, laneSeed, personIdx) => {
-        const seed = laneSeed + personIdx * 13.7;
-        const rand = seededRandom(seed);
-        const personIndex = Math.floor(rand * peopleAssets.length);
+        const indices = [0, 1, 2, 3, 4, 5, 6, 7];
+        let currentSeed = laneSeed;
+        for (let i = indices.length - 1; i > 0; i--) {
+            currentSeed = currentSeed + i * 17.3;
+            const rand = seededRandom(currentSeed);
+            const j = Math.floor(rand * (i + 1));
+            const temp = indices[i];
+            indices[i] = indices[j];
+            indices[j] = temp;
+        }
+        
+        const personIndex = indices[personIdx % indices.length];
         const person = peopleAssets[personIndex];
         const yOffset = 0;
         const offsetY = person.offsetY || 0;
