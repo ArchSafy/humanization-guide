@@ -2421,24 +2421,26 @@ function updateEvaluation(totalWidth) {
     document.getElementById('isb-total-person-capacity').textContent = `${totalPersonCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
 
     // 2. Humanization Score
+    const visualTotalWidth = calculateVisualTotalWidth();
     const pedestrianWidth = sequence.filter(c => ['clear_sidewalk', 'commercial_edge', 'residential_edge', 'seafront'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
     const greenWidth = sequence.filter(c => ['urban_furniture_buffer', 'median_island'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
     const cyclingWidth = sequence.filter(c => c.id === 'bike_lane').reduce((sum, c) => sum + c.default_width_m, 0);
     const transitWidth = sequence.filter(c => ['hov_transit_lane', 'bus_station'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
 
-    const pedestrianPct = totalWidth > 0 ? (pedestrianWidth / totalWidth) * 100 : 0;
-    const greenPct = totalWidth > 0 ? (greenWidth / totalWidth) * 100 : 0;
-    const cyclingPct = totalWidth > 0 ? (cyclingWidth / totalWidth) * 100 : 0;
-    const transitPct = totalWidth > 0 ? (transitWidth / totalWidth) * 100 : 0;
+    const pedestrianPct = visualTotalWidth > 0 ? (pedestrianWidth / visualTotalWidth) * 100 : 0;
+    const greenPct = visualTotalWidth > 0 ? (greenWidth / visualTotalWidth) * 100 : 0;
+    const cyclingPct = visualTotalWidth > 0 ? (cyclingWidth / visualTotalWidth) * 100 : 0;
+    const transitPct = visualTotalWidth > 0 ? (transitWidth / visualTotalWidth) * 100 : 0;
 
-    let baseScore = (pedestrianPct * 0.40) + (greenPct * 0.25) + (cyclingPct * 0.20) + (transitPct * 0.15);
+    let baseRatio = pedestrianPct + greenPct + cyclingPct + transitPct;
     
     let bonus = 0;
-    if (sequence.some(c => c.id === 'urban_furniture_buffer')) bonus += 5;
-    if (sequence.some(c => c.id === 'median_island')) bonus += 3;
-    if (sequence.some(c => c.id === 'seafront')) bonus += 3;
+    if (sequence.some(c => c.id === 'bike_lane')) bonus += 5;
+    if (sequence.some(c => c.id === 'hov_transit_lane' || c.id === 'bus_station')) bonus += 5;
+    if (sequence.some(c => c.id === 'urban_furniture_buffer' || c.id === 'median_island')) bonus += 5;
+    if (sequence.some(c => c.id === 'seafront')) bonus += 5;
 
-    let humanizationScore = Math.min(100, Math.round(baseScore + bonus));
+    let humanizationScore = Math.min(100, Math.round(baseRatio + bonus));
 
     // Update Humanization UI
     document.getElementById('isb-humanization-score').textContent = `${humanizationScore}%`;
