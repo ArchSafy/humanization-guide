@@ -36,6 +36,13 @@ const componentData = [
                                "description":  "واجهة كورنيش بحرية تحتوي على حواجز حماية وإطلالة بحرية، تتكيف تلقائياً حسب موقعها في الشارع.",
                                "id":  "seafront",
                                "name":  "حد بحري"
+                           },
+                           {
+                               "color":  "#7f8c8d",
+                               "default_width_m":  0.5,
+                               "description":  "حاجز لحماية المشاة ومنع دخول المركبات إلى الأرصفة.",
+                               "id":  "bollard",
+                               "name":  "حاجز مشاة (بولارد)"
                            }
                        ]
     },
@@ -1247,6 +1254,17 @@ function renderDualView(totalWidth) {
                     preserveAspectRatio: 'none'
                 }));
             }
+        } else if (comp.id === 'bollard') {
+            const bollardW = 12;
+            const bollardH = 35;
+            fgGroup.appendChild(createSvgElement('image', {
+                href: 'assets/Furniture/Bollard.png',
+                x: currentX + widthPx/2 - bollardW/2,
+                y: compY - bollardH,
+                width: bollardW,
+                height: bollardH,
+                preserveAspectRatio: 'xMidYMax meet'
+            }));
         } else if (comp.id.includes('sidewalk') || comp.id.includes('edge') || comp.id.includes('seafront')) {
             const isSeafront = comp.id === 'seafront';
             if (comp.id === 'residential_edge' || comp.id === 'commercial_edge' || isSeafront) {
@@ -1793,6 +1811,30 @@ function renderDualView(totalWidth) {
                     'stroke-width': '1'
                 }));
             });
+        } else if (comp.id === 'bollard') {
+            for (let ix = currentX + 10; ix < currentX + widthPx; ix += 20) {
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
+                }));
+            }
+            for (let iy = planY + 10; iy < planY + planHeight; iy += 20) {
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
+                }));
+            }
+
+            const bollardRadius = 5;
+            const spacing = 100;
+            for (let y = planY + spacing / 2; y < planY + planHeight; y += spacing) {
+                fgGroup.appendChild(createSvgElement('circle', {
+                    cx: currentX + widthPx / 2,
+                    cy: y,
+                    r: bollardRadius,
+                    fill: '#7f8c8d',
+                    stroke: '#2c3e50',
+                    'stroke-width': '1.5'
+                }));
+            }
         } else if (comp.id.includes('sidewalk') || comp.id.includes('edge') || comp.id.includes('seafront')) {
             for (let ix = currentX + 10; ix < currentX + widthPx; ix += 20) {                bgGroup.appendChild(createSvgElement('line', {
                     x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
@@ -2422,7 +2464,7 @@ function updateEvaluation(totalWidth) {
 
     // 2. Humanization Score
     const visualTotalWidth = calculateVisualTotalWidth();
-    const pedestrianWidth = sequence.filter(c => ['clear_sidewalk', 'commercial_edge', 'residential_edge', 'seafront'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
+    const pedestrianWidth = sequence.filter(c => ['clear_sidewalk', 'commercial_edge', 'residential_edge', 'seafront', 'bollard'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
     const greenWidth = sequence.filter(c => ['urban_furniture_buffer', 'median_island'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
     const cyclingWidth = sequence.filter(c => c.id === 'bike_lane').reduce((sum, c) => sum + c.default_width_m, 0);
     const transitWidth = sequence.filter(c => ['hov_transit_lane', 'bus_station'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
@@ -2476,6 +2518,7 @@ function updateEvaluation(totalWidth) {
     let safetyScore = 30;
     if (sequence.some(c => c.id === 'bike_lane')) safetyScore += 30;
     if (sequence.some(c => c.id === 'urban_furniture_buffer')) safetyScore += 20;
+    if (sequence.some(c => c.id === 'bollard')) safetyScore += 20;
     if (sequence.some(c => c.id === 'median_island')) safetyScore += 10;
     if (sequence.some(c => c.id === 'seafront')) safetyScore += 10;
     safetyScore = Math.min(100, safetyScore);
@@ -2484,6 +2527,7 @@ function updateEvaluation(totalWidth) {
     let qualityScore = Math.min(70, Math.round(pedestrianPct * 1.5));
     if (sequence.some(c => c.id === 'bus_station')) qualityScore += 15;
     if (sequence.some(c => c.id === 'urban_furniture_buffer')) qualityScore += 15;
+    if (sequence.some(c => c.id === 'bollard')) qualityScore += 10;
     qualityScore = Math.min(100, qualityScore);
     document.getElementById('isb-quality-score').textContent = `${qualityScore}%`;
 }

@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'bus', label: 'حارة حافلات', width: 3.5, color: '#F7C86B', icon: 'fa-bus', direction: 'right', variant: 'bus' },
         { type: 'busstop', label: 'موقف حافلات', width: 3.0, color: '#D2A747', icon: 'fa-bus-simple', direction: 'none', variant: 'stop' },
         { type: 'median', label: 'جزيرة وسطية', width: 2.0, color: '#909C28', icon: 'fa-grip-lines-vertical', direction: 'none', variant: 'median' },
-        { type: 'service', label: 'حارة خدمة', width: 3.0, color: '#9A806E', icon: 'fa-truck', direction: 'right', variant: 'service' }
+        { type: 'service', label: 'حارة خدمة', width: 3.0, color: '#9A806E', icon: 'fa-truck', direction: 'right', variant: 'service' },
+        { type: 'bollard', label: 'حاجز مشاة (بولارد)', width: 0.5, color: '#7F8C8D', icon: 'fa-ban', direction: 'none', variant: 'bollard' }
     ];
 
     const presets = {
@@ -554,6 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lane.type === 'median') return '#909C28';
             if (lane.type.startsWith('parking')) return '#CDB5A6';
             if (lane.type === 'frontage') return '#D7B4A3';
+            if (lane.type === 'bollard') return '#4C7B9C';
             return '#4C7B9C';
         };
 
@@ -825,6 +827,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderLamp(group, centerX, sectionGroundY - 8);
                 renderPlanTree(group, centerX, planY, Math.min(32, widthPx * 0.45));
                 renderPlanTree(group, centerX, planY + planHeight, Math.min(32, widthPx * 0.45));
+            }
+
+            if (lane.type === 'bollard') {
+                renderPaving(group, cursor, planY, widthPx, planHeight);
+                const bollardW = 12;
+                const bollardH = 35;
+                group.appendChild(svgEl('image', {
+                    href: 'assets/Furniture/Bollard.png',
+                    x: centerX - bollardW / 2,
+                    y: sectionGroundY - bollardH,
+                    width: bollardW,
+                    height: bollardH,
+                    preserveAspectRatio: 'xMidYMax meet'
+                }));
+                const bollardRadius = 5;
+                const spacing = 100;
+                for (let y = planY + spacing / 2; y < planY + planHeight; y += spacing) {
+                    group.appendChild(svgEl('circle', {
+                        cx: centerX,
+                        cy: y,
+                        r: bollardRadius,
+                        fill: '#7f8c8d',
+                        stroke: '#2c3e50',
+                        'stroke-width': '1.5'
+                    }));
+                }
             }
 
             if (lane.direction !== 'none' && lane.type !== 'bike') {
