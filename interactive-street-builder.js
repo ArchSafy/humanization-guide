@@ -1066,10 +1066,10 @@ function renderDualView(totalWidth) {
                 : 'assets/Plantation/Tree elevation new 01.png';
                 
             const treeW = (isPalm 
-                ? 225 * scaleFactor * 1.1 * 2.5
+                ? 225 * scaleFactor * 1.1 * 2.5 * 0.3
                 : 290 * scaleFactor * 1.1) * 1.3;
             const treeH = (isPalm 
-                ? 360 * scaleFactor * 1.1 * 2.5
+                ? 360 * scaleFactor * 1.1 * 2.5 * 0.3
                 : 180 * scaleFactor * 1.1) * 1.3;
             const yOffset = isPalm ? 10 : 20;
             
