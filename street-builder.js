@@ -831,8 +831,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (lane.type === 'bollard') {
                 renderPaving(group, cursor, planY, widthPx, planHeight);
-                const bollardW = 12;
-                const bollardH = 35;
+                const bollardW = 24;
+                const bollardH = 70;
                 group.appendChild(svgEl('image', {
                     href: 'assets/Furniture/Bollard.png',
                     x: centerX - bollardW / 2,

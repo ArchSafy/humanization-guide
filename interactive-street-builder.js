@@ -1255,8 +1255,8 @@ function renderDualView(totalWidth) {
                 }));
             }
         } else if (comp.id === 'bollard') {
-            const bollardW = 12;
-            const bollardH = 35;
+            const bollardW = 24;
+            const bollardH = 70;
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/Furniture/Bollard.png',
                 x: currentX + widthPx/2 - bollardW/2,
