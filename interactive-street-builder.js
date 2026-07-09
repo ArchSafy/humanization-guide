@@ -49,7 +49,14 @@ const componentData = [
     {
         "category":  "التنقل والبنية التحتية",
         "components":  [
-                           {
+                            {
+                                "color":  "#7B8190",
+                                "default_width_m":  0.6,
+                                "description":  "فاصل مرسوم بالدهان لفصل اتجاهات الحركة المرورية عند عدم وجود جزيرة وسطية مرتفعة.",
+                                "id":  "lane_divider",
+                                "name":  "فاصل مسارات (دهان)"
+                            },
+                            {
                                "color":  "#8AC645",
                                "default_width_m":  1.2,
                                "description":  "مسار دراجات أحادي الاتجاه معزول عن حركة السيارات.",
@@ -934,7 +941,7 @@ function renderDualView(totalWidth) {
     sequence.forEach((comp, index) => {
         const widthPx = comp.default_width_m * scale;
         
-        const medianIdx = sequence.findIndex(c => c.id === 'median_island');
+        const medianIdx = sequence.findIndex(c => c.id === 'median_island' || c.id === 'lane_divider');
         const isRightSide = medianIdx === -1 
             ? (index >= Math.ceil(sequence.length / 2))
             : (index > medianIdx);
@@ -1264,6 +1271,21 @@ function renderDualView(totalWidth) {
                 width: bollardW,
                 height: bollardH,
                 preserveAspectRatio: 'xMidYMax meet'
+            }));
+        } else if (comp.id === 'lane_divider') {
+            fgGroup.appendChild(createSvgElement('rect', {
+                x: currentX + widthPx * 0.1,
+                y: compY - 1,
+                width: widthPx * 0.3,
+                height: 2,
+                fill: '#FFD740'
+            }));
+            fgGroup.appendChild(createSvgElement('rect', {
+                x: currentX + widthPx * 0.6,
+                y: compY - 1,
+                width: widthPx * 0.3,
+                height: 2,
+                fill: '#FFD740'
             }));
         } else if (comp.id.includes('sidewalk') || comp.id.includes('edge') || comp.id.includes('seafront')) {
             const isSeafront = comp.id === 'seafront';
@@ -1835,6 +1857,21 @@ function renderDualView(totalWidth) {
                     'stroke-width': '1.5'
                 }));
             }
+        } else if (comp.id === 'lane_divider') {
+            fgGroup.appendChild(createSvgElement('rect', {
+                x: currentX,
+                y: planY,
+                width: 8,
+                height: planHeight,
+                fill: '#FFD740'
+            }));
+            fgGroup.appendChild(createSvgElement('rect', {
+                x: currentX + 16,
+                y: planY,
+                width: 8,
+                height: planHeight,
+                fill: '#FFD740'
+            }));
         } else if (comp.id.includes('sidewalk') || comp.id.includes('edge') || comp.id.includes('seafront')) {
             for (let ix = currentX + 10; ix < currentX + widthPx; ix += 20) {                bgGroup.appendChild(createSvgElement('line', {
                     x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
@@ -1860,7 +1897,7 @@ function mirrorSequence() {
     const lastItem = sequence[sequence.length - 1];
     let itemsToMirror = [];
     
-    if (lastItem.id === 'median_island') {
+    if (lastItem.id === 'median_island' || lastItem.id === 'lane_divider') {
         itemsToMirror = sequence.slice(0, -1);
     } else {
         itemsToMirror = sequence.slice();
@@ -2520,6 +2557,7 @@ function updateEvaluation(totalWidth) {
     if (sequence.some(c => c.id === 'urban_furniture_buffer')) safetyScore += 20;
     if (sequence.some(c => c.id === 'bollard')) safetyScore += 20;
     if (sequence.some(c => c.id === 'median_island')) safetyScore += 10;
+    if (sequence.some(c => c.id === 'lane_divider')) safetyScore += 10;
     if (sequence.some(c => c.id === 'seafront')) safetyScore += 10;
     safetyScore = Math.min(100, safetyScore);
     document.getElementById('isb-safety-score').textContent = `${safetyScore}%`;

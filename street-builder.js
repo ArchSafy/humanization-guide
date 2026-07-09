@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'busstop', label: 'موقف حافلات', width: 3.0, color: '#D2A747', icon: 'fa-bus-simple', direction: 'none', variant: 'stop' },
         { type: 'median', label: 'جزيرة وسطية', width: 2.0, color: '#909C28', icon: 'fa-grip-lines-vertical', direction: 'none', variant: 'median' },
         { type: 'service', label: 'حارة خدمة', width: 3.0, color: '#9A806E', icon: 'fa-truck', direction: 'right', variant: 'service' },
-        { type: 'bollard', label: 'حاجز مشاة (بولارد)', width: 0.5, color: '#7F8C8D', icon: 'fa-ban', direction: 'none', variant: 'bollard' }
+        { type: 'bollard', label: 'حاجز مشاة (بولارد)', width: 0.5, color: '#7F8C8D', icon: 'fa-ban', direction: 'none', variant: 'bollard' },
+        { type: 'lane_divider', label: 'فاصل مسارات (دهان)', width: 0.6, color: '#7B8190', icon: 'fa-grip-lines-vertical', direction: 'none', variant: 'lane_divider' }
     ];
 
     const presets = {
@@ -106,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return '';
     };
 
-    const getMedianIndex = (items = lanes) => items.findIndex(lane => lane.type === 'median');
+    const getMedianIndex = (items = lanes) => items.findIndex(lane => lane.type === 'median' || lane.type === 'lane_divider');
 
     const directionForIndex = (index, items = lanes) => {
         const medianIndex = getMedianIndex(items);
@@ -556,6 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lane.type.startsWith('parking')) return '#CDB5A6';
             if (lane.type === 'frontage') return '#D7B4A3';
             if (lane.type === 'bollard') return '#4C7B9C';
+            if (lane.type === 'lane_divider') return '#7B8190';
             return '#4C7B9C';
         };
 
@@ -853,6 +855,37 @@ document.addEventListener('DOMContentLoaded', () => {
                         'stroke-width': '1.5'
                     }));
                 }
+            }
+
+            if (lane.type === 'lane_divider') {
+                group.appendChild(svgEl('rect', {
+                    x: centerX - 8,
+                    y: sectionGroundY - 1,
+                    width: 6,
+                    height: 2,
+                    fill: '#FFD740'
+                }));
+                group.appendChild(svgEl('rect', {
+                    x: centerX + 2,
+                    y: sectionGroundY - 1,
+                    width: 6,
+                    height: 2,
+                    fill: '#FFD740'
+                }));
+                group.appendChild(svgEl('rect', {
+                    x: cursor,
+                    y: planY,
+                    width: 8,
+                    height: planHeight,
+                    fill: '#FFD740'
+                }));
+                group.appendChild(svgEl('rect', {
+                    x: cursor + 16,
+                    y: planY,
+                    width: 8,
+                    height: planHeight,
+                    fill: '#FFD740'
+                }));
             }
 
             if (lane.direction !== 'none' && lane.type !== 'bike') {
