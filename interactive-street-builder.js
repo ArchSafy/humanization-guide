@@ -1062,7 +1062,7 @@ function renderDualView(totalWidth) {
             
             const isPalm = comp.showPalm;
             const imgPath = isPalm 
-                ? 'assets/Plantation/palm elevation 01.png'
+                ? 'assets/Plantation/palm tree elevation.png'
                 : 'assets/Plantation/Tree elevation new 01.png';
                 
             const treeW = (isPalm 
