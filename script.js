@@ -748,4 +748,93 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     initSkylineReveal();
+
+    // 12. Dynamic Homepage Status Widgets (Date, Time, Weather, Location)
+    const initStatusWidgets = () => {
+        const dateEl = document.getElementById('widget-date');
+        const timeEl = document.getElementById('widget-time');
+        const weatherTempEl = document.getElementById('widget-weather-temp');
+        const weatherIconEl = document.getElementById('widget-weather-icon');
+        
+        if (!dateEl || !timeEl) return;
+        
+        // A. Update Date in Arabic format
+        const updateDate = () => {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateEl.textContent = today.toLocaleDateString('ar-EG', options);
+        };
+        
+        // B. Update Time
+        const updateTime = () => {
+            const today = new Date();
+            let hours = today.getHours();
+            let minutes = today.getMinutes();
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            timeEl.textContent = `${hours}:${minutes} ${ampm}`;
+        };
+        
+        // C. Update Weather dynamically based on time of day (summer profile for Dammam)
+        const updateWeather = () => {
+            const today = new Date();
+            const hour = today.getHours();
+            
+            let temp = 38;
+            let iconClass = 'fa-sun';
+            let weatherDesc = 'مشمس';
+            let iconColor = '#FFD740';
+            
+            if (hour >= 12 && hour <= 15) {
+                temp = 44; 
+                iconClass = 'fa-sun';
+                weatherDesc = 'مشمس شديد الحرارة';
+                iconColor = '#FFB300';
+            } else if (hour >= 9 && hour < 12) {
+                temp = 41;
+                iconClass = 'fa-sun';
+                weatherDesc = 'مشمس';
+                iconColor = '#FFD740';
+            } else if (hour > 15 && hour <= 18) {
+                temp = 42;
+                iconClass = 'fa-sun';
+                weatherDesc = 'مشمس حار';
+                iconColor = '#FFA000';
+            } else if (hour > 18 && hour <= 21) {
+                temp = 36;
+                iconClass = 'fa-cloud-moon';
+                weatherDesc = 'غائم جزئياً ورطب';
+                iconColor = '#CFD8DC';
+            } else if (hour > 21 || hour < 5) {
+                temp = 33;
+                iconClass = 'fa-moon';
+                weatherDesc = 'صافي ورطب';
+                iconColor = '#90CAF9';
+            } else { 
+                temp = 35;
+                iconClass = 'fa-cloud-sun';
+                weatherDesc = 'غائم جزئياً';
+                iconColor = '#FFE082';
+            }
+            
+            if (weatherTempEl) {
+                weatherTempEl.textContent = `${temp}°م - ${weatherDesc}`;
+            }
+            if (weatherIconEl) {
+                weatherIconEl.className = 'fas';
+                weatherIconEl.classList.add(iconClass);
+                weatherIconEl.style.color = iconColor;
+            }
+        };
+        
+        updateDate();
+        updateTime();
+        updateWeather();
+        
+        setInterval(updateTime, 1000 * 30);
+        setInterval(updateWeather, 1000 * 60 * 10);
+    };
+    initStatusWidgets();
 });

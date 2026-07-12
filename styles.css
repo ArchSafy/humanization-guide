@@ -3803,4 +3803,65 @@ body {
     }
 }
 
+/* Info Bar Widget Style */
+.info-bar-widget {
+    background: var(--clr-surface);
+    border-bottom: 1px solid var(--clr-border);
+    padding: 10px 0;
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
+    color: var(--clr-text);
+    transition: var(--transition-normal);
+}
+
+.info-bar-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 6px 12px;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.info-item i {
+    color: var(--clr-primary);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    background: rgba(165, 127, 97, 0.08);
+}
+
+[data-theme="dark"] .info-item:hover {
+    background: rgba(110, 190, 207, 0.12);
+}
+
+.weather-widget i {
+    animation: pulse-sun 3s infinite ease-in-out;
+}
+
+@keyframes pulse-sun {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); filter: drop-shadow(0 0 4px var(--clr-primary)); }
+}
+
+@media (max-width: 768px) {
+    .info-bar-container {
+        gap: 1rem;
+        justify-content: center;
+    }
+    .info-item {
+        font-size: 0.8rem;
+    }
+}
+
 
