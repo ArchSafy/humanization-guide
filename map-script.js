@@ -53,7 +53,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Load Data from window.mapLocations (defined in locations-data.js)
     const locations = window.mapLocations || [];
 
-    // 6. Add markers to the map and store them in an array
+    // 6. Initialize Leaflet MarkerCluster Group with customized styles
+    const markerClusterGroup = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true,
+        maxClusterRadius: 40,
+        iconCreateFunction: function (cluster) {
+            const childCount = cluster.getChildCount();
+            let c = ' marker-cluster-';
+            if (childCount < 10) {
+                c += 'small';
+            } else if (childCount < 50) {
+                c += 'medium';
+            } else {
+                c += 'large';
+            }
+            
+            return new L.DivIcon({
+                html: `<div><span>${childCount}</span></div>`,
+                className: 'custom-marker-cluster' + c,
+                iconSize: new L.Point(40, 40)
+            });
+        }
+    });
+    map.addLayer(markerClusterGroup);
+
+    // 7. Add markers to the map and store them in an array
     const markers = [];
     
     locations.forEach(loc => {
@@ -85,17 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
         popupContent += `</div>`;
         
         marker.bindPopup(popupContent);
-        marker.addTo(map);
+        markerClusterGroup.addLayer(marker);
         markers.push(marker);
     });
 
     // Fit map bounds to show all markers initially
     if (markers.length > 0) {
-        const group = L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.1));
+        map.fitBounds(markerClusterGroup.getBounds().pad(0.1));
     }
 
-    // 7. Filter Logic
+    // 8. Filter Logic
     const filterButtons = document.querySelectorAll('.map-filter-btn');
     
     filterButtons.forEach(btn => {
@@ -107,25 +131,21 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const selectedFilter = targetBtn.getAttribute('data-filter');
             
-            // Show/Hide markers based on filter
-            markers.forEach(marker => {
+            // Clear current clusters
+            markerClusterGroup.clearLayers();
+            
+            // Filter markers
+            const filteredMarkers = markers.filter(marker => {
                 const markerCategory = marker.options.category;
-                
-                if (selectedFilter === 'all' || selectedFilter === markerCategory) {
-                    if (!map.hasLayer(marker)) {
-                        marker.addTo(map);
-                    }
-                } else {
-                    if (map.hasLayer(marker)) {
-                        map.removeLayer(marker);
-                    }
-                }
+                return selectedFilter === 'all' || selectedFilter === markerCategory;
             });
             
+            // Add filtered markers back to cluster group
+            markerClusterGroup.addLayers(filteredMarkers);
+            
             // Re-fit map bounds to visible markers
-            const visibleMarkers = markers.filter(m => map.hasLayer(m));
-            if (visibleMarkers.length > 0) {
-                const group = L.featureGroup(visibleMarkers);
+            if (filteredMarkers.length > 0) {
+                const group = L.featureGroup(filteredMarkers);
                 map.fitBounds(group.getBounds().pad(0.1));
             }
         });

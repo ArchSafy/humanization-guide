@@ -3864,4 +3864,51 @@ body {
     }
 }
 
+/* Custom Marker Cluster Styling */
+.custom-marker-cluster {
+    background-clip: padding-box;
+    border-radius: 50%;
+}
+
+.custom-marker-cluster div {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    border-radius: 50%;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(85, 93, 113, 0.4);
+}
+
+/* Small Cluster */
+.custom-marker-cluster-small {
+    background-color: rgba(110, 190, 207, 0.4);
+}
+.custom-marker-cluster-small div {
+    background-color: #6EBECF;
+}
+
+/* Medium Cluster */
+.custom-marker-cluster-medium {
+    background-color: rgba(165, 127, 97, 0.4);
+}
+.custom-marker-cluster-medium div {
+    background-color: #A57F61;
+}
+
+/* Large Cluster */
+.custom-marker-cluster-large {
+    background-color: rgba(85, 93, 113, 0.4);
+}
+.custom-marker-cluster-large div {
+    background-color: #555D71;
+}
+
 
