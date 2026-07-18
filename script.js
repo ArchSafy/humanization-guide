@@ -118,31 +118,213 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 6. Search Functionality
+    // 6. Search Functionality
     const searchInput = document.getElementById('site-search');
     const searchResults = document.getElementById('search-results');
     
-    // Index searchable content
+    // Global search index for the entire website
+    const globalSearchIndex = [
+        {
+            title: 'المبادئ الأساسية لأنسنة المدن',
+            text: 'الفلسفة والمبادئ العشرة لأنسنة المدن ومقياس الإنسان وقابلية المشي والوصول الشامل والراحة والسلامة والاستدامة.',
+            url: 'principles.html',
+            category: 'الصفحات الرئيسية'
+        },
+        {
+            title: 'دليل التصميم للفراغات الحضرية',
+            text: 'معايير تصميم الفراغات الحضرية والشوارع والساحات العامة والواجهات البحرية والحدائق ومسارات المشاة والزوائد التنظيمية.',
+            url: 'design.html',
+            category: 'الصفحات الرئيسية'
+        },
+        {
+            title: 'دليل التنفيذ والمواد',
+            text: 'مصفوفة المواد والتقنيات ومواصفات التشطيبات للأرصفة والممرات والمواد المعتمدة مثل الجرانيت والخرسانة والإنترلوك.',
+            url: 'execution.html',
+            category: 'الصفحات الرئيسية'
+        },
+        {
+            title: 'صمم بنفسك (مصمم الشوارع التفاعلي)',
+            text: 'أداة تفاعلية لتصميم مقاطع الشوارع الحضرية واختبار معايير الأنسنة وتقييمها تلقائياً.',
+            url: 'interactive-street-builder.html',
+            category: 'الأدوات التفاعلية'
+        },
+        {
+            title: 'الخريطة التفاعلية ومواقع التدخلات الحضرية',
+            text: 'مستكشف جغرافي لمواقع التدخلات الحضرية ومشاريع الأنسنة والبلديات الفرعية بالمنطقة الشرقية.',
+            url: 'interactive-map.html',
+            category: 'الأدوات التفاعلية'
+        },
+        {
+            title: 'مقياس الإنسان - المبدأ الأول',
+            text: 'توجيه الأبعاد والسرعات والفراغات لتناسب حركة الإنسان وإدراكه قبل المركبة والسيارات.',
+            url: 'principles.html#human-scale',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'قابلية المشي والأرصفة - المبدأ الثاني',
+            text: 'شبكة أرصفة مستمرة وآمنة ومتصلة تجعل المشي خياراً طبيعياً وسهلاً في الشارع.',
+            url: 'principles.html#walkability',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'السلامة والأمان المروري - المبدأ الثالث',
+            text: 'تقليل المخاطر المرورية ورفع الإحساس بالأمان عبر الرؤية والإنارة وتهدئة الحركة والسرعات.',
+            url: 'principles.html#safety',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'الوصول الشامل وذوي الإعاقة - المبدأ الرابع',
+            text: 'فراغات قابلة للاستخدام من الجميع بلا عوائق أو مسارات منقطعة لذوي الاحتياجات الخاصة والهمم وكبار السن.',
+            url: 'principles.html#accessibility',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'الراحة البيئية والتظليل - المبدأ الخامس',
+            text: 'توفير الظل، تقليل الإجهاد الحراري، وتحسين تجربة الاستخدام والتشجير ومكافحة حرارة الصيف.',
+            url: 'principles.html#comfort',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'الواجهات النشطة للمحلات - المبدأ السادس',
+            text: 'تنشيط حواف الشارع بأنشطة ومحلات تجارية وأبواب وشفافية تعزز الحيوية والمراقبة الطبيعية.',
+            url: 'principles.html#frontage',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'الحيوية والهوية البصرية - المبدأ السابع',
+            text: 'صناعة أماكن جاذبة تحمل طابع المنطقة الشرقية وتدعم اللقاء والتجمع والاستخدام اليومي المتنوع.',
+            url: 'principles.html#vitality',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'الاستدامة والغطاء النباتي - المبدأ الثامن',
+            text: 'اختيار حلول ومواد تقلل الهدر وتدعم إدارة المياه والري والغطاء النباتي طويل الأمد.',
+            url: 'principles.html#sustainability',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'التكامل والاتساق العمراني - المبدأ التاسع',
+            text: 'ربط العناصر والفراغات والمواد في تجربة حضرية واحدة مفهومة ومتماسكة ولغة تصميمية موحدة.',
+            url: 'principles.html#integration',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'قابلية التنفيذ والصيانة - المبدأ العاشر',
+            text: 'تحويل المبادئ إلى تفاصيل قابلة للبناء والفحص والصيانة بدون فقدان جودة التصميم.',
+            url: 'principles.html#implementation',
+            category: 'المبادئ الأساسية'
+        },
+        {
+            title: 'الشوارع الحضرية وتصنيفها',
+            text: 'تصميم الشوارع الشريانية والتجميعية والمحلية والتجارية والسكنية وعرض الأرصفة والتقاطعات وتهدئة السرعات.',
+            url: 'urban-streets.html',
+            category: 'دليل التصميم'
+        },
+        {
+            title: 'الساحات العامة والفراغات التجمعية',
+            text: 'تصميم وتوزيع الحركة والجلوس والظلال والأرضيات والحواف النشطة ونقاط الجذب بالساحات العامة.',
+            url: 'public-squares.html',
+            category: 'دليل التصميم'
+        },
+        {
+            title: 'الحدائق والمتنزهات والمساحات الخضراء',
+            text: 'تصميم مناطق اللعب والمشي والجلوس والتشجير والري والإضاءة والسلامة بالحدائق العامة والمسطحات الخضراء.',
+            url: 'parks-gardens.html',
+            category: 'دليل التصميم'
+        },
+        {
+            title: 'الواجهات البحرية والكورنيش',
+            text: 'تصميم مسارات الكورنيش ونقاط المشاهدة والحماية وأثاث الشارع والظلال والأنشطة بالواجهات البحرية والبحيرات.',
+            url: 'waterfronts.html',
+            category: 'دليل التصميم'
+        },
+        {
+            title: 'مسارات المشاة والأرصفة المتصلة',
+            text: 'استمرارية المسار والعبور والميول والمنحدرات والعوائق والتوجيه والإضاءة ومناطق الراحة على طول رحلة المشاة.',
+            url: 'pedestrian-paths.html',
+            category: 'دليل التصميم'
+        },
+        {
+            title: 'الزوائد التنظيمية وارتدادات المباني',
+            text: 'معايير تهيئة ارتدادات المباني والخطوط التنظيمية والمواد المعتمدة والتشجير والتكامل مع الرصيف العام.',
+            url: 'regulatory-offsets.html',
+            category: 'دليل التصميم'
+        },
+        {
+            title: 'مصفوفة المواد والتشطيبات بالأرضيات',
+            text: 'مواصفات المواد مثل الجرانيت، الخرسانة الممشطة، الانترلوك، الإضاءة، التشجير، وأثاث الشارع بالمنطقة الشرقية.',
+            url: 'execution.html#materials',
+            category: 'دليل التنفيذ'
+        },
+        {
+            title: 'جودة التنفيذ والاستدامة والصيانة',
+            text: 'مواصفات التنفيذ الفنية ومراقبة الجودة وفحص واستلام المواد وأعمال المقاولين واستدامة المشاريع.',
+            url: 'execution.html#quality',
+            category: 'دليل التنفيذ'
+        }
+    ];
+
+    // Index searchable content from current page DOM
     const getSearchData = () => {
-        const data = [];
+        const data = [...globalSearchIndex];
         
-        // Gallery Cards (The new primary content)
-        document.querySelectorAll('.gallery-card').forEach(el => {
-            data.push({
-                title: el.querySelector('.card-title').innerText,
-                text: el.querySelector('.card-desc').innerText,
-                element: el,
-                category: 'معرض الأنسنة'
-            });
+        // Dynamic additions from current page
+        // 1. Principle cards
+        document.querySelectorAll('.principle-card').forEach(el => {
+            const title = el.querySelector('h4') ? el.querySelector('h4').innerText : '';
+            const desc = el.querySelector('p') ? el.querySelector('p').innerText : '';
+            const key = el.dataset.principle;
+            if (title && key) {
+                const index = data.findIndex(item => item.url === `principles.html#${key}`);
+                if (index !== -1) {
+                    data[index].element = el;
+                } else {
+                    data.push({
+                        title: title,
+                        text: desc,
+                        url: `principles.html#${key}`,
+                        element: el,
+                        category: 'المبادئ الأساسية'
+                    });
+                }
+            }
         });
         
-        // Guidelines
-        document.querySelectorAll('.guideline-card').forEach(el => {
-            data.push({
-                title: el.querySelector('h3') ? el.querySelector('h3').innerText : '',
-                text: el.querySelector('p') ? el.querySelector('p').innerText : '',
-                element: el,
-                category: 'إرشادات التصميم'
-            });
+        // 2. Urban Typology Cards
+        document.querySelectorAll('.urban-typology-card').forEach(el => {
+            const title = el.querySelector('h4') ? el.querySelector('h4').innerText : '';
+            const desc = el.querySelector('p') ? el.querySelector('p').innerText : '';
+            const href = el.getAttribute('href');
+            if (title && href) {
+                const index = data.findIndex(item => item.url === href);
+                if (index !== -1) {
+                    data[index].element = el;
+                } else {
+                    data.push({
+                        title: title,
+                        text: desc,
+                        url: href,
+                        element: el,
+                        category: 'دليل التصميم'
+                    });
+                }
+            }
+        });
+        
+        // 3. Street Type Cards
+        document.querySelectorAll('.street-type-card').forEach(el => {
+            const title = el.querySelector('h4') ? el.querySelector('h4').innerText : '';
+            const desc = el.querySelector('p') ? el.querySelector('p').innerText : '';
+            if (title) {
+                const currentPage = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1) || 'index.html';
+                data.push({
+                    title: title,
+                    text: desc,
+                    element: el,
+                    url: currentPage,
+                    category: 'تصنيف العناصر'
+                });
+            }
         });
         
         return data;
@@ -159,27 +341,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.className = 'search-item';
                 item.innerHTML = `
                     <h4>${result.title}</h4>
-                    <p>${result.category} - ${result.text.substring(0, 50)}...</p>
+                    <p>${result.category} - ${result.text.substring(0, 60)}...</p>
                 `;
                 
                 item.addEventListener('click', () => {
-                    // Adjust for fixed header
-                    const headerHeight = document.querySelector('.main-header').offsetHeight;
-                    const elementPosition = result.element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Highlight the element briefly
-                    result.element.style.borderColor = 'var(--clr-primary)';
-                    result.element.style.boxShadow = 'var(--shadow-lg)';
-                    setTimeout(() => {
-                        result.element.style.borderColor = '';
-                        result.element.style.boxShadow = '';
-                    }, 2000);
+                    if (result.url) {
+                        const currentPath = window.location.pathname;
+                        const targetUrlParts = result.url.split('#');
+                        const targetPage = targetUrlParts[0];
+                        const targetAnchor = targetUrlParts[1];
+                        
+                        const currentPageName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'index.html';
+                        
+                        if (targetPage === currentPageName || (targetPage === 'index.html' && currentPageName === '')) {
+                            // Smooth scroll on same page
+                            let targetElement = result.element;
+                            if (!targetElement && targetAnchor) {
+                                targetElement = document.getElementById(targetAnchor) || 
+                                                document.querySelector(`[data-principle="${targetAnchor}"]`);
+                            }
+                            
+                            if (targetElement) {
+                                const headerHeight = document.querySelector('.main-header').offsetHeight;
+                                const elementPosition = targetElement.getBoundingClientRect().top;
+                                const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                                
+                                window.scrollTo({
+                                    top: offsetPosition,
+                                    behavior: 'smooth'
+                                });
+                                
+                                // Trigger principle selection on principles.html if available
+                                if (targetAnchor && typeof selectPrinciple === 'function' && targetElement.classList.contains('principle-card')) {
+                                    selectPrinciple(targetAnchor);
+                                } else {
+                                    targetElement.style.borderColor = 'var(--clr-primary)';
+                                    targetElement.style.boxShadow = 'var(--shadow-lg)';
+                                    setTimeout(() => {
+                                        targetElement.style.borderColor = '';
+                                        targetElement.style.boxShadow = '';
+                                    }, 2000);
+                                }
+                            } else {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                        } else {
+                            // Redirect to other page
+                            window.location.href = result.url;
+                        }
+                    }
                     
                     searchResults.classList.remove('active');
                     searchInput.value = '';
@@ -209,6 +419,13 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             
             displayResults(filtered);
+        });
+        
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.remove('active');
+            }
         });
     }
 
@@ -529,7 +746,24 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        selectPrinciple(principleCards[0].dataset.principle);
+        let initialPrinciple = principleCards[0].dataset.principle;
+        const hash = window.location.hash.substring(1);
+        if (hash && Array.from(principleCards).some(c => c.dataset.principle === hash)) {
+            initialPrinciple = hash;
+            setTimeout(() => {
+                const targetCard = document.querySelector(`[data-principle="${hash}"]`);
+                if (targetCard) {
+                    const headerHeight = document.querySelector('.main-header').offsetHeight;
+                    const elementPosition = targetCard.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 300);
+        }
+        selectPrinciple(initialPrinciple);
     }
 
     // 10. Neuron Constellation Logic
@@ -837,4 +1071,45 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateWeather, 1000 * 60 * 10);
     };
     initStatusWidgets();
+
+    // 13. Stats Counter Logic (IntersectionObserver & requestAnimationFrame)
+    const initStatsCounter = () => {
+        const statsSection = document.querySelector('.stats-section');
+        const statNumbers = document.querySelectorAll('.stat-number');
+        if (!statsSection || statNumbers.length === 0) return;
+
+        const animateCount = (el) => {
+            const target = parseFloat(el.getAttribute('data-target'));
+            const decimals = parseInt(el.getAttribute('data-decimals') || '0');
+            const duration = 2000; // 2 seconds
+            const startTime = performance.now();
+
+            const updateCount = (currentTime) => {
+                const elapsedTime = currentTime - startTime;
+                if (elapsedTime >= duration) {
+                    el.textContent = target.toFixed(decimals);
+                } else {
+                    const progress = elapsedTime / duration;
+                    const easeProgress = progress * (2 - progress); // Ease out quad
+                    const currentVal = easeProgress * target;
+                    el.textContent = currentVal.toFixed(decimals);
+                    requestAnimationFrame(updateCount);
+                }
+            };
+
+            requestAnimationFrame(updateCount);
+        };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    statNumbers.forEach(num => animateCount(num));
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        counterObserver.observe(statsSection);
+    };
+    initStatsCounter();
 });
