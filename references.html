@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="المصادر والمراجع المعتمدة - دليل أنسنة مدن المنطقة الشرقية">
+    <title>المصادر والمراجع | أنسنة الشرقية</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Specific Styles for References Page */
+        .references-section-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.35rem;
+            color: var(--clr-primary);
+            border-bottom: 2px solid var(--clr-primary-light);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            margin-top: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+        }
+
+        .references-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 992px) {
+            .references-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .reference-card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            height: 100%;
+            position: relative;
+        }
+
+        .reference-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--clr-primary);
+        }
+
+        .book-container {
+            perspective: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0;
+            background: rgba(0,0,0,0.02);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            height: 180px;
+        }
+
+        .book-cover-3d {
+            width: 100px;
+            height: 140px;
+            border-radius: 2px 6px 6px 2px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #fdfdfd;
+            border: 1px solid rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .book-arabic {
+            transform: rotateY(12deg);
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+            border-radius: 6px 2px 2px 6px;
+        }
+
+        .book-global {
+            transform: rotateY(-12deg);
+            box-shadow: -4px 4px 10px rgba(0,0,0,0.2);
+            border-radius: 2px 6px 6px 2px;
+        }
+
+        .book-cover-3d img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-cover-3d::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(to right, rgba(0,0,0,0.15) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.15) 100%);
+            z-index: 2;
+        }
+
+        .book-arabic::after {
+            right: 0;
+        }
+
+        .book-global::after {
+            left: 0;
+        }
+
+        .reference-card:hover .book-arabic {
+            transform: rotateY(3deg) scale(1.05);
+            box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .reference-card:hover .book-global {
+            transform: rotateY(-3deg) scale(1.05);
+            box-shadow: -6px 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .reference-details {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .reference-card h4 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            color: var(--clr-text);
+            margin: 0 0 0.25rem 0;
+            font-weight: 700;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 2.8rem;
+        }
+
+        .reference-author {
+            font-size: 0.75rem;
+            color: var(--clr-primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .reference-desc {
+            font-size: 0.8rem;
+            color: var(--clr-text-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 3.6rem;
+        }
+
+        .reference-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--clr-border);
+        }
+
+        .reference-meta {
+            font-size: 0.7rem;
+            color: var(--clr-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .download-btn {
+            background: var(--clr-primary);
+            color: white;
+            border: none;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.75rem;
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .download-btn:hover {
+            background: var(--clr-primary-dark);
+            color: white;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 480px) {
+            .references-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="sub-page references-page">
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="logo.svg" alt="شعار أمانة المنطقة الشرقية" class="main-logo">
+                <h1>أنسنة <span>الشرقية</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="principles.html">المبادئ الأساسية</a></li>
+                    <li><a href="design.html">دليل التصميم</a></li>
+                    <li><a href="execution.html">دليل التنفيذ</a></li>
+                    <li><a href="interactive-street-builder.html">صمم بنفسك</a></li>
+                    <li><a href="interactive-map.html">الخريطة التفاعلية</a></li>
+                    <li><a href="references.html" class="active">المصادر والمراجع</a></li>
+                </ul>
+                <div class="nav-search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="site-search" placeholder="بحث..." aria-label="بحث">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="search-results" class="search-results-dropdown"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="sub-hero">
+        <div class="container">
+            <div class="sub-hero-content">
+                <h2 class="sub-hero-title">المصادر والمراجع المعتمدة</h2>
+                <p class="sub-hero-desc">الأدلة المعيارية الوطنية والعالمية المعتمدة في صياغة وحسابات دليل أنسنة مدن المنطقة الشرقية.</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="page-content container" style="padding-top: 3rem; padding-bottom: 5rem;">
+        <div class="design-intro" style="margin-bottom: 3rem;">
+            <span class="section-kicker">مرجعية الأدلة والمعايير</span>
+            <p style="font-size: 1.1rem; line-height: 1.7; color: var(--clr-text-muted);">
+                تعتمد منصة أنسنة المنطقة الشرقية في معاييرها الهندسية وحساباتها الحضرية على الأطر والمبادئ الصادرة عن وزارة البلديات والإسكان، بالإضافة إلى أفضل الممارسات والتوجيهات من الأدلة العالمية المتخصصة في مجالات التصميم والتخطيط الحضري.
+            </p>
+        </div>
+
+        <!-- National Standards Section -->
+        <h3 class="references-section-title"><i class="fas fa-flag"></i> الأدلة والمعايير الوطنية والمحلية</h3>
+        <div class="references-grid">
+            
+            <!-- 1. SBC 201 -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/SBC201_AR2024.png" alt="كود البناء السعودي">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>كود البناء السعودي العام (SBC 201)</h4>
+                        <span class="reference-author">اللجنة الوطنية لكود البناء السعودي</span>
+                    </div>
+                    <p class="reference-desc">الكود الفني الأساسي والملزم للتصميم والتشييد وضمان السلامة الإنشائية والصحية واستدامة المباني والفراغات المحيطة بها في المملكة.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 18.5 MB</span>
+                        <a href="Refrances/SBC201_AR2024.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. National Urban Design Guide -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/الدليل الارشادي الوطني للتصميم الحضري.png" alt="الدليل الإرشادي الوطني للتصميم الحضري">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>الدليل الإرشادي الوطني للتصميم الحضري</h4>
+                        <span class="reference-author">وزارة البلديات والإسكان</span>
+                    </div>
+                    <p class="reference-desc">دليل فني وطني يهدف لتحسين المشهد الحضري بالمملكة، وتطوير الشوارع وتنسيق المواقع وفق موجهات أنسنة المدن وجودة الحياة.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 165.7 MB</span>
+                        <a href="Refrances/الدليل الارشادي الوطني للتصميم الحضري.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Public Domain Parks -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/كتيب المجال العام التدخلات الحضرية والحدائق.png" alt="كتيب المجال العام التدخلات الحضرية والحدائق">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>كتيب المجال العام: التدخلات الحضرية والحدائق</h4>
+                        <span class="reference-author">أمانة المنطقة الشرقية</span>
+                    </div>
+                    <p class="reference-desc">كتيب عملي يوضح متطلبات تصميم وتطوير الفراغات المفتوحة والحدائق العامة وتطبيق معايير التدخل الحجري والوصول الشامل.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 71.2 MB</span>
+                        <a href="Refrances/كتيب المجال العام التدخلات الحضرية والحدائق.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Public Domain A4 -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/كتيب المجال العام A4 عرض.png" alt="كتيب المجال العام">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>كتيب المجال العام للمنطقة الشرقية (A4)</h4>
+                        <span class="reference-author">أمانة المنطقة الشرقية</span>
+                    </div>
+                    <p class="reference-desc">النسخة الموسعة لكتيب المجال العام المخصصة لعروض التصميم وموجهات تنفيذ الفراغات العامة والأرصفة والمناطق المفتوحة.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 62.8 MB</span>
+                        <a href="Refrances/كتيب المجال العام A4 عرض.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Eastern Coast Architecture Guidelines -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/ألموجهات التصميمية عمارة الساحل الشرقي.png" alt="الموجهات التصميمية عمارة الساحل الشرقي">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>الموجهات التصميمية لعمارة الساحل الشرقي</h4>
+                        <span class="reference-author">أمانة المنطقة الشرقية</span>
+                    </div>
+                    <p class="reference-desc">المعايير والموجهات الفنية لتأصيل الطابع البصري المعماري المميز للساحل الشرقي للمملكة في الفراغات والمباني.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 38.2 MB</span>
+                        <a href="Refrances/ألموجهات التصميمية عمارة الساحل الشرقي.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Eastern Province Afforestation -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/دليل التشجير الحضري في المنطقة الشرقية.png" alt="دليل التشجير الحضري في المنطقة الشرقية">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>دليل التشجير الحضري في المنطقة الشرقية</h4>
+                        <span class="reference-author">أمانة المنطقة الشرقية</span>
+                    </div>
+                    <p class="reference-desc">الدليل التنفيذي المتكامل لاختيار وتوزيع وري أنواع الأشجار والنباتات الملائمة لشوارع وحدائق المنطقة الشرقية.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 252.5 MB</span>
+                        <a href="Refrances/دليل التشجير الحضري في المنطقة الشرقية.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Arid Environment Afforestation -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/الدليل الاسترشادي للتشجير في البيئات الجافة.png" alt="الدليل الاسترشادي للتشجير في البيئات الجافة">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>الدليل الاسترشادي للتشجير في البيئات الجافة</h4>
+                        <span class="reference-author">وزارة البلديات والإسكان</span>
+                    </div>
+                    <p class="reference-desc">دليل فني وطني يركز على معايير التشجير الفعال الموفر للمياه والمتناسب مع المناخ الجاف في مختلف مدن المملكة.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 32.5 MB</span>
+                        <a href="Refrances/الدليل الاسترشادي للتشجير في البيئات الجافة.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Sports Facilities Guidelines -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/المبادئ التوجيهية لتخطيط وتطوير المرافق الرياضية للحدائق والتدخلات الحضرية (1).png" alt="تطوير المرافق الرياضية">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>المبادئ التوجيهية لتخطيط وتطوير المرافق الرياضية للحدائق</h4>
+                        <span class="reference-author">مجلس الصحة الخليجي / وزارة البلديات والإسكان</span>
+                    </div>
+                    <p class="reference-desc">المعايير التخطيطية لتطوير الأماكن الرياضية وملاعب المشاة وأجهزة اللياقة البدنية في الحدائق العامة لتعزيز النشاط البدني.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 1.7 MB</span>
+                        <a href="Refrances/المبادئ التوجيهية لتخطيط وتطوير المرافق الرياضية للحدائق والتدخلات الحضرية (1).pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Parking Design Guide -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/دليل تصميم مواقف السيارات-نوفمبر-2023.png" alt="دليل تصميم مواقف السيارات">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>دليل تصميم مواقف السيارات (نوفمبر 2023)</h4>
+                        <span class="reference-author">وزارة البلديات والإسكان</span>
+                    </div>
+                    <p class="reference-desc">الاشتراطات والمعايير التخطيطية المعتمدة لحساب عروض ومساحات مواقف السيارات الطولية والمائلة والعمودية.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 2.5 MB</span>
+                        <a href="Refrances/دليل تصميم مواقف السيارات-نوفمبر-2023.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Street and Square Lighting -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-arabic">
+                        <img src="assets/covers/أداة الإصدار + دليل إنارة الشوارع والميادين.png" alt="دليل إنارة الشوارع والميادين">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>دليل إنارة الشوارع والميادين العامة</h4>
+                        <span class="reference-author">وزارة البلديات والإسكان</span>
+                    </div>
+                    <p class="reference-desc">الاشتراطات الهندسية ومستويات الإضاءة المطلوبة لتأمين الميادين وممرات المشاة ليلاً مع توفير الطاقة والتصميم المستدام.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 1.4 MB</span>
+                        <a href="Refrances/أداة الإصدار + دليل إنارة الشوارع والميادين.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Global Standards Section -->
+        <h3 class="references-section-title"><i class="fas fa-globe"></i> الأدلة والمعايير العالمية</h3>
+        <div class="references-grid">
+            
+            <!-- 11. NACTO Urban Street -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-global">
+                        <img src="assets/covers/2012-nacto-urban-street-design-guide.png" alt="NACTO Urban Street Design Guide">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>Urban Street Design Guide</h4>
+                        <span class="reference-author">NACTO</span>
+                    </div>
+                    <p class="reference-desc">الدليل المرجعي العالمي لتصميم الشوارع الحضرية الصديقة للمشاة، وتطوير الحارات المرنة وتهدئة الحركة المرورية.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 4.9 MB</span>
+                        <a href="Refrances/2012-nacto-urban-street-design-guide.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. Global Street Design Guide -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-global">
+                        <img src="assets/covers/English_GSDG_HighRes.png" alt="Global Street Design Guide">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>Global Street Design Guide</h4>
+                        <span class="reference-author">GDCI / NACTO</span>
+                    </div>
+                    <p class="reference-desc">الدليل العالمي الأشمل لتخطيط وتصميم الشوارع بما يراعي السلامة المرورية للأطفال والمشاة وتعزيز حيوية الأرصفة العامة.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 382.3 MB</span>
+                        <a href="Refrances/English_GSDG_HighRes.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. NACTO Urban Bikeway -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-global">
+                        <img src="assets/covers/NACTO_Urban_Bikeway_Design_Guide.png" alt="NACTO Urban Bikeway Design Guide">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>Urban Bikeway Design Guide</h4>
+                        <span class="reference-author">NACTO</span>
+                    </div>
+                    <p class="reference-desc">المرجع العالمي المتكامل لتصميم مسارات الدراجات الحضرية المحمية، والتقاطعات المخصصة لراكبي الدراجات، وإشارات العبور.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 15.6 MB</span>
+                        <a href="Refrances/NACTO_Urban_Bikeway_Design_Guide.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. Streets for Walking and Cycling -->
+            <div class="reference-card">
+                <div class="book-container">
+                    <div class="book-cover-3d book-global">
+                        <img src="assets/covers/streets-for-walking-and-cycling.png" alt="Streets for Walking and Cycling">
+                    </div>
+                </div>
+                <div class="reference-details">
+                    <div class="reference-header">
+                        <h4>Streets for Walking and Cycling</h4>
+                        <span class="reference-author">ITDP</span>
+                    </div>
+                    <p class="reference-desc">دليل تصميم وتخطيط الشوارع لتمكين النقل النشط والمشي وركوب الدراجات، وتقليل الانبعاثات الكربونية في المناطق الحضرية.</p>
+                    <div class="reference-footer">
+                        <span class="reference-meta"><i class="fas fa-file-pdf"></i> 14.4 MB</span>
+                        <a href="Refrances/streets-for-walking-and-cycling.pdf" download class="download-btn"><i class="fas fa-download"></i> تحميل</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <img src="logo.svg" alt="أنسنة الشرقية" class="footer-mini-logo">
+                <p>منصة تفاعلية تهدف إلى تعزيز جودة الحياة في المنطقة الشرقية من خلال تطبيق أفضل المعايير العالمية في أنسنة المدن وتطوير الفراغات الحضرية.</p>
+            </div>
+
+            <div class="footer-col contact-col">
+                <div class="footer-social-section">
+                    <h5>تابعنا على</h5>
+                    <div class="social-icons-grid">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Snapchat"><i class="fab fa-snapchat"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-app-section">
+                    <h5>تطبيق أنسنة الشرقية</h5>
+                    <div class="app-badges">
+                        <a href="#">
+                            <img src="Footer/google_play_badge.svg" alt="احصل عليه من جوجل بلاي">
+                        </a>
+                        <a href="#">
+                            <img src="Footer/app_store_badge.svg" alt="تنزيل من متجر التطبيقات">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="skyline-section">
+            <div class="skyline-wrapper">
+                <div class="skyline-image"></div>
+            </div>
+        </section>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-layout">
+                <div class="footer-copyright">
+                    <p>جميع الحقوق محفوظة © أمانة المنطقة الشرقية 2026</p>
+                </div>
+                <div class="footer-logos">
+                    <img src="Footer/year_of_ai_logo_1040.png" alt="عام الذكاء الاصطناعي" class="footer-partner-logo-native">
+                    <img src="Footer/ministry_logo_1040.png" alt="وزارة البلديات والإسكان" class="footer-partner-logo-native">
+                    <img src="Footer/amana_logo_1040.png" alt="أمانة المنطقة الشرقية" class="footer-partner-logo-native">
+                    <img src="Footer/vision_2030_logo_white.png" alt="رؤية 2030" class="footer-partner-logo-native">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

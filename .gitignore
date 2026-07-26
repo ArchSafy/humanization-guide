@@ -8,3 +8,7 @@ temp_extract/
 New folder/
 Presentation*.pptx
 Presentation*.pdf
+temp_zip/
+temp_zip.zip
+*.dll
+*.exe

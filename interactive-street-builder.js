@@ -416,6 +416,14 @@ function initSidebar() {
                 e.dataTransfer.setData('text/plain', comp.id);
                 e.dataTransfer.effectAllowed = 'copy';
             });
+
+            compDiv.addEventListener('mouseenter', (e) => {
+                showTooltip(e, comp.id);
+            });
+            
+            compDiv.addEventListener('mouseleave', () => {
+                hideTooltip();
+            });
             
             compDiv.addEventListener('click', () => {
                 const instance = { 
@@ -433,6 +441,7 @@ function initSidebar() {
         catDiv.appendChild(compList);
         sidebar.appendChild(catDiv); 
     });
+
 }
 
 function getComponentById(id) {
@@ -708,6 +717,18 @@ function renderSequence() {
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('isb/reorder-id', comp.instanceId);
             setTimeout(() => item.style.display = 'none', 0);
+        });
+        
+        item.addEventListener('mouseenter', (e) => {
+            showTooltip(e, comp.id);
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            hideTooltip();
+        });
+        
+        item.addEventListener('click', (e) => {
+            showTooltip(e, comp.id);
         });
         
         item.addEventListener('dragend', () => {
@@ -2568,6 +2589,71 @@ function updateEvaluation(totalWidth) {
     if (sequence.some(c => c.id === 'bollard')) qualityScore += 10;
     qualityScore = Math.min(100, qualityScore);
     document.getElementById('isb-quality-score').textContent = `${qualityScore}%`;
+}
+
+// 14. References & Standards Database
+const referencesDB = {
+    "commercial_edge": "<strong>الحد التجاري:</strong> الحد الأدنى للعرض هو 3.0م في الشوارع التجارية لتسهيل حركة المارة وجلسات المقاهي - <em>المعايير التوجيهية لأنسنة المدن (وزارة البلديات والإسكان)</em>.",
+    "clear_sidewalk": "<strong>رصيف المشاة:</strong> الحد الأدنى لعرض مسار المشاة الخالي من العوائق هو 1.8م لضمان حركة سلسة للمشاة والكراسي المتحركة - <em>دليل الوصول الشامل (APD) وكود البناء السعودي SBC 201</em>.",
+    "residential_edge": "<strong>الحد السكني:</strong> يوصى بعرض 1.2م إلى 1.5م كمنطقة ارتداد وحرم بين المباني السكنية والرصيف العام لخصوصية السكان وتوفير ممرات خدمات - <em>المعايير التوجيهية لأنسنة المدن (وزارة البلديات والإسكان)</em>.",
+    "urban_furniture_buffer": "<strong>نطاق الأثاث الحضري:</strong> يجب ألا يقل عن 1.0م ويخصص لوضع الأعمدة، والأشجار، وسلال المهملات لحماية المشاة - <em>دليل تصميم الشوارع بوزارة البلديات والإسكان</em>.",
+    "seafront": "<strong>الحد البحري:</strong> حد حماية الكورنيش والواجهات البحرية - متوافق مع <em>دليل أمانة المنطقة الشرقية لتطوير الكورنيش والواجهات</em> لضمان السلامة واستمرارية الوصول البصري للماء.",
+    "bollard": "<strong>حاجز مشاة (بولارد):</strong> تثبت الحواجز بارتفاع 80-90سم وتباعد 1.2م لمنع دخول السيارات للأرصفة مع السماح بعبور الكراسي المتحركة - <em>دليل الوصول الشامل (APD)</em>.",
+    "lane_divider": "<strong>فاصل مسارات (دهان):</strong> فاصل مسارات مرن أو مطلي، يُسهم في التهدئة المرورية وتوجيه الحركة بحد أدنى لعرض الخط 15سم - <em>دليل تصميم الطرق والشوارع (وزارة البلديات والإسكان)</em>.",
+    "bike_lane": "<strong>مسار دراجات:</strong> عرض مسار الدراجات أحادي الاتجاه هو 1.2م إلى 1.5م مع توفير حيز عزل أمان 0.5م عن مسار السيارات - <em>أدلة تصميم مسارات الدراجات العالمية (NACTO) والمحلية</em>.",
+    "flex_zone": "<strong>النطاق المرن:</strong> عرض 2.5م يتيح الاستخدام المرن لوضع مواقف سيارات طولية أو أحواض تشجير أو محطات انتظار حافلات - <em>دليل NACTO للشوارع الحضرية</em>.",
+    "parking_45": "<strong>مواقف بزاوية 45°:</strong> عرض الموقف المائل هو 5.0م، ويسهم في زيادة الطاقة الاستيعابية للمواقف وتسهيل الدوران - <em>دليل تصميم الطرق والشوارع بوزارة البلديات والإسكان</em>.",
+    "parking_90": "<strong>مواقف بزاوية 90°:</strong> عرض الموقف العمودي هو 5.5م، ويستوعب أقصى كثافة للسيارات شريطة توفير مساحة ارتداد كافية للمناورة - <em>دليل أمانة المنطقة الشرقية وكود البناء السعودي</em>.",
+    "median_island": "<strong>الجزيرة الوسطية:</strong> العرض الموصى به هو 2.0م لتوفير ملاذ آمن للمشاة أثناء عبور الشارع وتثبيت الإنارة والتشجير - <em>دليل تصميم الطرق والشوارع بوزارة البلديات والإسكان</em>.",
+    "bus_station": "<strong>موقف حافلات:</strong> يتطلب عرضاً لا يقل عن 2.7م لاستيعاب حارة توقف الحافلات ومظلة الانتظار ومقاعد المشاة دون إعاقة رصيف حركة المشاة الرئيسي - <em>أدلة النقل الجماعي وكود البناء السعودي</em>.",
+    "standard_car_lane": "<strong>مسار سيارات:</strong> العرض القياسي لمسار السيارات هو 3.0م في الشوارع الحضرية لتهدئة السرعة وتقليل مساحات الأسفلت غير المستغلة، ويمكن أن يقل لـ 2.75م في المناطق السكنية - <em>دليل تصميم الطرق والشوارع ودليل NACTO</em>.",
+    "hov_transit_lane": "<strong>مسار حافلات / نقل سريع:</strong> الحد الأدنى لعرض مسار الحافلات المخصص هو 3.5م لضمان سلامة الحركة للحافلات عريضة الهيكل وسرعة ترددها - <em>دليل NACTO لتصميم الشوارع الحضرية</em>."
+};
+
+function showTooltip(e, id) {
+    const tooltip = document.getElementById('isb-floating-tooltip');
+    if (!tooltip || !referencesDB[id]) return;
+    
+    tooltip.innerHTML = referencesDB[id];
+    tooltip.style.display = 'block';
+    
+    // Position the tooltip to the left of the hovered element
+    const rect = e.currentTarget.getBoundingClientRect();
+    const tooltipWidth = tooltip.offsetWidth || 300;
+    
+    let left = rect.left - tooltipWidth - 15;
+    let top = rect.top + window.scrollY + (rect.height - tooltip.offsetHeight) / 2;
+    
+    if (left < 10) {
+        left = rect.right + 15;
+    }
+    if (top < window.scrollY + 10) {
+        top = window.scrollY + 10;
+    }
+    
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+    tooltip.style.opacity = '1';
+    
+    // Also update the static sidebar reference panel if it exists
+    const el = document.getElementById('isb-reference-content');
+    if (el) {
+        el.innerHTML = referencesDB[id];
+    }
+}
+
+function hideTooltip() {
+    const tooltip = document.getElementById('isb-floating-tooltip');
+    if (!tooltip) return;
+    tooltip.style.opacity = '0';
+    tooltip.style.display = 'none';
+}
+
+function showReference(id) {
+    const el = document.getElementById('isb-reference-content');
+    if (el && referencesDB[id]) {
+        el.innerHTML = referencesDB[id];
+    }
 }
 
 

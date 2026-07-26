@@ -286,15 +286,28 @@ body::before {
    New Design Layout (Per Audio Instructions)
    ========================================= */
 .hero-split {
-    padding: 60px 0;
+    padding: 0;
     min-height: 80vh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     background:
         linear-gradient(135deg, rgba(233, 231, 226, 0.96), rgba(228, 222, 211, 0.92)),
         radial-gradient(circle at 15% 15%, rgba(110, 190, 207, 0.14), transparent 28%);
     overflow: hidden;
-    border-bottom: 1px solid var(--clr-border); /* Separator line */
+    border-bottom: 1px solid var(--clr-border);
+    position: relative;
+}
+
+/* ── Decorative Flower Strip ── */
+.hero-flower-strip {
+    width: 100%;
+    height: 32px;
+    background-image: url('flower-gold-new-tile.png');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    background-position: center;
+    flex-shrink: 0;
 }
 
 .hero-container {
@@ -303,6 +316,10 @@ body::before {
     justify-content: space-between;
     gap: 4rem;
     width: 100%;
+    flex: 1;
+    padding: 60px 0;
+    position: relative;
+    z-index: 2;
 }
 
 /* Neuron Constellation */
@@ -375,6 +392,24 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Right in RTL */
+}
+
+.hero-sketch-bg {
+    position: absolute;
+    right: 0;
+    top: 32px;
+    height: calc(100% - 64px);
+    width: auto;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+}
+
+[data-theme="dark"] .hero-sketch-bg {
+    filter: invert(1) hue-rotate(180deg);
+    mix-blend-mode: screen;
+    opacity: 0.45;
 }
 
 .hero-title-new {
@@ -547,7 +582,9 @@ body::before {
 .skyline-wrapper {
     width: 100%;
     max-width: none;
-    height: 180px;
+    height: 10.417vw; /* Dynamic height matching the 9.6:1 aspect ratio of dammam_khobar_skyline.png */
+    min-height: 120px;
+    max-height: 400px; /* Fully accommodates large QHD/27-inch and 4K displays */
     margin: 0;
     position: relative;
     overflow: hidden;
@@ -885,6 +922,10 @@ body::before {
     background-image: linear-gradient(rgba(85, 93, 113, 0.9), rgba(101, 92, 80, 0.86)), url('hero-bg.png');
     background-size: cover;
     background-position: center;
+}
+
+.principles-hero {
+    background-image: linear-gradient(rgba(40, 45, 60, 0.55), rgba(40, 45, 60, 0.6)), url('principles-guide.png');
 }
 
 .execution-hero {
@@ -1609,15 +1650,15 @@ body::before {
 
 .matrix-heading {
     display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    align-items: end;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     margin-bottom: 30px;
 }
 
 .matrix-heading h3 {
     max-width: 720px;
-    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    font-size: clamp(1.4rem, 2.2vw, 1.95rem);
     line-height: 1.25;
 }
 
@@ -1669,10 +1710,7 @@ body::before {
 }
 
 .design-intro {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
-    gap: 48px;
-    align-items: end;
+    max-width: 800px;
     margin-bottom: 34px;
 }
 
@@ -1787,6 +1825,27 @@ body::before {
     color: var(--clr-text-muted);
     line-height: 1.75;
     margin: 0;
+}
+
+.typology-hover .learn-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    color: var(--clr-secondary);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.typology-hover .learn-more i {
+    font-size: 0.85rem;
+    transition: transform 0.3s ease;
+}
+
+.urban-typology-card:hover .learn-more i {
+    transform: translateX(-4px);
 }
 
 .urban-typology-card:hover img,
@@ -3973,6 +4032,58 @@ body::before {
     line-height: 1.5;
 }
 
+.popup-image-container {
+    width: 100%;
+    height: 140px;
+    margin: 0.75rem 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.popup-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.popup-desc {
+    margin: 0.75rem 0 !important;
+    font-size: 0.85rem !important;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    border-right: 3px solid var(--clr-accent);
+}
+
+[data-theme="dark"] .popup-desc {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.popup-link-btn {
+    transition: all 0.3s ease;
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.popup-link-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+    transform: translateX(-3px);
+}
+
+[data-theme="dark"] .popup-link-btn {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="dark"] .popup-link-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
 /* Dark Mode Overrides for Map Controls */
 [data-theme="dark"] .leaflet-bar a {
     background-color: var(--surface-color);
@@ -4120,10 +4231,17 @@ body::before {
    Stats Counter Section (Approved Metrics)
    ========================================= */
 .stats-section {
-    padding: 100px 0;
+    padding: 0;
     background-color: var(--clr-surface);
     border-top: 1px solid var(--clr-border);
     border-bottom: 1px solid var(--clr-border);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.stats-section > .container {
+    padding: 100px 0;
 }
 
 [data-theme="dark"] .stats-section {
@@ -4178,7 +4296,7 @@ body::before {
 .stat-icon {
     font-size: 2.5rem;
     color: var(--clr-primary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     transition: transform 0.4s ease;
 }
 
@@ -4192,7 +4310,7 @@ body::before {
     align-items: baseline;
     justify-content: center;
     gap: 2px;
-    direction: ltr; /* Ensure numbers and suffixes display left-to-right correctly */
+    direction: rtl;
     margin-bottom: 0.75rem;
 }
 
@@ -4207,18 +4325,18 @@ body::before {
     color: var(--clr-text);
 }
 
+.stat-prefix,
 .stat-suffix {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--clr-primary);
-    margin-left: 2px;
 }
 
 .stat-card h4 {
     font-size: 1.25rem;
     font-weight: 800;
     color: var(--clr-secondary);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
 }
 
 [data-theme="dark"] .stat-card h4 {
@@ -4247,5 +4365,283 @@ body::before {
         font-size: 3rem;
     }
 }
+
+/* =========================================
+   Execution Guide Blueprints & PDF Modal
+   ========================================= */
+.panel-blueprints-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--clr-border);
+}
+
+.panel-blueprints-section h5 {
+    color: var(--clr-primary);
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.blueprints-grid-mini {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.blueprint-mini-item {
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+}
+
+.blueprint-mini-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--clr-primary);
+}
+
+.blueprint-mini-item span {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--clr-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.blueprint-mini-item span i {
+    color: var(--clr-primary);
+    font-size: 1.1rem;
+}
+
+.blueprint-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-preview-pdf,
+.btn-download-pdf {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-preview-pdf {
+    background: transparent;
+    border: 1px solid var(--clr-primary);
+    color: var(--clr-primary);
+}
+
+.btn-preview-pdf:hover {
+    background: var(--clr-primary);
+    color: #fff;
+}
+
+.btn-download-pdf {
+    background: var(--clr-secondary);
+    border: 1px solid var(--clr-secondary);
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-download-pdf:hover {
+    background: var(--clr-primary);
+    border-color: var(--clr-primary);
+}
+
+/* Technical Library tab specifics */
+.library-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--clr-border);
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 20px;
+    border: 1px solid var(--clr-border);
+    background: var(--clr-surface);
+    color: var(--clr-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--clr-primary);
+    color: #fff;
+    border-color: var(--clr-primary);
+}
+
+.blueprints-library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.blueprint-card {
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.25rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+}
+
+.blueprint-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--clr-primary);
+}
+
+.bp-card-icon {
+    font-size: 2rem;
+    color: var(--clr-primary);
+}
+
+.bp-card-info h5 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--clr-secondary);
+    margin-bottom: 6px;
+}
+
+[data-theme="dark"] .bp-card-info h5 {
+    color: var(--clr-text);
+}
+
+.bp-card-info p {
+    font-size: 0.8rem;
+    color: var(--clr-text-muted);
+    font-family: monospace;
+    opacity: 0.85;
+}
+
+.bp-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Modal Popup Viewer */
+.pdf-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-modal.is-open {
+    display: flex;
+}
+
+.pdf-modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+}
+
+.pdf-modal-container {
+    position: relative;
+    background: var(--clr-surface);
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 1200px;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pdf-modal-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--clr-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--clr-bg-alt);
+}
+
+.pdf-modal-header h4 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--clr-secondary);
+}
+
+[data-theme="dark"] .pdf-modal-header h4 {
+    color: var(--clr-text);
+}
+
+.pdf-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--clr-text-muted);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.pdf-modal-close:hover {
+    color: var(--clr-primary);
+}
+
+.pdf-modal-body {
+    flex: 1;
+    position: relative;
+}
+
+#pdf-viewer-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@keyframes modalSlideUp {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 
 

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize the map centered on Dammam/Khobar area
     const map = L.map('map-container').setView([26.3500, 50.1500], 11);
+    window.map = map;
 
     // 2. Add OpenStreetMap Tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -93,8 +94,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h4>${loc.name}</h4>
         `;
         
+        if (loc.image) {
+            popupContent += `
+                <div class="popup-image-container">
+                    <img src="assets/locations/${loc.image}" alt="${loc.name}">
+                </div>
+            `;
+        }
+        
         if (loc.desc) {
-            popupContent += `<p>${loc.desc}</p>`;
+            // Replace newlines with <br> to show information neatly
+            const formattedDesc = loc.desc.replace(/\r?\n/g, '<br>');
+            popupContent += `<p class="popup-desc">${formattedDesc}</p>`;
         }
         
         if (loc.link) {
