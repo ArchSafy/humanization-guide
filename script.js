@@ -731,6 +731,13 @@ document.addEventListener('DOMContentLoaded', () => {
         renderList(detailIndicators, data.indicators);
         if (detailDont) detailDont.textContent = data.dont;
         if (detailDo) detailDo.textContent = data.do;
+
+        const detailImage = document.getElementById('principle-detail-image');
+        if (detailImage) {
+            const imgNum = parseInt(data.number, 10);
+            detailImage.src = `assets/principles_photos/${imgNum}.png`;
+            detailImage.alt = data.title;
+        }
     };
 
     if (principleCards.length) {
@@ -769,12 +776,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 'execution': ['implementation', 'sustainability']
             };
 
-            matrixCards.forEach((mCard) => {
-                mCard.addEventListener('mouseenter', () => {
-                    const matrixKey = mCard.dataset.matrix;
-                    const activeKeys = matrixLinks[matrixKey] || [];
-                    mCard.classList.add('active-matrix');
+            const principleNames = {
+                'human-scale': 'مقياس الإنسان',
+                'walkability': 'قابلية المشي',
+                'safety': 'السلامة والأمان',
+                'accessibility': 'الوصول الشامل',
+                'comfort': 'الراحة البيئية',
+                'frontage': 'الواجهات النشطة',
+                'vitality': 'الحيوية والهوية',
+                'sustainability': 'الاستدامة',
+                'integration': 'التكامل والاتساق',
+                'implementation': 'قابلية التنفيذ والصيانة'
+            };
 
+            matrixCards.forEach((mCard) => {
+                const matrixKey = mCard.dataset.matrix;
+                const activeKeys = matrixLinks[matrixKey] || [];
+                
+                // Add Quick Links dynamically inside each card
+                const linksHtml = activeKeys.map(key => {
+                    return `<span class="matrix-link-btn" data-target="${key}" style="color: var(--clr-primary); font-weight: bold; cursor: pointer; text-decoration: underline; margin: 0 4px; font-size: 0.8rem; display: inline-block;">${principleNames[key]}</span>`;
+                }).join(' | ');
+
+                const linkContainer = document.createElement('div');
+                linkContainer.className = 'matrix-links-wrapper';
+                linkContainer.style.marginTop = '10px';
+                linkContainer.style.borderTop = '1px dashed var(--clr-border)';
+                linkContainer.style.paddingTop = '8px';
+                linkContainer.innerHTML = `<span style="font-size: 0.75rem; color: var(--clr-text-muted); display: block; margin-bottom: 4px;">المبادئ المرتبطة:</span> ${linksHtml}`;
+                mCard.appendChild(linkContainer);
+
+                // Bind click to scroll up and select principle
+                linkContainer.querySelectorAll('.matrix-link-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const targetKey = btn.dataset.target;
+                        const targetCard = document.querySelector(`[data-principle="${targetKey}"]`);
+                        
+                        if (targetCard) {
+                            selectPrinciple(targetKey);
+                            const headerHeight = document.querySelector('.main-header').offsetHeight;
+                            const elementPosition = targetCard.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+
+                mCard.addEventListener('mouseenter', () => {
+                    mCard.classList.add('active-matrix');
                     principleCards.forEach((pCard) => {
                         const pKey = pCard.dataset.principle;
                         if (activeKeys.includes(pKey)) {
