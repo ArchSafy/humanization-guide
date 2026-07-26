@@ -4643,5 +4643,173 @@ body::before {
     }
 }
 
+/* =========================================
+   تطويرات المبادئ الأساسية التفاعلية
+   ========================================= */
+
+/* مصفوفة الربط التفاعلية */
+.principle-card {
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease !important;
+}
+
+.principle-card.dimmed {
+    opacity: 0.22;
+    transform: scale(0.96);
+    filter: grayscale(60%) blur(0.5px);
+    pointer-events: none;
+}
+
+.principle-card.highlight-link {
+    border-color: var(--clr-primary) !important;
+    box-shadow: 0 15px 35px rgba(165, 127, 97, 0.35) !important;
+    transform: translateY(-8px) scale(1.04) !important;
+    z-index: 10;
+}
+
+.matrix-grid div {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.matrix-grid div.active-matrix {
+    border-color: var(--clr-primary) !important;
+    background: var(--clr-surface) !important;
+    box-shadow: var(--shadow-md) !important;
+    transform: translateY(-6px) scale(1.02);
+}
+
+/* لوحة مقارنة Do vs Don't */
+.comparison-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.dont-box, .do-box {
+    padding: 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+}
+
+.dont-box {
+    background: rgba(231, 76, 60, 0.06);
+    border-right: 4px solid #e74c3c;
+}
+
+.dont-box h5 {
+    color: #c0392b;
+    margin: 0 0 0.6rem 0;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+[data-theme="dark"] .dont-box h5 {
+    color: #ff6b6b;
+}
+
+.dont-box p {
+    margin: 0;
+    color: var(--clr-text);
+}
+
+.do-box {
+    background: rgba(46, 204, 113, 0.06);
+    border-right: 4px solid #2ecc71;
+}
+
+.do-box h5 {
+    color: #27ae60;
+    margin: 0 0 0.6rem 0;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+[data-theme="dark"] .do-box h5 {
+    color: #2ecc71;
+}
+
+.do-box p {
+    margin: 0;
+    color: var(--clr-text);
+}
+
+/* حاسبة مؤشر جودة الأنسنة */
+.calculator-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+}
+
+@media (min-width: 992px) {
+    .calculator-body {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.calc-btn {
+    background: var(--clr-bg);
+    border: 1px solid var(--clr-border);
+    color: var(--clr-text);
+    padding: 0.45rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    font-family: 'Cairo', sans-serif;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.calc-btn:hover {
+    border-color: var(--clr-primary);
+}
+
+.calc-btn.active {
+    background: var(--clr-primary);
+    color: white;
+    border-color: var(--clr-primary);
+    box-shadow: 0 4px 10px rgba(165, 127, 97, 0.3);
+}
+
+.calc-question-card {
+    transition: all 0.3s ease;
+}
+
+.calc-question-card:hover {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: var(--clr-primary) !important;
+}
+
+[data-theme="dark"] .calc-question-card {
+    background: rgba(255,255,255,0.03) !important;
+}
+
+[data-theme="dark"] .calc-question-card:hover {
+    background: rgba(255,255,255,0.06) !important;
+}
+
+[data-theme="dark"] .calc-result-panel {
+    background: rgba(255,255,255,0.02) !important;
+}
+
+[data-theme="dark"] .calc-btn {
+    background: rgba(255,255,255,0.05);
+}
+
+[data-theme="dark"] .calc-btn.active {
+    background: var(--clr-primary);
+    color: white;
+}
+
 
 

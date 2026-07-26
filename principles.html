@@ -170,9 +170,19 @@
                             <ul id="principle-detail-indicators"></ul>
                         </div>
 
-                        <div class="principle-detail-section warning">
-                            <h4>أخطاء شائعة</h4>
-                            <p id="principle-detail-mistake"></p>
+                        <!-- Do vs Don't Comparison Box -->
+                        <div class="principle-detail-section">
+                            <h4>المقارنة المعيارية للتطبيق</h4>
+                            <div class="comparison-box">
+                                <div class="dont-box">
+                                    <h5><i class="fas fa-times-circle"></i> ممارسة خاطئة</h5>
+                                    <p id="principle-detail-dont"></p>
+                                </div>
+                                <div class="do-box">
+                                    <h5><i class="fas fa-check-circle"></i> ممارسة صحيحة</h5>
+                                    <p id="principle-detail-do"></p>
+                                </div>
+                            </div>
                         </div>
                     </aside>
                 </section>
@@ -183,11 +193,89 @@
                         <h3>يجب أن ينعكس كل مبدأ في قرار تصميمي واضح</h3>
                     </div>
                     <div class="matrix-grid">
-                        <div><strong>المشاة</strong><span>أرصفة مستمرة، عبور آمن، مسافات مريحة.</span></div>
-                        <div><strong>السلامة</strong><span>رؤية واضحة، سرعة منخفضة، إنارة فعالة.</span></div>
-                        <div><strong>المناخ</strong><span>ظل، تشجير، مواد تقلل الحرارة.</span></div>
-                        <div><strong>الهوية</strong><span>مواد محلية، أثاث حضري، لغة بصرية متسقة.</span></div>
-                        <div><strong>التنفيذ</strong><span>تفاصيل قابلة للبناء، مواصفات، قوائم فحص.</span></div>
+                        <div data-matrix="pedestrian"><strong>المشاة</strong><span>أرصفة مستمرة، عبور آمن، مسافات مريحة.</span></div>
+                        <div data-matrix="safety"><strong>السلامة</strong><span>رؤية واضحة، سرعة منخفضة، إنارة فعالة.</span></div>
+                        <div data-matrix="climate"><strong>المناخ</strong><span>ظل، تشجير، مواد تقلل الحرارة.</span></div>
+                        <div data-matrix="identity"><strong>الهوية</strong><span>مواد محلية، أثاث حضري، لغة بصرية متسقة.</span></div>
+                        <div data-matrix="execution"><strong>التنفيذ</strong><span>تفاصيل قابلة للبناء، مواصفات، قوائم فحص.</span></div>
+                    </div>
+                </section>
+
+                <!-- Humanization Score Calculator Section -->
+                <section class="calculator-section" style="margin-top: 5rem; padding-top: 3rem; border-top: 2px solid var(--clr-border);">
+                    <div class="calculator-container" style="background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 12px; padding: 2.5rem; box-shadow: var(--shadow-md);">
+                        <div class="calculator-header" style="margin-bottom: 2rem; text-align: center;">
+                            <span class="section-kicker">أداة تقييم تفاعلية</span>
+                            <h3 style="font-family: 'Cairo', sans-serif; font-size: 1.8rem; color: var(--clr-secondary); margin: 0.5rem 0 1rem 0;">حاسبة مؤشر جودة الأنسنة للشوارع</h3>
+                            <p style="color: var(--clr-text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6;">قم بالإجابة على الأسئلة التالية لتقييم مدى مطابقة شوارع الأحياء الحضرية في المنطقة الشرقية لمعايير الأنسنة المعتمدة في الدليل.</p>
+                        </div>
+
+                        <div class="calculator-body">
+                            <!-- Left: Questions list -->
+                            <div class="calc-questions" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                                <!-- Question 1 -->
+                                <div class="calc-question-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--clr-border);">
+                                    <span style="font-size: 0.95rem; font-weight: bold; color: var(--clr-text);">1. هل الرصيف مستمر بعرض 1.8 متر على الأقل وخالٍ من العوائق؟</span>
+                                    <div class="calc-options" style="display: flex; gap: 0.75rem;">
+                                        <button class="calc-btn active" data-question="q1" data-val="20">نعم</button>
+                                        <button class="calc-btn" data-question="q1" data-val="0">لا</button>
+                                    </div>
+                                </div>
+                                <!-- Question 2 -->
+                                <div class="calc-question-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--clr-border);">
+                                    <span style="font-size: 0.95rem; font-weight: bold; color: var(--clr-text);">2. هل تم تأمين منحدرات وصول مريحة ومسارات ملمسية متصلة عند التقاطعات؟</span>
+                                    <div class="calc-options" style="display: flex; gap: 0.75rem;">
+                                        <button class="calc-btn active" data-question="q2" data-val="20">نعم</button>
+                                        <button class="calc-btn" data-question="q2" data-val="0">لا</button>
+                                    </div>
+                                </div>
+                                <!-- Question 3 -->
+                                <div class="calc-question-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--clr-border);">
+                                    <span style="font-size: 0.95rem; font-weight: bold; color: var(--clr-text);">3. هل السرعة التصميمية للسيارات محددة هندسياً بـ 30 كم/س أو أقل؟</span>
+                                    <div class="calc-options" style="display: flex; gap: 0.75rem;">
+                                        <button class="calc-btn active" data-question="q3" data-val="15">نعم</button>
+                                        <button class="calc-btn" data-question="q3" data-val="0">لا</button>
+                                    </div>
+                                </div>
+                                <!-- Question 4 -->
+                                <div class="calc-question-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--clr-border);">
+                                    <span style="font-size: 0.95rem; font-weight: bold; color: var(--clr-text);">4. هل الشارع يوفر نسبة تظليل للمشاة لا تقل عن 50% باستخدام أشجار وارفة؟</span>
+                                    <div class="calc-options" style="display: flex; gap: 0.75rem;">
+                                        <button class="calc-btn active" data-question="q4" data-val="15">نعم</button>
+                                        <button class="calc-btn" data-question="q4" data-val="0">لا</button>
+                                    </div>
+                                </div>
+                                <!-- Question 5 -->
+                                <div class="calc-question-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--clr-border);">
+                                    <span style="font-size: 0.95rem; font-weight: bold; color: var(--clr-text);">5. هل واجهات المتاجر نشطة وشفافة (خالية من الأسوار الصامتة)؟</span>
+                                    <div class="calc-options" style="display: flex; gap: 0.75rem;">
+                                        <button class="calc-btn active" data-question="q5" data-val="15">نعم</button>
+                                        <button class="calc-btn" data-question="q5" data-val="0">لا</button>
+                                    </div>
+                                </div>
+                                <!-- Question 6 -->
+                                <div class="calc-question-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--clr-border);">
+                                    <span style="font-size: 0.95rem; font-weight: bold; color: var(--clr-text);">6. هل تم استخدام مواد وأرصفة محلية ذات ألوان فاتحة لتقليل الحرارة؟</span>
+                                    <div class="calc-options" style="display: flex; gap: 0.75rem;">
+                                        <button class="calc-btn active" data-question="q6" data-val="15">نعم</button>
+                                        <button class="calc-btn" data-question="q6" data-val="0">لا</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Result Display -->
+                            <div class="calc-result-panel" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; border: 1px solid var(--clr-border); border-radius: 12px; background: rgba(0,0,0,0.01); text-align: center;">
+                                <div class="calc-progress-circle" style="position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;">
+                                    <svg style="width: 140px; height: 140px; transform: rotate(-90deg);">
+                                        <circle cx="70" cy="70" r="60" stroke="var(--clr-border)" stroke-width="8" fill="transparent" />
+                                        <circle id="calc-progress-bar" cx="70" cy="70" r="60" stroke="var(--clr-primary)" stroke-width="8" fill="transparent" stroke-dasharray="377" stroke-dashoffset="0" style="transition: stroke-dashoffset 0.4s ease;" />
+                                    </svg>
+                                    <span id="calc-score" style="position: absolute; font-size: 2.2rem; font-weight: 900; font-family: 'Cairo', sans-serif; color: var(--clr-secondary);">100%</span>
+                                </div>
+                                <h4 id="calc-status-title" style="font-family: 'Cairo', sans-serif; margin: 1.5rem 0 0.5rem 0; font-size: 1.25rem; color: var(--clr-secondary); font-weight: bold;">شارع إنساني متكامل</h4>
+                                <p id="calc-status-desc" style="font-size: 0.85rem; color: var(--clr-text-muted); line-height: 1.6; max-width: 320px; margin: 0;">تهانينا! هذا التصميم يحقق أعلى درجات الأنسنة وجودة الحياة ومطابق للأدلة المعتمدة.</p>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>

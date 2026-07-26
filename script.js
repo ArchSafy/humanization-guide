@@ -532,7 +532,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل توجد نقاط توقف وجلوس ضمن مسافات مريحة؟',
                 'هل السرعة التصميمية مناسبة للبيئة الحضرية؟'
             ],
-            mistake: 'تصميم الشارع كقطاع مروري فقط، ثم محاولة إضافة عناصر إنسانية بعد تثبيت العرض والسرعات.'
+            dont: 'تصميم الشارع كقطاع مروري فقط، ثم محاولة إضافة عناصر إنسانية بعد تثبيت العرض والسرعات.',
+            do: 'تصميم الشارع من رصيف المشاة إلى الخارج (Inside-Out)، وتحديد السرعة المستهدفة أولاً (مثلاً 30 كم/س).'
         },
         walkability: {
             number: '02',
@@ -549,13 +550,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل مسافة العبور آمنة ومقروءة؟',
                 'هل المسار يخدم الوجهات اليومية فعليًا؟'
             ],
-            mistake: 'اعتبار الرصيف مساحة متبقية بعد توزيع المركبات والمواقف، بدل كونه العنصر الرئيسي للحركة.'
+            dont: 'اعتبار الرصيف مساحة متبقية بعد توزيع المركبات والمواقف، بدل كونه العنصر الرئيسي للحركة.',
+            do: 'تأمين رصيف مستمر وخالٍ من العوائق بعرض 1.8 متر على الأقل كأولوية تخطيطية أولى.'
         },
         safety: {
             number: '03',
             eyebrow: 'Safety & Security',
             title: 'السلامة والأمان',
-            summary: 'تقليل المخاطر المرورية ورفع الإحساس بالأمان عبر الرؤية، الإضاءة، وتهدئة الحركة.',
+            summary: 'تقليل المخاطر مرورية ورفع الإحساس بالأمان عبر الرؤية، الإضاءة، وتهدئة الحركة.',
             actions: [
                 'استخدام عناصر تهدئة حركة عند التقاطعات والمناطق النشطة.',
                 'توفير إنارة منتظمة دون مناطق مظلمة أو وهج مزعج.',
@@ -566,7 +568,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل الإضاءة تغطي الأرصفة والمعابر؟',
                 'هل التصميم يشجع السرعات المنخفضة؟'
             ],
-            mistake: 'الاكتفاء باللوحات والتنبيهات بدل معالجة سبب الخطر في شكل الطريق نفسه.'
+            dont: 'الاعتماد على الإشارات التحذيرية فقط لتقليل السرعة، بدلاً من التعديل المادي لهندسة الشارع.',
+            do: 'استخدام عناصر مادية لتهدئة السرعة (مثل المطبات الصاعدة، تضييق الحارات، وتقاطعات مشاة مرتفعة).'
         },
         accessibility: {
             number: '04',
@@ -583,7 +586,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل أماكن الجلوس والمداخل متاحة للجميع؟',
                 'هل توجد عوائق داخل المسار الحر؟'
             ],
-            mistake: 'إضافة منحدر في نقطة واحدة فقط بينما باقي المسار مليء بعوائق أو فروق مناسيب.'
+            dont: 'وضع منحدرات حادة جداً أو إنهاء المسارات الملمسية أمام حوائط أو عوائق.',
+            do: 'منحدرات بزاوية ميل لا تتعدى 1:12 ومسارات ملمسية متصلة تقود بأمان إلى مناطق العبور.'
         },
         comfort: {
             number: '05',
@@ -600,7 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل توجد أماكن راحة على امتداد المسار؟',
                 'هل المواد مناسبة للمناخ المحلي؟'
             ],
-            mistake: 'زراعة أشجار ديكورية بعيدة عن المسار الفعلي للمشاة، فتبدو جميلة ولا تصنع راحة.'
+            dont: 'زراعة أشجار ديكورية بعيدة عن المسار الفعلي للمشاة، فتبدو جميلة ولا تصنع راحة.',
+            do: 'استخدام أشجار ذات مظلة وارفة لتوفير ظل مستمر، وأرصفة ذات معامل انعكاس شمسي (SRI) عالٍ.'
         },
         frontage: {
             number: '06',
@@ -617,7 +622,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل يرى المستخدم نشاطًا ووجهات على امتداد الرصيف؟',
                 'هل الحافة تدعم الإحساس بالأمان؟'
             ],
-            mistake: 'تصميم رصيف جيد أمام واجهات مغلقة لا تقدم سببًا للمشي أو التوقف.'
+            dont: 'تصميم رصيف جيد أمام واجهات مغلقة لا تقدم سببًا للمشي أو التوقف.',
+            do: 'تصميم نوافذ شفافة ومداخل متعددة ومتاجر صغيرة تنشط حافة الرصيف وتوفر رقابة طبيعية.'
         },
         vitality: {
             number: '07',
@@ -634,7 +640,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل الهوية تظهر في المواد والتفاصيل لا في الشعار فقط؟',
                 'هل يخدم الفراغ أكثر من فئة عمرية؟'
             ],
-            mistake: 'الاعتماد على عنصر بصري واحد كبير بدل بناء تجربة مكان كاملة قابلة للاستخدام.'
+            dont: 'الاعتماد على عنصر بصري واحد كبير بدل بناء تجربة مكان كاملة قابلة للاستخدام.',
+            do: 'تصميم مقاعد مندمجة ومظللة باستخدام خامات محلية وألوان مستوحاة من عمارة الساحل الشرقي.'
         },
         sustainability: {
             number: '08',
@@ -651,7 +658,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل المواد تتحمل الاستخدام والمناخ؟',
                 'هل يوجد منطق واضح للري والتصريف؟'
             ],
-            mistake: 'اختيار حلول خضراء شكلية تحتاج صيانة عالية فتفشل بعد فترة قصيرة.'
+            dont: 'اختيار حلول خضراء شكلية تحتاج صيانة عالية فتفشل بعد فترة قصيرة.',
+            do: 'تطبيق أنظمة الصرف المستدام (SUDS) وزراعة نباتات محلية مقاومة للجفاف وموفرة للمياه.'
         },
         integration: {
             number: '09',
@@ -668,7 +676,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل الانتقال بين الفراغات سهل ومقروء؟',
                 'هل توجد تعارضات بين التشجير، الإنارة، الأثاث، والحركة؟'
             ],
-            mistake: 'تجميع عناصر جيدة منفردة لكنها تتنافس بصريًا ووظيفيًا عند وضعها معًا.'
+            dont: 'تجميع عناصر جيدة منفردة لكنها تتنافس بصريًا ووظيفيًا عند وضعها معًا.',
+            do: 'توحيد باليتة الألوان والمواد، وتنظيم المسارات في قطاعات واضحة (التأثيث، المشي، الواجهة).'
         },
         implementation: {
             number: '10',
@@ -685,7 +694,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'هل يمكن استبدال عنصر تالف دون كسر المنظومة؟',
                 'هل توجد معايير قبول واضحة في الموقع؟'
             ],
-            mistake: 'ترك المبادئ في مستوى العبارات العامة دون تحويلها إلى تفاصيل ومقاييس استلام.'
+            dont: 'ترك المبادئ في مستوى العبارات العامة دون تحويلها إلى تفاصيل ومقاييس استلام.',
+            do: 'استخدام تفاصيل معيارية قابلة للبناء، ومواد متينة متوفرة محلياً لضمان سهولة الصيانة مستقبلاً.'
         }
     };
 
@@ -697,7 +707,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailSummary = document.getElementById('principle-detail-summary');
     const detailActions = document.getElementById('principle-detail-actions');
     const detailIndicators = document.getElementById('principle-detail-indicators');
-    const detailMistake = document.getElementById('principle-detail-mistake');
+    const detailDont = document.getElementById('principle-detail-dont');
+    const detailDo = document.getElementById('principle-detail-do');
 
     const renderList = (element, items) => {
         if (!element) return;
@@ -718,7 +729,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (detailSummary) detailSummary.textContent = data.summary;
         renderList(detailActions, data.actions);
         renderList(detailIndicators, data.indicators);
-        if (detailMistake) detailMistake.textContent = data.mistake;
+        if (detailDont) detailDont.textContent = data.dont;
+        if (detailDo) detailDo.textContent = data.do;
     };
 
     if (principleCards.length) {
@@ -745,6 +757,100 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
+        // 9.1. Interactive Link Matrix Hover Logic
+        const matrixCards = document.querySelectorAll('.matrix-grid div[data-matrix]');
+        if (matrixCards.length) {
+            const matrixLinks = {
+                'pedestrian': ['human-scale', 'walkability', 'accessibility'],
+                'safety': ['safety', 'accessibility', 'integration'],
+                'climate': ['comfort', 'sustainability'],
+                'identity': ['frontage', 'vitality', 'integration'],
+                'execution': ['implementation', 'sustainability']
+            };
+
+            matrixCards.forEach((mCard) => {
+                mCard.addEventListener('mouseenter', () => {
+                    const matrixKey = mCard.dataset.matrix;
+                    const activeKeys = matrixLinks[matrixKey] || [];
+                    mCard.classList.add('active-matrix');
+
+                    principleCards.forEach((pCard) => {
+                        const pKey = pCard.dataset.principle;
+                        if (activeKeys.includes(pKey)) {
+                            pCard.classList.add('highlight-link');
+                            pCard.classList.remove('dimmed');
+                        } else {
+                            pCard.classList.add('dimmed');
+                            pCard.classList.remove('highlight-link');
+                        }
+                    });
+                });
+
+                mCard.addEventListener('mouseleave', () => {
+                    mCard.classList.remove('active-matrix');
+                    principleCards.forEach((pCard) => {
+                        pCard.classList.remove('dimmed');
+                        pCard.classList.remove('highlight-link');
+                    });
+                });
+            });
+        }
+
+        // 9.2. Humanization Score Calculator Logic
+        const calcBtns = document.querySelectorAll('.calc-btn');
+        const calcScoreEl = document.getElementById('calc-score');
+        const calcProgressBar = document.getElementById('calc-progress-bar');
+        const calcTitleEl = document.getElementById('calc-status-title');
+        const calcDescEl = document.getElementById('calc-status-desc');
+
+        if (calcBtns.length && calcScoreEl) {
+            const updateCalculatorScore = () => {
+                let score = 0;
+                const activeBtns = document.querySelectorAll('.calc-btn.active');
+                activeBtns.forEach(btn => {
+                    score += parseInt(btn.dataset.val || '0', 10);
+                });
+
+                score = Math.min(Math.max(score, 0), 100);
+                calcScoreEl.textContent = `${score}%`;
+
+                const circumference = 377;
+                const offset = circumference - (score / 100) * circumference;
+                if (calcProgressBar) {
+                    calcProgressBar.style.strokeDashoffset = offset;
+                    if (score >= 80) {
+                        calcProgressBar.setAttribute('stroke', '#a57f61');
+                    } else if (score >= 50) {
+                        calcProgressBar.setAttribute('stroke', '#f39c12');
+                    } else {
+                        calcProgressBar.setAttribute('stroke', '#c0392b');
+                    }
+                }
+
+                if (score >= 85) {
+                    calcTitleEl.textContent = 'شارع إنساني متكامل';
+                    calcDescEl.textContent = 'رائع! هذا التصميم يحقق أعلى درجات الأنسنة وجودة الحياة ومطابق للأدلة المعتمدة بالكامل.';
+                } else if (score >= 60) {
+                    calcTitleEl.textContent = 'شارع مقبول جزئياً';
+                    calcDescEl.textContent = 'جيد، لكن الشارع يحتاج لبعض التحسينات في مجالات التشجير والراحة البيئية أو عروض الأرصفة ليكون مريحاً بالكامل.';
+                } else {
+                    calcTitleEl.textContent = 'شارع طارد للمشاة';
+                    calcDescEl.textContent = 'تنبيه: هذا التصميم يفتقر لأبسط مقومات أنسنة المدن، ويعزز سيطرة حركة السيارات على حساب سلامة المشاة.';
+                }
+            };
+
+            calcBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const question = btn.dataset.question;
+                    document.querySelectorAll(`.calc-btn[data-question="${question}"]`).forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateCalculatorScore();
+                });
+            });
+
+            updateCalculatorScore();
+        }
 
         let initialPrinciple = principleCards[0].dataset.principle;
         const hash = window.location.hash.substring(1);
