@@ -1400,9 +1400,56 @@ function renderDualView(totalWidth) {
         fgGroup.appendChild(label);
         
         const plan = createSvgElement('rect', {
-            x: currentX, y: planY, width: widthPx, height: planHeight, fill: comp.color, stroke: '#fff', 'stroke-width': '1'
+            x: currentX, y: planY, width: widthPx, height: planHeight, fill: comp.color
         });
         bgGroup.appendChild(plan);
+
+        // Helper function to check if a component is a road lane
+        const isRoadLane = (c) => {
+            if (!c) return false;
+            return c.id === 'standard_car_lane' || 
+                   c.id === 'hov_transit_lane' || 
+                   c.id === 'flex_zone' || 
+                   c.id === 'parking_45' || 
+                   c.id === 'parking_90';
+        };
+
+        // Draw left boundary of the very first element
+        if (index === 0) {
+            bgGroup.appendChild(createSvgElement('line', {
+                x1: currentX,
+                y1: planY,
+                x2: currentX,
+                y2: planY + planHeight,
+                stroke: '#fff',
+                'stroke-width': '1.5'
+            }));
+        }
+
+        // Draw boundary line between components
+        const nextComp = sequence[index + 1];
+        if (isRoadLane(comp) && isRoadLane(nextComp)) {
+            // Draw a dashed white paint line separating traffic lanes
+            bgGroup.appendChild(createSvgElement('line', {
+                x1: currentX + widthPx,
+                y1: planY,
+                x2: currentX + widthPx,
+                y2: planY + planHeight,
+                stroke: '#fff',
+                'stroke-width': '2.5',
+                'stroke-dasharray': '25,20'
+            }));
+        } else {
+            // Draw a solid separator line (outer border or curb)
+            bgGroup.appendChild(createSvgElement('line', {
+                x1: currentX + widthPx,
+                y1: planY,
+                x2: currentX + widthPx,
+                y2: planY + planHeight,
+                stroke: '#fff',
+                'stroke-width': '1.5'
+            }));
+        }
         
         if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
             const treeSize = 180 * 0.9;
