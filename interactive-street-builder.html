@@ -206,8 +206,37 @@
             justify-content: center;
         }
 
-        .isb-sequence-item:hover .remove-btn {
+        .isb-sequence-item .info-btn {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            background: transparent;
+            color: var(--clr-primary);
+            border: 1px solid var(--clr-primary);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 9px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            z-index: 10;
+            transition: background-color 0.2s;
+        }
+
+        .isb-sequence-item .info-btn:hover {
+            background: rgba(165, 127, 97, 0.12);
+        }
+
+        .isb-sequence-item:hover .remove-btn,
+        .isb-sequence-item:hover .info-btn {
             display: flex;
+        }
+
+        .isb-info-icon:hover {
+            background-color: rgba(165, 127, 97, 0.12) !important;
         }
 
         .isb-render-area {

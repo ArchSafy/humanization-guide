@@ -407,7 +407,12 @@ function initSidebar() {
             compDiv.innerHTML = `
                 <div class="isb-component-header">
                     <span class="isb-component-title">${comp.name}</span>
-                    <span class="isb-component-width">${comp.default_width_m}م</span>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span class="isb-component-width">${comp.default_width_m}م</span>
+                        <span class="isb-info-icon" style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border: 1px solid var(--clr-primary); border-radius: 50%; color: var(--clr-primary); font-size: 8px; cursor: pointer; background: transparent; transition: background-color 0.2s;" data-id="${comp.id}" title="عرض المرجع الهندسي">
+                            <i class="fas fa-info" style="font-size: 8px;"></i>
+                        </span>
+                    </div>
                 </div>
                 <div class="isb-component-desc">${comp.description}</div>
             `;
@@ -417,13 +422,15 @@ function initSidebar() {
                 e.dataTransfer.effectAllowed = 'copy';
             });
 
-            compDiv.addEventListener('mouseenter', (e) => {
-                showTooltip(e, comp.id);
-            });
-            
-            compDiv.addEventListener('mouseleave', () => {
-                hideTooltip();
-            });
+            const infoIcon = compDiv.querySelector('.isb-info-icon');
+            if (infoIcon) {
+                infoIcon.addEventListener('mouseenter', (e) => {
+                    showTooltip(e, comp.id);
+                });
+                infoIcon.addEventListener('mouseleave', () => {
+                    hideTooltip();
+                });
+            }
             
             compDiv.addEventListener('click', () => {
                 const instance = { 
@@ -719,17 +726,7 @@ function renderSequence() {
             setTimeout(() => item.style.display = 'none', 0);
         });
         
-        item.addEventListener('mouseenter', (e) => {
-            showTooltip(e, comp.id);
-        });
-        
-        item.addEventListener('mouseleave', () => {
-            hideTooltip();
-        });
-        
-        item.addEventListener('click', (e) => {
-            showTooltip(e, comp.id);
-        });
+        // Tooltip is now handled by hover on info icon rather than hover on the whole card
         
         item.addEventListener('dragend', () => {
             draggedInstanceId = null;
@@ -768,6 +765,7 @@ function renderSequence() {
 
         item.innerHTML = `
             <button class="remove-btn" style="width: ${18 * zoomLevel}px; height: ${18 * zoomLevel}px; font-size: ${10 * zoomLevel}px;" onclick="removeComponent(${comp.instanceId})"><i class="fas fa-times"></i></button>
+            <button class="info-btn" style="width: ${18 * zoomLevel}px; height: ${18 * zoomLevel}px; font-size: ${10 * zoomLevel}px;" title="عرض المرجع الهندسي"><i class="fas fa-info"></i></button>
             <div class="isb-card-content-wrapper">
                 <div class="isb-card-left-col">
                     <span style="font-size: ${12 * zoomLevel}px; line-height: 1.1;">${comp.name}</span>
@@ -798,6 +796,21 @@ function renderSequence() {
         `;
         
         sequenceContainer.appendChild(item);
+
+        // Bind tooltip listeners to info button on canvas element
+        const canvasInfoBtn = item.querySelector('.info-btn');
+        if (canvasInfoBtn) {
+            canvasInfoBtn.addEventListener('mouseenter', (e) => {
+                showTooltip(e, comp.id);
+            });
+            canvasInfoBtn.addEventListener('mouseleave', () => {
+                hideTooltip();
+            });
+            canvasInfoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showTooltip(e, comp.id);
+            });
+        }
     });
     
     totalWidthEl.textContent = `إجمالي عرض الشارع: ${totalWidth.toFixed(1)} م`;
