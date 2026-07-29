@@ -551,14 +551,7 @@ body::before {
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Centering the 4th and 5th cards on the second row */
-.category-card:nth-child(4) {
-    grid-column: 2 / span 2;
-}
-
-.category-card:nth-child(5) {
-    grid-column: 4 / span 2;
-}
+/* Centering rules removed since we now have 6 cards forming a complete 3x2 grid layout */
 
 /* =========================================
    Skyline Section with Wipe Animation
