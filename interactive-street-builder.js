@@ -1713,7 +1713,6 @@ function renderDualView(totalWidth) {
             }));
         } else if (comp.id === 'parking_45') {
             // Draw parking slot lines (clipped to the lane rect)
-            const lineSpacing = 120; // Spacing of lines along Y-axis
             
             // Generate clip path dynamically
             const clipPathId = `clip-parking-${comp.instanceId}`;
@@ -1726,10 +1725,9 @@ function renderDualView(totalWidth) {
             }));
             defs.appendChild(clipPath);
 
-            // Left side slope is opposite to Right side slope.
-            // Right Side goes bottom-left to top-right (slope = -1).
-            // Left Side goes top-left to bottom-right (slope = 1, so y goes down as x goes right).
-            for (let y = planY - widthPx - 100; y < planY + planHeight + widthPx + 100; y += lineSpacing) {
+            // Draw parking lines synchronized with planY
+            for (let i = -1; i <= 8; i++) {
+                const y = planY + i * 120;
                 let x1 = currentX;
                 let y1 = isRightSide ? y : y + widthPx;
                 let x2 = currentX + widthPx;
@@ -1788,11 +1786,11 @@ function renderDualView(totalWidth) {
                 fgGroup.appendChild(carImg);
 
                 // Draw custom wheel stopper (concrete block)
-                // Perpendicular to car, placed in front of car wheels
+                // Perpendicular to car, placed exactly in front of the front bumper
                 const stopperW = 6;
                 const stopperH = 34;
                 const rad = heading * Math.PI / 180;
-                const shiftDist = 42; // distance from car center to front tires stopper
+                const shiftDist = 75; // shifted to be visible in front of the car's hood
                 const sx = cx + shiftDist * Math.cos(rad);
                 const sy = cy + shiftDist * Math.sin(rad);
 
