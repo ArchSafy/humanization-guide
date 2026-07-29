@@ -1752,9 +1752,14 @@ function renderDualView(totalWidth) {
             const cx = currentX + widthPx / 2;
             
             // Angle of rotation:
-            // Right Side: -45 degrees (pointing top-right).
-            // Left Side: 135 degrees (pointing bottom-left).
-            const rotation = isRightSide ? -45 : 135;
+            // Right Side: 45 degrees (car image is vertical, rotate by 45 clockwise to face top-right).
+            // Left Side: -135 degrees (rotate by 135 counter-clockwise to face bottom-left).
+            const rotation = isRightSide ? 45 : -135;
+            
+            // Angle of heading (used for the 2D shift vector of the stopper in front of the car):
+            // Right Side: -45 degrees (top-right direction).
+            // Left Side: 135 degrees (bottom-left direction).
+            const heading = isRightSide ? -45 : 135;
             
             // Centers of the slots (using line Y centers)
             const slotCentersY = [
@@ -1786,7 +1791,7 @@ function renderDualView(totalWidth) {
                 // Perpendicular to car, placed in front of car wheels
                 const stopperW = 6;
                 const stopperH = 34;
-                const rad = rotation * Math.PI / 180;
+                const rad = heading * Math.PI / 180;
                 const shiftDist = 42; // distance from car center to front tires stopper
                 const sx = cx + shiftDist * Math.cos(rad);
                 const sy = cy + shiftDist * Math.sin(rad);
