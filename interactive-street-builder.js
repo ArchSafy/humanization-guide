@@ -1712,74 +1712,98 @@ function renderDualView(totalWidth) {
                 transform: rotation ? `rotate(${rotation} ${carX} ${car2Y})` : ''
             }));
         } else if (comp.id === 'parking_45') {
-            // Draw parking slot lines
+            // Draw parking slot lines (clipped to the lane rect)
             const lineSpacing = 120; // Spacing of lines along Y-axis
-            for (let y = planY - widthPx; y < planY + planHeight + widthPx; y += lineSpacing) {
+            
+            // Generate clip path dynamically
+            const clipPathId = `clip-parking-${comp.instanceId}`;
+            const clipPath = createSvgElement('clipPath', { id: clipPathId });
+            clipPath.appendChild(createSvgElement('rect', {
+                x: currentX,
+                y: planY,
+                width: widthPx,
+                height: planHeight
+            }));
+            defs.appendChild(clipPath);
+
+            // Left side slope is opposite to Right side slope.
+            // Right Side goes bottom-left to top-right (slope = -1).
+            // Left Side goes top-left to bottom-right (slope = 1, so y goes down as x goes right).
+            for (let y = planY - widthPx - 100; y < planY + planHeight + widthPx + 100; y += lineSpacing) {
                 let x1 = currentX;
-                let y1 = y;
+                let y1 = isRightSide ? y : y + widthPx;
                 let x2 = currentX + widthPx;
-                let y2 = y - widthPx;
+                let y2 = isRightSide ? y - widthPx : y;
                 
-                if (isRightSide) {
-                    if (y1 > planY + planHeight) {
-                        const diff = y1 - (planY + planHeight);
-                        x1 += diff;
-                        y1 -= diff;
-                    }
-                    if (y2 < planY) {
-                        const diff = planY - y2;
-                        x2 -= diff;
-                        y2 += diff;
-                    }
-                } else {
-                    x1 = currentX + widthPx;
-                    y1 = y;
-                    x2 = currentX;
-                    y2 = y - widthPx;
-                    
-                    if (y1 > planY + planHeight) {
-                        const diff = y1 - (planY + planHeight);
-                        x1 -= diff;
-                        y1 -= diff;
-                    }
-                    if (y2 < planY) {
-                        const diff = planY - y2;
-                        x2 += diff;
-                        y2 += diff;
-                    }
-                }
-                
-                if (y1 >= planY && y2 <= planY + planHeight && x1 >= currentX && x1 <= currentX + widthPx && x2 >= currentX && x2 <= currentX + widthPx) {
-                    bgGroup.appendChild(createSvgElement('line', {
-                        x1: x1,
-                        y1: y1,
-                        x2: x2,
-                        y2: y2,
-                        stroke: 'rgba(255, 255, 255, 0.35)',
-                        'stroke-width': '2'
-                    }));
-                }
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: x1,
+                    y1: y1,
+                    x2: x2,
+                    y2: y2,
+                    stroke: 'rgba(255, 255, 255, 0.45)',
+                    'stroke-width': '2.2',
+                    'clip-path': `url(#${clipPathId})`
+                }));
             }            
-            // Draw 3 top-view cars parked at 45 degrees
+            
+            // Draw 3 top-view cars and wheel stoppers parked at 45 degrees
             const carW = 76;
             const carH = 154;
-            const carX = currentX + widthPx / 2;
-            const rotation = isRightSide ? 45 : -45;
+            const cx = currentX + widthPx / 2;
             
-            const carPositionsY = [
-                planY + planHeight * 0.2,
-                planY + planHeight * 0.5,
-                planY + planHeight * 0.8
+            // Angle of rotation:
+            // Right Side: -45 degrees (pointing top-right).
+            // Left Side: 135 degrees (pointing bottom-left).
+            const rotation = isRightSide ? -45 : 135;
+            
+            // Centers of the slots (using line Y centers)
+            const slotCentersY = [
+                planY + 180,
+                planY + 420,
+                planY + 660
             ];            
-            carPositionsY.forEach(carY => {                fgGroup.appendChild(createSvgElement('image', {
+            
+            slotCentersY.forEach(ySlot => {
+                // Calculate exact cy of the car along the angled slot line:
+                // Right Side: cy = ySlot - widthPx / 2
+                // Left Side: cy = ySlot + widthPx / 2
+                const cy = isRightSide ? (ySlot - widthPx / 2) : (ySlot + widthPx / 2);
+                
+                // Draw car (clipped to lane rect)
+                const carImg = createSvgElement('image', {
                     href: 'assets/car top.png',
-                    x: carX - carW / 2,
-                    y: carY - carH / 2,
+                    x: cx - carW / 2,
+                    y: cy - carH / 2,
                     width: carW,
                     height: carH,
                     preserveAspectRatio: 'xMidYMid meet',
-                    transform: `rotate(${rotation} ${carX} ${carY})`
-                }));
+                    transform: `rotate(${rotation} ${cx} ${cy})`,
+                    'clip-path': `url(#${clipPathId})`
+                });
+                fgGroup.appendChild(carImg);
+
+                // Draw custom wheel stopper (concrete block)
+                // Perpendicular to car, placed in front of car wheels
+                const stopperW = 6;
+                const stopperH = 34;
+                const rad = rotation * Math.PI / 180;
+                const shiftDist = 42; // distance from car center to front tires stopper
+                const sx = cx + shiftDist * Math.cos(rad);
+                const sy = cy + shiftDist * Math.sin(rad);
+
+                const stopper = createSvgElement('rect', {
+                    x: sx - stopperW / 2,
+                    y: sy - stopperH / 2,
+                    width: stopperW,
+                    height: stopperH,
+                    fill: '#d1cdc7',
+                    stroke: '#777',
+                    'stroke-width': '0.8',
+                    rx: '2',
+                    transform: `rotate(${rotation} ${sx} ${sy})`,
+                    'clip-path': `url(#${clipPathId})`
+                });
+                fgGroup.appendChild(stopper);
             });
         } else if (comp.id === 'parking_90') {
             // Draw perpendicular parking slot lines
