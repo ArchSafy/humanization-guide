@@ -1421,18 +1421,6 @@ function renderDualView(totalWidth) {
             const arrowColor = 'rgba(255, 255, 255, 0.6)'; // semi-transparent white pavement paint
             
             if (isRightSide) {
-                // Pointing DOWN (traffic going forward/away)
-                // Draw shaft
-                bgGroup.appendChild(createSvgElement('line', {
-                    x1: cx, y1: cy - 25, x2: cx, y2: cy + 10,
-                    stroke: arrowColor, 'stroke-width': '4.5', 'stroke-linecap': 'round'
-                }));
-                // Draw head
-                bgGroup.appendChild(createSvgElement('polygon', {
-                    points: `${cx - 9},${cy + 8} ${cx},${cy + 22} ${cx + 9},${cy + 8}`,
-                    fill: arrowColor
-                }));
-            } else {
                 // Pointing UP (traffic coming forward/towards)
                 // Draw shaft
                 bgGroup.appendChild(createSvgElement('line', {
@@ -1442,6 +1430,18 @@ function renderDualView(totalWidth) {
                 // Draw head
                 bgGroup.appendChild(createSvgElement('polygon', {
                     points: `${cx - 9},${cy - 8} ${cx},${cy - 22} ${cx + 9},${cy - 8}`,
+                    fill: arrowColor
+                }));
+            } else {
+                // Pointing DOWN (traffic going forward/away)
+                // Draw shaft
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: cx, y1: cy - 25, x2: cx, y2: cy + 10,
+                    stroke: arrowColor, 'stroke-width': '4.5', 'stroke-linecap': 'round'
+                }));
+                // Draw head
+                bgGroup.appendChild(createSvgElement('polygon', {
+                    points: `${cx - 9},${cy + 8} ${cx},${cy + 22} ${cx + 9},${cy + 8}`,
                     fill: arrowColor
                 }));
             }
