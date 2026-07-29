@@ -1414,6 +1414,39 @@ function renderDualView(totalWidth) {
                    c.id === 'parking_90';
         };
 
+        // Draw traffic direction arrow on the asphalt for standard and hov lanes
+        if (comp.id === 'standard_car_lane' || comp.id === 'hov_transit_lane') {
+            const cx = currentX + widthPx / 2;
+            const cy = planY + planHeight / 2;
+            const arrowColor = 'rgba(255, 255, 255, 0.6)'; // semi-transparent white pavement paint
+            
+            if (isRightSide) {
+                // Pointing DOWN (traffic going forward/away)
+                // Draw shaft
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: cx, y1: cy - 25, x2: cx, y2: cy + 10,
+                    stroke: arrowColor, 'stroke-width': '4.5', 'stroke-linecap': 'round'
+                }));
+                // Draw head
+                bgGroup.appendChild(createSvgElement('polygon', {
+                    points: `${cx - 9},${cy + 8} ${cx},${cy + 22} ${cx + 9},${cy + 8}`,
+                    fill: arrowColor
+                }));
+            } else {
+                // Pointing UP (traffic coming forward/towards)
+                // Draw shaft
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: cx, y1: cy + 25, x2: cx, y2: cy - 10,
+                    stroke: arrowColor, 'stroke-width': '4.5', 'stroke-linecap': 'round'
+                }));
+                // Draw head
+                bgGroup.appendChild(createSvgElement('polygon', {
+                    points: `${cx - 9},${cy - 8} ${cx},${cy - 22} ${cx + 9},${cy - 8}`,
+                    fill: arrowColor
+                }));
+            }
+        }
+
         // Draw left boundary of the very first element
         if (index === 0) {
             bgGroup.appendChild(createSvgElement('line', {
@@ -1429,15 +1462,15 @@ function renderDualView(totalWidth) {
         // Draw boundary line between components
         const nextComp = sequence[index + 1];
         if (isRoadLane(comp) && isRoadLane(nextComp)) {
-            // Draw a dashed white paint line separating traffic lanes
+            // Draw a dashed white paint line separating traffic lanes (thicker and longer dashes)
             bgGroup.appendChild(createSvgElement('line', {
                 x1: currentX + widthPx,
                 y1: planY,
                 x2: currentX + widthPx,
                 y2: planY + planHeight,
                 stroke: '#fff',
-                'stroke-width': '2.5',
-                'stroke-dasharray': '25,20'
+                'stroke-width': '4.5',
+                'stroke-dasharray': '50,35'
             }));
         } else {
             // Draw a solid separator line (outer border or curb)
