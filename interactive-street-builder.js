@@ -1414,6 +1414,8 @@ function renderDualView(totalWidth) {
             planFill = '#d6cfc5';
         } else if (comp.id === 'urban_furniture_buffer') {
             planFill = '#A38D6F';
+        } else if (comp.id === 'clear_sidewalk') {
+            planFill = '#D6CFC5';
         }
         const plan = createSvgElement('rect', {
             x: currentX, y: planY, width: widthPx, height: planHeight, fill: planFill
@@ -1422,12 +1424,12 @@ function renderDualView(totalWidth) {
 
         if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
             const lineStroke = comp.id === 'urban_furniture_buffer' ? '#8e795f' : '#b5ad9e';
-            for (let ix = currentX + 8; ix < currentX + widthPx; ix += 16) {
+            for (let ix = currentX + 5; ix < currentX + widthPx; ix += 11) {
                 bgGroup.appendChild(createSvgElement('line', {
                     x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: lineStroke, 'stroke-width': '0.8', opacity: '0.5'
                 }));
             }
-            for (let iy = planY + 8; iy < planY + planHeight; iy += 16) {
+            for (let iy = planY + 5; iy < planY + planHeight; iy += 11) {
                 bgGroup.appendChild(createSvgElement('line', {
                     x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: lineStroke, 'stroke-width': '0.8', opacity: '0.5'
                 }));
@@ -2171,11 +2173,11 @@ function renderDualView(totalWidth) {
                 fill: '#FFD740'
             }));
         } else if (comp.id.includes('sidewalk') || comp.id.includes('edge') || comp.id.includes('seafront')) {
-            for (let ix = currentX + 10; ix < currentX + widthPx; ix += 20) {                bgGroup.appendChild(createSvgElement('line', {
+            for (let ix = currentX + 7; ix < currentX + widthPx; ix += 14) {                bgGroup.appendChild(createSvgElement('line', {
                     x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
                 }));
             }
-            for (let iy = planY + 10; iy < planY + planHeight; iy += 20) {                bgGroup.appendChild(createSvgElement('line', {
+            for (let iy = planY + 7; iy < planY + planHeight; iy += 14) {                bgGroup.appendChild(createSvgElement('line', {
                     x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
                 }));
             }
