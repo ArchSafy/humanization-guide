@@ -2003,9 +2003,9 @@ function renderDualView(totalWidth) {
             });
         } else if (comp.id === 'bike_lane') {
             const bikeH = 94;
-            const bikeW = useBackView ? (bikeH * 774 / 1561) : (bikeH * 735 / 1561);
+            const bikeW = useBackView ? (bikeH * 735 / 1561) : (bikeH * 774 / 1561);
             const bikeX = currentX + widthPx/2;
-            const bikeImg = useBackView ? 'assets/bike top left.png' : 'assets/bike top right.png';
+            const bikeImg = useBackView ? 'assets/bike top right.png' : 'assets/bike top left.png';
             const symbolRotation = useBackView ? 90 : 270;
             
             // Staggered Y positions for bikes and symbols to avoid side-by-side overlap in double lanes
