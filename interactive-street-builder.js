@@ -1681,7 +1681,7 @@ function renderDualView(totalWidth) {
                 const car1X = currentX + widthPx/4;
                 const car1Y = planY + planHeight/4;
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/car top.png',
+                    href: 'assets/Cars/Car Plan.png',
                     x: car1X - carW/2,
                     y: car1Y - carH/2,
                     width: carW,
@@ -1693,7 +1693,7 @@ function renderDualView(totalWidth) {
                 const car2X = currentX + 3*widthPx/4;
                 const car2Y = planY + 3*planHeight/4;
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/car top.png',
+                    href: 'assets/Cars/Car Plan.png',
                     x: car2X - carW/2,
                     y: car2Y - carH/2,
                     width: carW,
@@ -1703,7 +1703,7 @@ function renderDualView(totalWidth) {
                 }));
             } else {                const carX = currentX + widthPx/2;
                 const carY = (index % 2 === 0) ? (planY + planHeight * 0.7) : (planY + planHeight * 0.3);                fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/car top.png',
+                    href: 'assets/Cars/Car Plan.png',
                     x: carX - carW/2,
                     y: carY - carH/2,
                     width: carW,
@@ -1750,7 +1750,7 @@ function renderDualView(totalWidth) {
             
             const car1Y = planY + planHeight * 0.25;
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/car top.png',
+                href: 'assets/Cars/Car Plan.png',
                 x: carX - carW/2,
                 y: car1Y - carH/2,
                 width: carW,
@@ -1760,7 +1760,7 @@ function renderDualView(totalWidth) {
             }));            
             const car2Y = planY + planHeight * 0.75;
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/car top.png',
+                href: 'assets/Cars/Car Plan.png',
                 x: carX - carW/2,
                 y: car2Y - carH/2,
                 width: carW,
@@ -1831,7 +1831,7 @@ function renderDualView(totalWidth) {
                 
                 // Draw car (clipped to lane rect)
                 const carImg = createSvgElement('image', {
-                    href: 'assets/car top.png',
+                    href: 'assets/Cars/Car Plan.png',
                     x: cx - carW / 2,
                     y: cy - carH / 2,
                     width: carW,
@@ -1892,7 +1892,7 @@ function renderDualView(totalWidth) {
             ];
             carPositionsY.forEach(carY => {
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/car top.png',
+                    href: 'assets/Cars/Car Plan.png',
                     x: carX - carW / 2,
                     y: carY - carH / 2,
                     width: carW,
