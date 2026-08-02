@@ -1906,8 +1906,13 @@ function renderDualView(totalWidth) {
             const bikeH = 94;
             const bikeX = currentX + widthPx/2;
             const rotation = useBackView ? 180 : 0;
+            const symbolRotation = useBackView ? 90 : 270;
             
-            const bike1Y = planY + planHeight * 0.25;
+            // Staggered Y positions for bikes and symbols to avoid side-by-side overlap in double lanes
+            const bike1Y = useBackView ? (planY + planHeight * 0.15) : (planY + planHeight * 0.35);
+            const symbolY = useBackView ? (planY + planHeight * 0.40) : (planY + planHeight * 0.60);
+            const bike2Y = useBackView ? (planY + planHeight * 0.65) : (planY + planHeight * 0.85);
+            
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/bike top.png',
                 x: bikeX - bikeW/2,
@@ -1921,8 +1926,6 @@ function renderDualView(totalWidth) {
             // Pavement Bicycle Symbol in the middle
             const symH = 40;
             const symW = symH * 1.58;
-            const symbolY = planY + planHeight * 0.5;
-            const symbolRotation = useBackView ? 270 : 90;
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/bicycle symbol.png',
                 x: bikeX - symW / 2,
@@ -1933,7 +1936,6 @@ function renderDualView(totalWidth) {
                 transform: `rotate(${symbolRotation} ${bikeX} ${symbolY})`
             }));
 
-            const bike2Y = planY + planHeight * 0.75;
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/bike top.png',
                 x: bikeX - bikeW/2,
