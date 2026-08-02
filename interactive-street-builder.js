@@ -2192,6 +2192,8 @@ function renderDualView(totalWidth) {
                 return seed / 233280;
             };
 
+            const pool = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            
             for (let i = 0; i < numPeople; i++) {
                 // Ensure they walk slightly away from boundaries
                 const paddingX = Math.min(widthPx / 2 - 2, 20);
@@ -2199,9 +2201,13 @@ function renderDualView(totalWidth) {
                 const py = planY + 40 + seededRandom() * (planHeight - 80);
                 const angle = Math.floor(seededRandom() * 360);
                 
-                const personNum = Math.floor(seededRandom() * 10) + 1;
+                // Pick a unique person from the pool to avoid duplicates on the same sidewalk
+                const idx = Math.floor(seededRandom() * pool.length);
+                const personNum = pool.splice(idx, 1)[0];
+                
                 const personImg = `assets/People/person${personNum}.png`;
-                const personSize = 36;
+                // Make person 2 and 10 (with dogs) 2.0x larger, and others 1.2x larger
+                const personSize = (personNum === 2 || personNum === 10) ? 72 : 43.2;
                 
                 fgGroup.appendChild(createSvgElement('image', {
                     href: personImg,
