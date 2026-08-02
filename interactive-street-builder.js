@@ -2199,7 +2199,6 @@ function renderDualView(totalWidth) {
                 const paddingX = Math.min(widthPx / 2 - 2, 20);
                 const px = currentX + paddingX + seededRandom() * (widthPx - paddingX * 2);
                 const py = planY + 40 + seededRandom() * (planHeight - 80);
-                const angle = Math.floor(seededRandom() * 360);
                 
                 // Pick a unique person from the pool to avoid duplicates on the same sidewalk
                 const idx = Math.floor(seededRandom() * pool.length);
@@ -2215,8 +2214,7 @@ function renderDualView(totalWidth) {
                     y: py - personSize/2,
                     width: personSize,
                     height: personSize,
-                    preserveAspectRatio: 'xMidYMid meet',
-                    transform: `rotate(${angle} ${px} ${py})`
+                    preserveAspectRatio: 'xMidYMid meet'
                 }));
             }
         }
