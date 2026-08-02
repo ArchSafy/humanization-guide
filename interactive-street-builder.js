@@ -1568,7 +1568,7 @@ function renderDualView(totalWidth) {
             
             // Top tree
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/tree plan 4.png',
+                href: 'assets/tree plan 5.png',
                 x: currentX + widthPx/2 - treeW/2 + treeXOffset,
                 y: planY,
                 width: treeW,
@@ -1578,7 +1578,7 @@ function renderDualView(totalWidth) {
             
             // Middle tree (new addition for 3-tree density)
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/tree plan 4.png',
+                href: 'assets/tree plan 5.png',
                 x: currentX + widthPx/2 - treeW/2 + treeXOffset,
                 y: planY + planHeight/2 - treeH/2,
                 width: treeW,
@@ -1588,7 +1588,7 @@ function renderDualView(totalWidth) {
 
             // Bottom tree
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/tree plan 4.png',
+                href: 'assets/tree plan 5.png',
                 x: currentX + widthPx/2 - treeW/2 + treeXOffset,
                 y: planY + planHeight - treeH,
                 width: treeW,
