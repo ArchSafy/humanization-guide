@@ -1409,10 +1409,27 @@ function renderDualView(totalWidth) {
         label.textContent = shortName;
         fgGroup.appendChild(label);
         
+        let planFill = comp.color;
+        if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
+            planFill = '#d6cfc5';
+        }
         const plan = createSvgElement('rect', {
-            x: currentX, y: planY, width: widthPx, height: planHeight, fill: comp.color
+            x: currentX, y: planY, width: widthPx, height: planHeight, fill: planFill
         });
         bgGroup.appendChild(plan);
+
+        if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
+            for (let ix = currentX + 8; ix < currentX + widthPx; ix += 16) {
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: '#b5ad9e', 'stroke-width': '0.8', opacity: '0.5'
+                }));
+            }
+            for (let iy = planY + 8; iy < planY + planHeight; iy += 16) {
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: '#b5ad9e', 'stroke-width': '0.8', opacity: '0.5'
+                }));
+            }
+        }
 
         // Helper function to check if a component is a road lane
         const isRoadLane = (c) => {
@@ -1498,6 +1515,36 @@ function renderDualView(totalWidth) {
             const treeSize = 180 * 0.9;
             
             let treeXOffset = 0;
+            
+            // Draw planting basins (beds) around the tree areas first (so they are below the trees)
+            const bedW = Math.max(16, widthPx * 0.76);
+            const bedH = 110;
+            
+            // Top planting bed
+            fgGroup.appendChild(createSvgElement('rect', {
+                x: currentX + widthPx/2 - bedW/2,
+                y: planY + 26,
+                width: bedW,
+                height: bedH,
+                fill: '#7c8a24', // Rich grass green
+                stroke: '#a4b53c', // Light green border
+                'stroke-width': '1.5',
+                rx: '6',
+                ry: '6'
+            }));
+
+            // Bottom planting bed
+            fgGroup.appendChild(createSvgElement('rect', {
+                x: currentX + widthPx/2 - bedW/2,
+                y: planY + planHeight - 26 - bedH,
+                width: bedW,
+                height: bedH,
+                fill: '#7c8a24', // Rich grass green
+                stroke: '#a4b53c', // Light green border
+                'stroke-width': '1.5',
+                rx: '6',
+                ry: '6'
+            }));
             
             // Top tree: placed fully inside the plan band, touching the top cut line
             fgGroup.appendChild(createSvgElement('image', {
@@ -2031,6 +2078,53 @@ function renderDualView(totalWidth) {
             for (let iy = planY + 10; iy < planY + planHeight; iy += 20) {                bgGroup.appendChild(createSvgElement('line', {
                     x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: '#e1dcd6', 'stroke-width': '0.8', opacity: '0.6'
                 }));
+            }
+
+            // Draw top-down pedestrians on sidewalks, edges, and seafronts
+            const numPeople = Math.min(4, Math.max(1, Math.floor(comp.default_width_m / 1.1)));
+            
+            // Seeded random for consistent placements across redraws
+            let seed = comp.instanceId ? (typeof comp.instanceId === 'number' ? comp.instanceId : parseInt(comp.instanceId) || 12345) : 12345;
+            const seededRandom = () => {
+                seed = (seed * 9301 + 49297) % 233280;
+                return seed / 233280;
+            };
+
+            const colors = ['#2c3e50', '#c0392b', '#27ae60', '#2980b9', '#8e44ad', '#d35400', '#16a085', '#7f8c8d'];
+            const skinColors = ['#e6a67e', '#f3c7a6', '#d69772', '#ffd1b3'];
+            
+            for (let i = 0; i < numPeople; i++) {
+                // Ensure they walk slightly away from boundaries
+                const paddingX = Math.min(widthPx / 2 - 2, 10);
+                const px = currentX + paddingX + seededRandom() * (widthPx - paddingX * 2);
+                const py = planY + 30 + seededRandom() * (planHeight - 60);
+                const angle = Math.floor(seededRandom() * 360);
+                const color = colors[Math.floor(seededRandom() * colors.length)];
+                const skin = skinColors[Math.floor(seededRandom() * skinColors.length)];
+                
+                const personGroup = createSvgElement('g', {
+                    transform: `translate(${px}, ${py}) rotate(${angle})`
+                });
+                
+                // Torso (shoulders)
+                personGroup.appendChild(createSvgElement('ellipse', {
+                    cx: 0, cy: 0, rx: 8, ry: 3.5, fill: color, stroke: 'rgba(255,255,255,0.45)', 'stroke-width': '0.8'
+                }));
+                
+                // Head
+                personGroup.appendChild(createSvgElement('circle', {
+                    cx: 0, cy: 0, r: 3.8, fill: skin, stroke: 'rgba(0,0,0,0.15)', 'stroke-width': '0.4'
+                }));
+                
+                // Hands/Feet walking indicator
+                personGroup.appendChild(createSvgElement('circle', {
+                    cx: -7.5, cy: -1.8, r: 1.5, fill: color
+                }));
+                personGroup.appendChild(createSvgElement('circle', {
+                    cx: 7.5, cy: 1.8, r: 1.5, fill: color
+                }));
+
+                fgGroup.appendChild(personGroup);
             }
         }
         
