@@ -1677,39 +1677,37 @@ function renderDualView(totalWidth) {
         } else if (comp.id === 'standard_car_lane') {
             const carW = 76;
             const carH = 154;
-            const rotation = isRightSide ? 0 : 180;            if (widthPx >= 160) {
+            const carImgPath = isRightSide ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
+            if (widthPx >= 160) {
                 const car1X = currentX + widthPx/4;
                 const car1Y = planY + planHeight/4;
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/Cars/Car Plan.png',
+                    href: carImgPath,
                     x: car1X - carW/2,
                     y: car1Y - carH/2,
                     width: carW,
                     height: carH,
-                    preserveAspectRatio: 'xMidYMid meet',
-                    transform: rotation ? `rotate(${rotation} ${car1X} ${car1Y})` : ''
+                    preserveAspectRatio: 'xMidYMid meet'
                 }));
                 
                 const car2X = currentX + 3*widthPx/4;
                 const car2Y = planY + 3*planHeight/4;
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/Cars/Car Plan.png',
+                    href: carImgPath,
                     x: car2X - carW/2,
                     y: car2Y - carH/2,
                     width: carW,
                     height: carH,
-                    preserveAspectRatio: 'xMidYMid meet',
-                    transform: rotation ? `rotate(${rotation} ${car2X} ${car2Y})` : ''
+                    preserveAspectRatio: 'xMidYMid meet'
                 }));
             } else {                const carX = currentX + widthPx/2;
                 const carY = (index % 2 === 0) ? (planY + planHeight * 0.7) : (planY + planHeight * 0.3);                fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/Cars/Car Plan.png',
+                    href: carImgPath,
                     x: carX - carW/2,
                     y: carY - carH/2,
                     width: carW,
                     height: carH,
-                    preserveAspectRatio: 'xMidYMid meet',
-                    transform: rotation ? `rotate(${rotation} ${carX} ${carY})` : ''
+                    preserveAspectRatio: 'xMidYMid meet'
                 }));
             }
         } else if (comp.id === 'hov_transit_lane') {
@@ -1746,27 +1744,25 @@ function renderDualView(totalWidth) {
             const carW = 76;
             const carH = 154;
             const carX = currentX + widthPx/2;
-            const rotation = isRightSide ? 0 : 180;
+            const carImgPath = isRightSide ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
             
             const car1Y = planY + planHeight * 0.25;
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/Cars/Car Plan.png',
+                href: carImgPath,
                 x: carX - carW/2,
                 y: car1Y - carH/2,
                 width: carW,
                 height: carH,
-                preserveAspectRatio: 'xMidYMid meet',
-                transform: rotation ? `rotate(${rotation} ${carX} ${car1Y})` : ''
+                preserveAspectRatio: 'xMidYMid meet'
             }));            
             const car2Y = planY + planHeight * 0.75;
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/Cars/Car Plan.png',
+                href: carImgPath,
                 x: carX - carW/2,
                 y: car2Y - carH/2,
                 width: carW,
                 height: carH,
-                preserveAspectRatio: 'xMidYMid meet',
-                transform: rotation ? `rotate(${rotation} ${carX} ${car2Y})` : ''
+                preserveAspectRatio: 'xMidYMid meet'
             }));
         } else if (comp.id === 'parking_45') {
             // Draw parking slot lines (clipped to the lane rect)
@@ -1828,16 +1824,17 @@ function renderDualView(totalWidth) {
                 // Right Side: cy = ySlot - widthPx / 2
                 // Left Side: cy = ySlot + widthPx / 2
                 const cy = isRightSide ? (ySlot - widthPx / 2) : (ySlot + widthPx / 2);
+                const carImgPath = isRightSide ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
                 
                 // Draw car (clipped to lane rect)
                 const carImg = createSvgElement('image', {
-                    href: 'assets/Cars/Car Plan.png',
+                    href: carImgPath,
                     x: cx - carW / 2,
                     y: cy - carH / 2,
                     width: carW,
                     height: carH,
                     preserveAspectRatio: 'xMidYMid meet',
-                    transform: `rotate(${rotation} ${cx} ${cy})`,
+                    transform: `rotate(45 ${cx} ${cy})`,
                     'clip-path': `url(#${clipPathId})`
                 });
                 fgGroup.appendChild(carImg);
@@ -1890,15 +1887,16 @@ function renderDualView(totalWidth) {
                 planY + lineSpacing * 2.5,
                 planY + lineSpacing * 3.5
             ];
+            const carImgPath = isRightSide ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
             carPositionsY.forEach(carY => {
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: 'assets/Cars/Car Plan.png',
+                    href: carImgPath,
                     x: carX - carW / 2,
                     y: carY - carH / 2,
                     width: carW,
                     height: carH,
                     preserveAspectRatio: 'xMidYMid meet',
-                    transform: `rotate(${rotation} ${carX} ${carY})`
+                    transform: `rotate(90 ${carX} ${carY})`
                 }));
             });
         } else if (comp.id === 'bike_lane') {
