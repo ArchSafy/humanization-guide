@@ -2752,7 +2752,16 @@ function showTooltip(e, id) {
     const tooltipWidth = tooltip.offsetWidth || 300;
     
     let left = rect.left - tooltipWidth - 15;
-    let top = rect.top + window.scrollY + (rect.height - tooltip.offsetHeight) / 2;
+    
+    // Align tooltip bottom with the parent card's bottom to prevent scroll glitches
+    let top;
+    const parentCard = e.currentTarget.closest('.isb-sequence-item') || e.currentTarget.closest('.isb-component-item');
+    if (parentCard) {
+        const cardRect = parentCard.getBoundingClientRect();
+        top = cardRect.bottom + window.scrollY - tooltip.offsetHeight;
+    } else {
+        top = rect.bottom + window.scrollY - tooltip.offsetHeight;
+    }
     
     if (left < 10) {
         left = rect.right + 15;
