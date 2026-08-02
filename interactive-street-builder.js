@@ -1410,8 +1410,10 @@ function renderDualView(totalWidth) {
         fgGroup.appendChild(label);
         
         let planFill = comp.color;
-        if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
+        if (comp.id === 'median_island') {
             planFill = '#d6cfc5';
+        } else if (comp.id === 'urban_furniture_buffer') {
+            planFill = '#A38D6F';
         }
         const plan = createSvgElement('rect', {
             x: currentX, y: planY, width: widthPx, height: planHeight, fill: planFill
@@ -1419,14 +1421,15 @@ function renderDualView(totalWidth) {
         bgGroup.appendChild(plan);
 
         if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
+            const lineStroke = comp.id === 'urban_furniture_buffer' ? '#8e795f' : '#b5ad9e';
             for (let ix = currentX + 8; ix < currentX + widthPx; ix += 16) {
                 bgGroup.appendChild(createSvgElement('line', {
-                    x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: '#b5ad9e', 'stroke-width': '0.8', opacity: '0.5'
+                    x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: lineStroke, 'stroke-width': '0.8', opacity: '0.5'
                 }));
             }
             for (let iy = planY + 8; iy < planY + planHeight; iy += 16) {
                 bgGroup.appendChild(createSvgElement('line', {
-                    x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: '#b5ad9e', 'stroke-width': '0.8', opacity: '0.5'
+                    x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: lineStroke, 'stroke-width': '0.8', opacity: '0.5'
                 }));
             }
         }
