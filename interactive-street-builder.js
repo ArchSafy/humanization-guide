@@ -2192,41 +2192,26 @@ function renderDualView(totalWidth) {
                 return seed / 233280;
             };
 
-            const colors = ['#2c3e50', '#c0392b', '#27ae60', '#2980b9', '#8e44ad', '#d35400', '#16a085', '#7f8c8d'];
-            const skinColors = ['#e6a67e', '#f3c7a6', '#d69772', '#ffd1b3'];
-            
             for (let i = 0; i < numPeople; i++) {
-                // Ensure they walk slightly away from boundaries (scale up padding since people are larger)
+                // Ensure they walk slightly away from boundaries
                 const paddingX = Math.min(widthPx / 2 - 2, 20);
                 const px = currentX + paddingX + seededRandom() * (widthPx - paddingX * 2);
                 const py = planY + 40 + seededRandom() * (planHeight - 80);
                 const angle = Math.floor(seededRandom() * 360);
-                const color = colors[Math.floor(seededRandom() * colors.length)];
-                const skin = skinColors[Math.floor(seededRandom() * skinColors.length)];
                 
-                const personGroup = createSvgElement('g', {
-                    transform: `translate(${px}, ${py}) rotate(${angle})`
-                });
+                const personNum = Math.floor(seededRandom() * 10) + 1;
+                const personImg = `assets/People/person${personNum}.png`;
+                const personSize = 36;
                 
-                // Torso (shoulders)
-                personGroup.appendChild(createSvgElement('ellipse', {
-                    cx: 0, cy: 0, rx: 18, ry: 8, fill: color, stroke: 'rgba(255,255,255,0.45)', 'stroke-width': '1.5'
+                fgGroup.appendChild(createSvgElement('image', {
+                    href: personImg,
+                    x: px - personSize/2,
+                    y: py - personSize/2,
+                    width: personSize,
+                    height: personSize,
+                    preserveAspectRatio: 'xMidYMid meet',
+                    transform: `rotate(${angle} ${px} ${py})`
                 }));
-                
-                // Head
-                personGroup.appendChild(createSvgElement('circle', {
-                    cx: 0, cy: 0, r: 8.5, fill: skin, stroke: 'rgba(0,0,0,0.15)', 'stroke-width': '0.8'
-                }));
-                
-                // Hands/Feet walking indicator
-                personGroup.appendChild(createSvgElement('circle', {
-                    cx: -16.5, cy: -4, r: 3.5, fill: color
-                }));
-                personGroup.appendChild(createSvgElement('circle', {
-                    cx: 16.5, cy: 4, r: 3.5, fill: color
-                }));
-
-                fgGroup.appendChild(personGroup);
             }
         }
         
