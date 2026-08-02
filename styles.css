@@ -1878,7 +1878,7 @@ body::before {
 /* =========================================
    Urban Streets Detail Page
    ========================================= */
-.street-guide-hero {
+.street-guide-hero, .guide-hero {
     padding: 80px 0 70px;
     background:
         linear-gradient(135deg, rgba(85, 93, 113, 0.96), rgba(101, 92, 80, 0.88)),
@@ -1886,7 +1886,7 @@ body::before {
     color: #fff;
 }
 
-.street-guide-hero-grid {
+.street-guide-hero-grid, .guide-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
     gap: 44px;
@@ -1903,7 +1903,38 @@ body::before {
     margin-bottom: 18px;
 }
 
-.street-guide-copy h2 {
+.breadcrumbs {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.breadcrumbs a {
+    color: #DDF5FA;
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+}
+
+.breadcrumbs a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumbs i {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+}
+
+.breadcrumbs span {
+    color: #fff;
+    opacity: 0.95;
+}
+
+.street-guide-copy h2, .guide-copy h2 {
     font-family: 'Cairo', sans-serif;
     font-size: clamp(2.7rem, 6vw, 5.8rem);
     line-height: 1.02;
@@ -1911,14 +1942,14 @@ body::before {
     margin-bottom: 22px;
 }
 
-.street-guide-copy p {
+.street-guide-copy p, .guide-copy p {
     color: rgba(255, 255, 255, 0.78);
     font-size: 1.2rem;
     line-height: 1.9;
     max-width: 720px;
 }
 
-.street-guide-visual {
+.street-guide-visual, .guide-visual {
     height: min(56vh, 520px);
     min-height: 360px;
     overflow: hidden;
@@ -1927,24 +1958,24 @@ body::before {
     box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
 }
 
-.street-guide-visual img {
+.street-guide-visual img, .guide-visual img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.street-guide-content {
+.street-guide-content, .guide-content {
     padding-top: 56px;
 }
 
-.street-guide-summary {
+.street-guide-summary, .guide-summary {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
     margin-bottom: 52px;
 }
 
-.street-guide-summary div {
+.street-guide-summary div, .guide-summary div {
     padding: 22px;
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
@@ -1952,7 +1983,7 @@ body::before {
     box-shadow: var(--shadow-sm);
 }
 
-.street-guide-summary strong {
+.street-guide-summary strong, .guide-summary strong {
     display: block;
     color: var(--clr-primary);
     font-family: 'Cairo', sans-serif;
@@ -1960,18 +1991,18 @@ body::before {
     line-height: 1;
 }
 
-.street-guide-summary span {
+.street-guide-summary span, .guide-summary span {
     display: block;
     color: var(--clr-text-muted);
     margin-top: 8px;
     font-weight: 800;
 }
 
-.street-guide-section {
+.street-guide-section, .guide-section {
     margin-bottom: 70px;
 }
 
-.street-section-heading {
+.street-section-heading, .guide-section-heading {
     display: flex;
     justify-content: space-between;
     gap: 28px;
@@ -1979,7 +2010,7 @@ body::before {
     margin-bottom: 24px;
 }
 
-.street-section-heading h3 {
+.street-section-heading h3, .guide-section-heading h3 {
     font-family: 'Cairo', sans-serif;
     color: var(--clr-secondary);
     font-size: clamp(1.9rem, 3.4vw, 3.2rem);
@@ -1989,7 +2020,9 @@ body::before {
 }
 
 .street-objectives-grid,
-.street-components-grid {
+.street-components-grid,
+.guide-objectives-grid,
+.guide-components-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
@@ -1997,7 +2030,10 @@ body::before {
 
 .street-objectives-grid div,
 .street-components-grid div,
-.street-principles-list div {
+.street-principles-list div,
+.guide-objectives-grid div,
+.guide-components-grid div,
+.guide-principles-list div {
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
     border-radius: 8px;
@@ -2005,7 +2041,9 @@ body::before {
 }
 
 .street-objectives-grid i,
-.street-components-grid i {
+.street-components-grid i,
+.guide-objectives-grid i,
+.guide-components-grid i {
     color: var(--clr-accent);
     font-size: 1.6rem;
     margin-bottom: 14px;
@@ -2013,19 +2051,22 @@ body::before {
 
 .street-objectives-grid span,
 .street-components-grid span,
-.street-principles-list span {
+.street-principles-list span,
+.guide-objectives-grid span,
+.guide-components-grid span,
+.guide-principles-list span {
     display: block;
     color: var(--clr-text-muted);
     line-height: 1.7;
 }
 
-.street-type-grid {
+.street-type-grid, .guide-type-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
 }
 
-.street-type-card {
+.street-type-card, .guide-type-card {
     display: grid;
     grid-template-columns: 220px minmax(0, 1fr);
     overflow: hidden;
@@ -2035,7 +2076,7 @@ body::before {
     box-shadow: var(--shadow-sm);
 }
 
-.street-type-card img {
+.street-type-card img, .guide-type-card img {
     width: 100%;
     height: 100%;
     min-height: 310px;
@@ -2043,18 +2084,18 @@ body::before {
     filter: sepia(20%) saturate(84%);
 }
 
-.street-type-card div {
+.street-type-card div, .guide-type-card div {
     padding: 24px;
 }
 
-.street-type-card span {
+.street-type-card span, .guide-type-card span {
     display: inline-block;
     color: var(--clr-primary);
     font-weight: 900;
     margin-bottom: 10px;
 }
 
-.street-type-card h4 {
+.street-type-card h4, .guide-type-card h4 {
     color: var(--clr-secondary);
     font-size: 1.55rem;
     font-weight: 950;
@@ -2062,44 +2103,48 @@ body::before {
 }
 
 .street-type-card p,
-.street-type-card li {
+.street-type-card li,
+.guide-type-card p,
+.guide-type-card li {
     color: var(--clr-text-muted);
     line-height: 1.7;
 }
 
-.street-type-card ul {
+.street-type-card ul, .guide-type-card ul {
     display: grid;
     gap: 6px;
     padding: 14px 18px 0 0;
 }
 
-.street-principles-list {
+.street-principles-list, .guide-principles-list {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
 }
 
 .street-principles-list strong,
-.street-components-grid strong {
+.street-components-grid strong,
+.guide-principles-list strong,
+.guide-components-grid strong {
     display: block;
     color: var(--clr-secondary);
     font-size: 1.05rem;
     margin-bottom: 10px;
 }
 
-.street-standards-accordion {
+.street-standards-accordion, .guide-standards-accordion {
     display: grid;
     gap: 10px;
 }
 
-.street-standards-accordion details {
+.street-standards-accordion details, .guide-standards-accordion details {
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
     border-radius: 8px;
     padding: 0 20px;
 }
 
-.street-standards-accordion summary {
+.street-standards-accordion summary, .guide-standards-accordion summary {
     cursor: pointer;
     color: var(--clr-secondary);
     font-weight: 900;
@@ -2107,27 +2152,38 @@ body::before {
     padding: 18px 0;
 }
 
-.street-standards-accordion p {
+.street-standards-accordion p, .guide-standards-accordion p {
     color: var(--clr-text-muted);
     line-height: 1.8;
     padding-bottom: 18px;
 }
 
 [data-theme="dark"] .street-guide-summary div,
+[data-theme="dark"] .guide-summary div,
 [data-theme="dark"] .street-objectives-grid div,
+[data-theme="dark"] .guide-objectives-grid div,
 [data-theme="dark"] .street-components-grid div,
+[data-theme="dark"] .guide-components-grid div,
 [data-theme="dark"] .street-principles-list div,
+[data-theme="dark"] .guide-principles-list div,
 [data-theme="dark"] .street-type-card,
-[data-theme="dark"] .street-standards-accordion details {
+[data-theme="dark"] .guide-type-card,
+[data-theme="dark"] .street-standards-accordion details,
+[data-theme="dark"] .guide-standards-accordion details {
     background: rgba(101, 92, 80, 0.62);
     border-color: rgba(233, 231, 226, 0.2);
 }
 
 [data-theme="dark"] .street-section-heading h3,
+[data-theme="dark"] .guide-section-heading h3,
 [data-theme="dark"] .street-type-card h4,
+[data-theme="dark"] .guide-type-card h4,
 [data-theme="dark"] .street-principles-list strong,
+[data-theme="dark"] .guide-principles-list strong,
 [data-theme="dark"] .street-components-grid strong,
-[data-theme="dark"] .street-standards-accordion summary {
+[data-theme="dark"] .guide-components-grid strong,
+[data-theme="dark"] .street-standards-accordion summary,
+[data-theme="dark"] .guide-standards-accordion summary {
     color: #E9E7E2;
 }
 
