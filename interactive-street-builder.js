@@ -1843,6 +1843,19 @@ function renderDualView(totalWidth) {
                 transform: `rotate(${symbolRotation} ${symbolX} ${symbolY})`
             }));
         } else if (comp.id === 'flex_zone') {
+            // Draw interlock tiles (smaller spacing: 8px)
+            const lineStroke = '#6d5d47';
+            for (let ix = currentX + 4; ix < currentX + widthPx; ix += 8) {
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: ix, y1: planY, x2: ix, y2: planY + planHeight, stroke: lineStroke, 'stroke-width': '0.8', opacity: '0.6'
+                }));
+            }
+            for (let iy = planY + 4; iy < planY + planHeight; iy += 8) {
+                bgGroup.appendChild(createSvgElement('line', {
+                    x1: currentX, y1: iy, x2: currentX + widthPx, y2: iy, stroke: lineStroke, 'stroke-width': '0.8', opacity: '0.6'
+                }));
+            }
+
             const carW = 76;
             const carH = 154;
             const carX = currentX + widthPx/2;
@@ -1893,7 +1906,7 @@ function renderDualView(totalWidth) {
                     y1: y1,
                     x2: x2,
                     y2: y2,
-                    stroke: 'rgba(255, 255, 255, 0.45)',
+                    stroke: 'rgba(255, 255, 255, 0.85)',
                     'stroke-width': '2.2',
                     'clip-path': `url(#${clipPathId})`
                 }));
@@ -1973,7 +1986,7 @@ function renderDualView(totalWidth) {
                     y1: y,
                     x2: currentX + widthPx,
                     y2: y,
-                    stroke: 'rgba(255, 255, 255, 0.35)',
+                    stroke: 'rgba(255, 255, 255, 0.85)',
                     'stroke-width': '2'
                 }));
             }
