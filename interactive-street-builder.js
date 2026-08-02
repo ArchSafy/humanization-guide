@@ -1533,6 +1533,19 @@ function renderDualView(totalWidth) {
                 ry: '6'
             }));
 
+            // Middle planting bed (new addition for 3-tree density)
+            fgGroup.appendChild(createSvgElement('rect', {
+                x: currentX + widthPx/2 - bedW/2,
+                y: planY + planHeight/2 - bedH/2,
+                width: bedW,
+                height: bedH,
+                fill: '#7c8a24',
+                stroke: '#a4b53c',
+                'stroke-width': '1.5',
+                rx: '6',
+                ry: '6'
+            }));
+
             // Bottom planting bed
             fgGroup.appendChild(createSvgElement('rect', {
                 x: currentX + widthPx/2 - bedW/2,
@@ -1546,18 +1559,29 @@ function renderDualView(totalWidth) {
                 ry: '6'
             }));
             
-            // Top tree: placed fully inside the plan band, touching the top cut line
+            // Top tree
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/tree plan3.png',
+                href: 'assets/tree plan 4.png',
                 x: currentX + widthPx/2 - treeSize/2 + treeXOffset,
                 y: planY,
                 width: treeSize,
                 height: treeSize,
                 preserveAspectRatio: 'xMidYMid slice'
             }));            
-            // Bottom tree: placed fully inside the plan band, touching the bottom edge
+            
+            // Middle tree (new addition for 3-tree density)
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/tree plan3.png',
+                href: 'assets/tree plan 4.png',
+                x: currentX + widthPx/2 - treeSize/2 + treeXOffset,
+                y: planY + planHeight/2 - treeSize/2,
+                width: treeSize,
+                height: treeSize,
+                preserveAspectRatio: 'xMidYMid slice'
+            }));            
+
+            // Bottom tree
+            fgGroup.appendChild(createSvgElement('image', {
+                href: 'assets/tree plan 4.png',
                 x: currentX + widthPx/2 - treeSize/2 + treeXOffset,
                 y: planY + planHeight - treeSize,
                 width: treeSize,
@@ -1565,12 +1589,84 @@ function renderDualView(totalWidth) {
                 preserveAspectRatio: 'xMidYMid slice'
             }));
 
+            // Draw bench and trash bin in urban furniture buffer (staggered in the lower gap)
+            if (comp.id === 'urban_furniture_buffer') {
+                const furnY = planY + 260;
+                const benchW = Math.max(14, widthPx * 0.45);
+                const benchH = 50; // seat length along Y-axis
+                const benchX = currentX + widthPx/2 - benchW/2;
+                
+                // Bench Base
+                fgGroup.appendChild(createSvgElement('rect', {
+                    x: benchX,
+                    y: furnY - benchH/2,
+                    width: benchW,
+                    height: benchH,
+                    fill: '#a08060', // Warm wood brown
+                    stroke: '#5c4538',
+                    'stroke-width': '1.5',
+                    rx: '2',
+                    ry: '2'
+                }));
+                
+                // Bench slats (lines to show wood texture)
+                for (let sx = benchX + 3; sx < benchX + benchW; sx += 4) {
+                    fgGroup.appendChild(createSvgElement('line', {
+                        x1: sx,
+                        y1: furnY - benchH/2 + 2,
+                        x2: sx,
+                        y2: furnY + benchH/2 - 2,
+                        stroke: '#5c4538',
+                        'stroke-width': '0.8',
+                        opacity: '0.5'
+                    }));
+                }
+                
+                // Bench Armrests (top & bottom)
+                fgGroup.appendChild(createSvgElement('rect', {
+                    x: benchX - 2,
+                    y: furnY - benchH/2,
+                    width: benchW + 4,
+                    height: 4,
+                    fill: '#333',
+                    rx: '1'
+                }));
+                fgGroup.appendChild(createSvgElement('rect', {
+                    x: benchX - 2,
+                    y: furnY + benchH/2 - 4,
+                    width: benchW + 4,
+                    height: 4,
+                    fill: '#333',
+                    rx: '1'
+                }));
+
+                // Trash Bin (placed slightly below the bench)
+                const binY = furnY + benchH/2 + 15;
+                const binX = currentX + widthPx/2;
+                // Outer circle
+                fgGroup.appendChild(createSvgElement('circle', {
+                    cx: binX,
+                    cy: binY,
+                    r: 8,
+                    fill: '#7f8c8d', // Grey metallic bin
+                    stroke: '#333',
+                    'stroke-width': '1.5'
+                }));
+                // Inner lid opening
+                fgGroup.appendChild(createSvgElement('circle', {
+                    cx: binX,
+                    cy: binY,
+                    r: 4.5,
+                    fill: '#2c3e50'
+                }));
+            }
+
             // Draw custom light pole top-view symbol if enabled
             if ((comp.id === 'urban_furniture_buffer' || comp.id === 'median_island') && comp.showLight) {
                 const isMedian = comp.id === 'median_island';
                 const poleXOffset = 0; // Centered, no shift
                 const poleCenterX = currentX + widthPx/2 + poleXOffset;
-                const poleCenterY = planY + planHeight/2;
+                const poleCenterY = planY + 140; // Shifted between top and middle tree to avoid overlap
                 
                 // Draw a small central circle for the main pole body
                 fgGroup.appendChild(createSvgElement('circle', {
