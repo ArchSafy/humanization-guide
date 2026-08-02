@@ -84,6 +84,11 @@
 * **التعديل:** تم استبدال الصورة الافتراضية للبانر العلوي (Sub-Hero) في صفحة المصادر والمراجع [references.html](file:///c:/Users/LENOVO/Documents/Mustafa/references.html).
 * **الصورة الجديدة:** تم تطبيق الخلفية الجديدة الراقية المرفقة باسم `refrances banner.png` لتظهر كصورة خلفية مدمجة بتدرج لوني داكن وشفاف في ملف [styles.css](file:///c:/Users/LENOVO/Documents/Mustafa/styles.css) تحت الفئة الجديدة `.references-hero` لتعطي الصفحة رونقاً خاصاً وجمالية عالية.
 
+### 14. إخفاء أيقونة المرجع الهندسي للحد التجاري والحد السكني
+* **التعديل:** تم إزالة أيقونة المرجع الهندسي (زر الحرف 'i' الدائري) لكل من قطاع "الحد التجاري" (Commercial Setback) و"الحد السكني" (Residential Setback) في أداة صمم بنفسك [interactive-street-builder.html](file:///c:/Users/LENOVO/Documents/Mustafa/interactive-street-builder.html).
+* **التفاصيل:** 
+  * تم منع ظهور أيقونة معلومات المرجع الهندسي 'i' لهذين القطاعين سواء في قائمة القطاعات الجانبية (Sidebar) أو على بطاقات القطاعات النشطة في خط تجميع الشارع (Sequence Layout) لتفادي أي تعليق أو تداخل قبل العرض على الإدارة.
+
 ---
 
 ## 🖥️ كيفية المعاينة والتحقق محلياً
