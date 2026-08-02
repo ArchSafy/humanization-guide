@@ -1936,8 +1936,8 @@ body::before {
 
 .street-guide-copy h2, .guide-copy h2 {
     font-family: 'Cairo', sans-serif;
-    font-size: clamp(2.7rem, 6vw, 5.8rem);
-    line-height: 1.02;
+    font-size: clamp(2.2rem, 4.8vw, 4.2rem);
+    line-height: 1.45;
     font-weight: 950;
     margin-bottom: 22px;
 }
@@ -2004,6 +2004,7 @@ body::before {
 
 .street-section-heading, .guide-section-heading {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     gap: 28px;
     align-items: end;
@@ -2013,8 +2014,8 @@ body::before {
 .street-section-heading h3, .guide-section-heading h3 {
     font-family: 'Cairo', sans-serif;
     color: var(--clr-secondary);
-    font-size: clamp(1.9rem, 3.4vw, 3.2rem);
-    line-height: 1.12;
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    line-height: 1.45;
     max-width: 760px;
     font-weight: 950;
 }
