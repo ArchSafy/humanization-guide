@@ -2094,10 +2094,10 @@ function renderDualView(totalWidth) {
             const skinColors = ['#e6a67e', '#f3c7a6', '#d69772', '#ffd1b3'];
             
             for (let i = 0; i < numPeople; i++) {
-                // Ensure they walk slightly away from boundaries
-                const paddingX = Math.min(widthPx / 2 - 2, 10);
+                // Ensure they walk slightly away from boundaries (scale up padding since people are larger)
+                const paddingX = Math.min(widthPx / 2 - 2, 20);
                 const px = currentX + paddingX + seededRandom() * (widthPx - paddingX * 2);
-                const py = planY + 30 + seededRandom() * (planHeight - 60);
+                const py = planY + 40 + seededRandom() * (planHeight - 80);
                 const angle = Math.floor(seededRandom() * 360);
                 const color = colors[Math.floor(seededRandom() * colors.length)];
                 const skin = skinColors[Math.floor(seededRandom() * skinColors.length)];
@@ -2108,20 +2108,20 @@ function renderDualView(totalWidth) {
                 
                 // Torso (shoulders)
                 personGroup.appendChild(createSvgElement('ellipse', {
-                    cx: 0, cy: 0, rx: 8, ry: 3.5, fill: color, stroke: 'rgba(255,255,255,0.45)', 'stroke-width': '0.8'
+                    cx: 0, cy: 0, rx: 18, ry: 8, fill: color, stroke: 'rgba(255,255,255,0.45)', 'stroke-width': '1.5'
                 }));
                 
                 // Head
                 personGroup.appendChild(createSvgElement('circle', {
-                    cx: 0, cy: 0, r: 3.8, fill: skin, stroke: 'rgba(0,0,0,0.15)', 'stroke-width': '0.4'
+                    cx: 0, cy: 0, r: 8.5, fill: skin, stroke: 'rgba(0,0,0,0.15)', 'stroke-width': '0.8'
                 }));
                 
                 // Hands/Feet walking indicator
                 personGroup.appendChild(createSvgElement('circle', {
-                    cx: -7.5, cy: -1.8, r: 1.5, fill: color
+                    cx: -16.5, cy: -4, r: 3.5, fill: color
                 }));
                 personGroup.appendChild(createSvgElement('circle', {
-                    cx: 7.5, cy: 1.8, r: 1.5, fill: color
+                    cx: 16.5, cy: 4, r: 3.5, fill: color
                 }));
 
                 fgGroup.appendChild(personGroup);
