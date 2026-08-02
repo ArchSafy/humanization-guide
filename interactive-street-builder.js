@@ -2002,10 +2002,10 @@ function renderDualView(totalWidth) {
                 }));
             });
         } else if (comp.id === 'bike_lane') {
-            const bikeW = 34;
             const bikeH = 94;
+            const bikeW = useBackView ? (bikeH * 774 / 1561) : (bikeH * 735 / 1561);
             const bikeX = currentX + widthPx/2;
-            const rotation = useBackView ? 180 : 0;
+            const bikeImg = useBackView ? 'assets/bike top left.png' : 'assets/bike top right.png';
             const symbolRotation = useBackView ? 90 : 270;
             
             // Staggered Y positions for bikes and symbols to avoid side-by-side overlap in double lanes
@@ -2014,13 +2014,12 @@ function renderDualView(totalWidth) {
             const bike2Y = useBackView ? (planY + planHeight * 0.65) : (planY + planHeight * 0.85);
             
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/bike top.png',
+                href: bikeImg,
                 x: bikeX - bikeW/2,
                 y: bike1Y - bikeH/2,
                 width: bikeW,
                 height: bikeH,
-                preserveAspectRatio: 'xMidYMid meet',
-                transform: rotation ? `rotate(${rotation} ${bikeX} ${bike1Y})` : ''
+                preserveAspectRatio: 'xMidYMid meet'
             }));            
 
             // Pavement Bicycle Symbol in the middle
@@ -2037,13 +2036,12 @@ function renderDualView(totalWidth) {
             }));
 
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/bike top.png',
+                href: bikeImg,
                 x: bikeX - bikeW/2,
                 y: bike2Y - bikeH/2,
                 width: bikeW,
                 height: bikeH,
-                preserveAspectRatio: 'xMidYMid meet',
-                transform: rotation ? `rotate(${rotation} ${bikeX} ${bike2Y})` : ''
+                preserveAspectRatio: 'xMidYMid meet'
             }));
         } else if (comp.id === 'bus_station') {
             // 1. Draw tile lines (pavement texture)
