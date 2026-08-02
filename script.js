@@ -881,14 +881,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                if (calcTitleEl) {
+                    calcTitleEl.textContent = 'مؤشر جودة الأنسنة';
+                }
                 if (score >= 85) {
-                    calcTitleEl.textContent = 'شارع إنساني متكامل';
                     calcDescEl.textContent = 'رائع! هذا التصميم يحقق أعلى درجات الأنسنة وجودة الحياة ومطابق للأدلة المعتمدة بالكامل.';
                 } else if (score >= 60) {
-                    calcTitleEl.textContent = 'شارع مقبول جزئياً';
                     calcDescEl.textContent = 'جيد، لكن الشارع يحتاج لبعض التحسينات في مجالات التشجير والراحة البيئية أو عروض الأرصفة ليكون مريحاً بالكامل.';
                 } else {
-                    calcTitleEl.textContent = 'شارع طارد للمشاة';
                     calcDescEl.textContent = 'تنبيه: هذا التصميم يفتقر لأبسط مقومات أنسنة المدن، ويعزز سيطرة حركة السيارات على حساب سلامة المشاة.';
                 }
             };
