@@ -1715,15 +1715,14 @@ function renderDualView(totalWidth) {
             const busH = 364;
             const busX = currentX + widthPx/2;
             const busY = planY + planHeight/2;
-            const rotation = isRightSide ? 180 : 0;
+            const busImgPath = isRightSide ? 'assets/bus top Right.png' : 'assets/bus top left.png';
             fgGroup.appendChild(createSvgElement('image', {
-                href: 'assets/bus top.png',
+                href: busImgPath,
                 x: busX - busW/2,
                 y: busY - busH/2,
                 width: busW,
                 height: busH,
-                preserveAspectRatio: 'xMidYMid meet',
-                transform: rotation ? `rotate(${rotation} ${busX} ${busY})` : ''
+                preserveAspectRatio: 'xMidYMid meet'
             }));
 
             const symbolW = 90;
