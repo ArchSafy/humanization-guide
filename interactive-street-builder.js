@@ -404,14 +404,19 @@ function initSidebar() {
             compDiv.draggable = true;
             compDiv.dataset.id = comp.id;
             
+            const hideInfoIcon = comp.id === 'commercial_edge' || comp.id === 'residential_edge';
+            const infoIconHtml = hideInfoIcon ? '' : `
+                <span class="isb-info-icon" style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border: 1px solid var(--clr-primary); border-radius: 50%; color: var(--clr-primary); font-size: 8px; cursor: pointer; background: transparent; transition: background-color 0.2s;" data-id="${comp.id}" title="عرض المرجع الهندسي">
+                    <i class="fas fa-info" style="font-size: 8px;"></i>
+                </span>
+            `;
+
             compDiv.innerHTML = `
                 <div class="isb-component-header">
                     <span class="isb-component-title">${comp.name}</span>
                     <div style="display: flex; align-items: center; gap: 6px;">
                         <span class="isb-component-width">${comp.default_width_m}م</span>
-                        <span class="isb-info-icon" style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border: 1px solid var(--clr-primary); border-radius: 50%; color: var(--clr-primary); font-size: 8px; cursor: pointer; background: transparent; transition: background-color 0.2s;" data-id="${comp.id}" title="عرض المرجع الهندسي">
-                            <i class="fas fa-info" style="font-size: 8px;"></i>
-                        </span>
+                        ${infoIconHtml}
                     </div>
                 </div>
                 <div class="isb-component-desc">${comp.description}</div>
@@ -763,9 +768,14 @@ function renderSequence() {
             `;
         }
 
+        const hideInfoBtn = comp.id === 'commercial_edge' || comp.id === 'residential_edge';
+        const infoBtnHtml = hideInfoBtn ? '' : `
+            <button class="info-btn" style="width: ${18 * zoomLevel}px; height: ${18 * zoomLevel}px; font-size: ${10 * zoomLevel}px;" title="عرض المرجع الهندسي"><i class="fas fa-info"></i></button>
+        `;
+
         item.innerHTML = `
             <button class="remove-btn" style="width: ${18 * zoomLevel}px; height: ${18 * zoomLevel}px; font-size: ${10 * zoomLevel}px;" onclick="removeComponent(${comp.instanceId})"><i class="fas fa-times"></i></button>
-            <button class="info-btn" style="width: ${18 * zoomLevel}px; height: ${18 * zoomLevel}px; font-size: ${10 * zoomLevel}px;" title="عرض المرجع الهندسي"><i class="fas fa-info"></i></button>
+            ${infoBtnHtml}
             <div class="isb-card-content-wrapper">
                 <div class="isb-card-left-col">
                     <span style="font-size: ${12 * zoomLevel}px; line-height: 1.1;">${comp.name}</span>
