@@ -1513,6 +1513,8 @@ function renderDualView(totalWidth) {
         
         if (comp.id === 'median_island' || comp.id === 'urban_furniture_buffer') {
             const treeSize = 180 * 0.9;
+            const treeW = treeSize * 1.24; // To prevent clipping of the wider shadow of tree plan 4
+            const treeH = treeSize;
             
             let treeXOffset = 0;
             
@@ -1562,36 +1564,36 @@ function renderDualView(totalWidth) {
             // Top tree
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/tree plan 4.png',
-                x: currentX + widthPx/2 - treeSize/2 + treeXOffset,
+                x: currentX + widthPx/2 - treeW/2 + treeXOffset,
                 y: planY,
-                width: treeSize,
-                height: treeSize,
-                preserveAspectRatio: 'xMidYMid slice'
+                width: treeW,
+                height: treeH,
+                preserveAspectRatio: 'xMidYMid meet'
             }));            
             
             // Middle tree (new addition for 3-tree density)
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/tree plan 4.png',
-                x: currentX + widthPx/2 - treeSize/2 + treeXOffset,
-                y: planY + planHeight/2 - treeSize/2,
-                width: treeSize,
-                height: treeSize,
-                preserveAspectRatio: 'xMidYMid slice'
+                x: currentX + widthPx/2 - treeW/2 + treeXOffset,
+                y: planY + planHeight/2 - treeH/2,
+                width: treeW,
+                height: treeH,
+                preserveAspectRatio: 'xMidYMid meet'
             }));            
 
             // Bottom tree
             fgGroup.appendChild(createSvgElement('image', {
                 href: 'assets/tree plan 4.png',
-                x: currentX + widthPx/2 - treeSize/2 + treeXOffset,
-                y: planY + planHeight - treeSize,
-                width: treeSize,
-                height: treeSize,
-                preserveAspectRatio: 'xMidYMid slice'
+                x: currentX + widthPx/2 - treeW/2 + treeXOffset,
+                y: planY + planHeight - treeH,
+                width: treeW,
+                height: treeH,
+                preserveAspectRatio: 'xMidYMid meet'
             }));
 
-            // Draw bench and trash bin in urban furniture buffer (staggered in the lower gap)
+            // Draw bench and trash bin in urban furniture buffer (staggered in the lower gap, planHeight=800)
             if (comp.id === 'urban_furniture_buffer') {
-                const furnY = planY + 260;
+                const furnY = planY + 560; // Placed at the midpoint of the bottom gap (between middle and bottom tree)
                 const benchW = Math.max(14, widthPx * 0.45);
                 const benchH = 50; // seat length along Y-axis
                 const benchX = currentX + widthPx/2 - benchW/2;
@@ -1666,7 +1668,7 @@ function renderDualView(totalWidth) {
                 const isMedian = comp.id === 'median_island';
                 const poleXOffset = 0; // Centered, no shift
                 const poleCenterX = currentX + widthPx/2 + poleXOffset;
-                const poleCenterY = planY + 140; // Shifted between top and middle tree to avoid overlap
+                const poleCenterY = planY + 240; // Shifted to the midpoint of the top gap (between top and middle tree) to avoid overlap
                 
                 // Draw a small central circle for the main pole body
                 fgGroup.appendChild(createSvgElement('circle', {
