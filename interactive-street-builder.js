@@ -331,7 +331,7 @@ const templatesData = {
 const templateNames = {
     "arterial_waterfront":  "طريق رئيسي واجهة بحرية",
     "collector_30m":  "شارع تجميعي",
-    "collector_bus_37m": "شارع تجميعي مع موقف حافلات (37 متر)",
+    "collector_bus_37m": "شارع تجميعي مع موقف حافلات",
     "commercial_residential_33m":  "شارع تجاري سكني"
 };
 
