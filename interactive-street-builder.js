@@ -2749,7 +2749,8 @@ function showTooltip(e, id) {
     
     // Position the tooltip to the left of the hovered element
     const rect = e.currentTarget.getBoundingClientRect();
-    const tooltipWidth = tooltip.offsetWidth || 300;
+    const tooltipWidth = tooltip.offsetWidth > 50 ? tooltip.offsetWidth : 300;
+    const tooltipHeight = tooltip.offsetHeight > 30 ? tooltip.offsetHeight : 180;
     
     let left = rect.left - tooltipWidth - 15;
     
@@ -2758,11 +2759,16 @@ function showTooltip(e, id) {
     const parentCard = e.currentTarget.closest('.isb-sequence-item') || e.currentTarget.closest('.isb-component-item');
     if (parentCard) {
         const cardRect = parentCard.getBoundingClientRect();
-        top = cardRect.bottom + window.scrollY - tooltip.offsetHeight;
+        top = cardRect.bottom + window.scrollY - tooltipHeight;
     } else {
-        top = rect.bottom + window.scrollY - tooltip.offsetHeight;
+        top = rect.bottom + window.scrollY - tooltipHeight;
     }
     
+    // Capping boundaries to keep the tooltip fully in the viewport
+    const maxTop = window.scrollY + window.innerHeight - tooltipHeight - 20;
+    if (top > maxTop) {
+        top = maxTop;
+    }
     if (left < 10) {
         left = rect.right + 15;
     }
