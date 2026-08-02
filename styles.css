@@ -926,6 +926,10 @@ body::before {
     background-image: linear-gradient(rgba(85, 93, 113, 0.7), rgba(101, 92, 80, 0.62)), url('New%20folder/Implemntation%20sec/Interlock-Installation-Company-in-Dubai-2.webp');
 }
 
+.references-hero {
+    background-image: linear-gradient(rgba(85, 93, 113, 0.7), rgba(101, 92, 80, 0.62)), url('refrances banner.png');
+}
+
 .execution-guide-page {
     padding-top: 76px;
 }
