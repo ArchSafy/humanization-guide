@@ -200,6 +200,11 @@
   2. **إضافة شبكة بلاط ناعمة وصغيرة (Mini Interlock Tiles in Flex Zone):** قمنا بإضافة تقسيمات مربعات بلاط (انترلوك) ناعمة وصغيرة داخل النطاق المرن بتباعد شبكة خطوط قدره **`8px`** (بإزاحة `4px` ولون داكن متناسق `#6d5d47`) لتكون أصغر وأكثف بصرياً من شبكة الأرصفة الجانبية.
   3. **تعزيز رؤية خطوط المواقف (Vibrant Parking Lines):** قمنا بزيادة نسبة شفافية خطوط تقسيم المواقف في كل من مواقف بزاوية 45 ومواقف بزاوية 90 لتصبح بلون أبيض ناصع وواضح بنسبة تعتيم **`0.85`**، مما يبرز تقسيمات المواقف ويفصل بين السيارات بوضوح تام للعين.
 
+### 34. إضافة مرجع NACTO City Limits لقائمة المراجع (Adding NACTO City Limits Reference Card)
+* **التعديل والتطوير:**
+  1. **استخراج صورة الغلاف تلقائياً (Cover Extraction):** قمنا بتشغيل سكربت استخراج الأغلفة الذاتي لمعالجة ملف الـ PDF الجديد [NACTO_CityLimits_Spreads.pdf](file:///c:/Users/LENOVO/Documents/Mustafa/Refrances/NACTO_CityLimits_Spreads.pdf) المضاف وتوليد صورة غلاف ثنائية الأبعاد عالية الدقة باسم [NACTO_CityLimits_Spreads.png](file:///c:/Users/LENOVO/Documents/Mustafa/assets/covers/NACTO_CityLimits_Spreads.png) في مجلد الأغطية.
+  2. **إدراج كارت المرجع بصفحة المراجع (Reference Grid Card Integration):** تم تصميم وإضافة كارت تفاعلي جديد بالكامل للمرجع [NACTO City Limits](file:///c:/Users/LENOVO/Documents/Mustafa/references.html) تحت قسم الأدلة العالمية، متضمناً تفاصيل المرجع وحجم الملف `17.7 MB` مع تفعيل خيار التحميل المباشر بنجاح.
+
 ---
 
 ## 🖥️ كيفية المعاينة والتحقق محلياً
