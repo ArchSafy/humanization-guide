@@ -337,16 +337,16 @@ const templateNames = {
 
 const carModels = [
     {
-        "back":  "assets/cars/Car back Alt 01.png",
-        "front":  "assets/cars/Car front Alt 01.png"
+        "back":  "assets/Cars/Car back Alt 01.png",
+        "front":  "assets/Cars/Car front Alt 01.png"
     },
     {
-        "back":  "assets/cars/Car back Alt 02.png",
-        "front":  "assets/cars/Car front Alt 02.png"
+        "back":  "assets/Cars/Car back Alt 02.png",
+        "front":  "assets/Cars/Car front Alt 02.png"
     },
     {
-        "back":  "assets/cars/Car back Alt 03.png",
-        "front":  "assets/cars/Car front Alt 03.png"
+        "back":  "assets/Cars/Car back Alt 03.png",
+        "front":  "assets/Cars/Car front Alt 03.png"
     }
 ];
 
@@ -939,14 +939,14 @@ function renderDualView(totalWidth) {
     fgGroup.appendChild(createSvgElement('text', { x: labelX, y: planY - 15, fill: '#555', 'font-weight': 'bold', 'font-family': "'Cairo', 'Tajawal', sans-serif", 'font-size': '16px', 'text-anchor': 'start' })).textContent = 'المخطط الأفقي للشارع';
     
     const peopleAssets = [
-        { path: 'assets/people/man 1.png', w: 32, h: 70, offsetY: 0 },
-        { path: 'assets/people/woman 1.png', w: 32, h: 70, offsetY: 0 },
-        { path: 'assets/people/child 1.png', w: 26, h: 50, offsetY: 0 },
-        { path: 'assets/people/old man 1.png', w: 32, h: 70, offsetY: 0 },
-        { path: 'assets/people/man 2.png', w: 32, h: 70, offsetY: 0 },
-        { path: 'assets/people/woman 2.png', w: 32, h: 70, offsetY: 0 },
-        { path: 'assets/people/child 2.png', w: 26, h: 50, offsetY: 0 },
-        { path: 'assets/people/old man 2.png', w: 32, h: 70, offsetY: 0 }
+        { path: 'assets/People/man 1.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/People/woman 1.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/People/child 1.png', w: 26, h: 50, offsetY: 0 },
+        { path: 'assets/People/old man 1.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/People/man 2.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/People/woman 2.png', w: 32, h: 70, offsetY: 0 },
+        { path: 'assets/People/child 2.png', w: 26, h: 50, offsetY: 0 },
+        { path: 'assets/People/old man 2.png', w: 32, h: 70, offsetY: 0 }
     ];
 
     const seededRandom = (seed) => {
@@ -1374,7 +1374,7 @@ function renderDualView(totalWidth) {
                         : (currentX + widthPx - blockWallLeftOffset);
                 } else {
                     imgPath = isComm 
-                        ? (isRightSide ? 'assets/edges/Commercial Coffe Right side.png' : 'assets/edges/Commercial Coffe Left side.png')
+                        ? (isRightSide ? 'assets/Edges/Commercial Coffe Right side.png' : 'assets/Edges/Commercial Coffe Left side.png')
                         : (isRightSide ? 'assets/Edges/Residential right side.png' : 'assets/Edges/Residential Left side.png');
                     
                     buildingWidth = isComm ? (isRightSide ? 262 : 209) : 267;
