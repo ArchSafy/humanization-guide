@@ -2997,4 +2997,621 @@ function showReference(id) {
     }
 }
 
+// ==========================================
+// 15. AI 3D Render Simulator Integration
+// ==========================================
 
+let aiGenTimeout = null;
+
+function openAiRenderModal() {
+    const modal = document.getElementById('isb-ai-render-modal');
+    if (!modal) return;
+    
+    modal.style.display = 'flex';
+    
+    // 1. Reset Modal UI States
+    document.getElementById('ai-render-placeholder').style.display = 'flex';
+    document.getElementById('ai-generating-container').style.display = 'none';
+    document.getElementById('ai-result-container').style.display = 'none';
+    
+    // 2. Generate Prompt dynamically
+    const promptContent = document.getElementById('ai-prompt-content');
+    if (promptContent) {
+        promptContent.textContent = buildDynamicAiPrompt();
+    }
+}
+
+function closeAiRenderModal() {
+    const modal = document.getElementById('isb-ai-render-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    // Clear any active timeout
+    if (aiGenTimeout) {
+        clearTimeout(aiGenTimeout);
+        aiGenTimeout = null;
+    }
+}
+
+function buildDynamicAiPrompt() {
+    if (!sequence || sequence.length === 0) {
+        return `// AI Prompt Generator\n\n[Warning]: No street elements added yet.\nAdd street components on the canvas to generate a custom prompt.`;
+    }
+
+    // Map component IDs to English prompt terms
+    const termMap = {
+        "commercial_edge": "active commercial buffer edge with shop entrances and cafes",
+        "clear_sidewalk": "pedestrian sidewalk paved with light concrete pavers",
+        "residential_edge": "residential buffer edge next to modern villas",
+        "urban_furniture_buffer": "street furniture zone featuring leafy green trees and street lighting poles",
+        "seafront": "seafront waterfront promenade with safety steel barrier",
+        "bollard": "protective security bollards separating walkway from street",
+        "lane_divider": "painted asphalt separator line",
+        "bike_lane": "green asphalt cycling lane with bicycle pavement symbol",
+        "flex_zone": "flexible zone featuring small interlock pavers and seating elements",
+        "parking_45": "angled 45-degree car parking spaces with concrete stopper blocks",
+        "parking_90": "perpendicular 90-degree car parking spaces with wheel stoppers",
+        "median_island": "raised central green median island with palm trees",
+        "bus_station": "modern public bus transit stop shelter with seating bench",
+        "standard_car_lane": "standard asphalt vehicular driving lane",
+        "hov_transit_lane": "red asphalt dedicated priority bus lane"
+    };
+
+    let componentsDesc = [];
+    sequence.forEach(c => {
+        const desc = termMap[c.id] || c.id;
+        componentsDesc.push(`- ${c.default_width_m}m ${desc}`);
+    });
+
+    const streetName = document.getElementById('isb-street-name')?.value || "unnamed street";
+
+    let promptText = `// Visual Parameters\n`;
+    promptText += `Theme: Modern Humanized Street Design\n`;
+    promptText += `Location Concept: ${streetName}\n`;
+    promptText += `Perspective: Eye-level Photorealistic 3D Architectural Render\n`;
+    promptText += `Lighting: Soft Warm Golden Hour Sunlight\n\n`;
+    promptText += `// Street Components Sequence:\n`;
+    promptText += componentsDesc.join('\n');
+    promptText += `\n\n// Compiled AI System Prompt:\n`;
+    
+    // Compile clean inline prompt
+    const cleanList = sequence.map(c => termMap[c.id] || c.id).join(', ');
+    promptText += `"A photorealistic eye-level 3D architectural rendering of a beautiful modern humanized urban street. The street design features: ${cleanList}. Active public space, lush green trees casting realistic soft shadows, warm volumetric sunlight, high-resolution architectural visual, clean layout."`;
+
+    return promptText;
+}
+
+function startAiGenerationSim() {
+    const placeholder = document.getElementById('ai-render-placeholder');
+    const loading = document.getElementById('ai-generating-container');
+    const result = document.getElementById('ai-result-container');
+    const statusHeading = document.getElementById('ai-status-heading');
+    const statusDesc = document.getElementById('ai-status-desc');
+    
+    placeholder.style.display = 'none';
+    loading.style.display = 'flex';
+    
+    const steps = [
+        { heading: "جارٍ تحليل المقطع العرضي...", desc: "قراءة ترتيب المسارات والمكونات الهندسية" },
+        { heading: "جارٍ صياغة التوجيه البصري (Prompt)...", desc: "بناء الوصف الفني لمحرك التوليد" },
+        { heading: "جارٍ تطبيق الخامات والإضاءة...", desc: "محاكاة ظلال الأشجار والإنارة الواقعية" },
+        { heading: "جارٍ إنهاء اللقطة المعمارية ثلاثية الأبعاد...", desc: "تطبيق التنعيم والمعالجة البصرية الأخيرة" }
+    ];
+    
+    let currentStep = 0;
+    
+    function runLoaderStep() {
+        if (currentStep < steps.length) {
+            statusHeading.textContent = steps[currentStep].heading;
+            statusDesc.textContent = steps[currentStep].desc;
+            currentStep++;
+            aiGenTimeout = setTimeout(runLoaderStep, 1200);
+        } else {
+            // Determine render image based on design components
+            let selectedImage = 'assets/ai-renders/shared_street_3d.png'; // Default
+            
+            const hasSeafront = sequence.some(c => c.id === 'seafront');
+            const hasTransit = sequence.some(c => ['hov_transit_lane', 'bus_station', 'median_island'].includes(c.id));
+            const hasResidential = sequence.some(c => c.id === 'residential_edge');
+            const hasCommercial = sequence.some(c => c.id === 'commercial_edge');
+            
+            if (hasSeafront) {
+                selectedImage = 'assets/ai-renders/waterfront_commercial_3d.png';
+            } else if (hasTransit) {
+                selectedImage = 'assets/ai-renders/transit_corridor_3d.png';
+            } else if (hasResidential) {
+                selectedImage = 'assets/ai-renders/local_residential_3d.png';
+            } else if (hasCommercial) {
+                selectedImage = 'assets/ai-renders/waterfront_commercial_3d.png';
+            } else if (sequence.some(c => ['standard_car_lane', 'parking_45', 'parking_90'].includes(c.id))) {
+                selectedImage = 'assets/ai-renders/local_residential_3d.png';
+            }
+            
+            // Set image source & download link
+            const resultImg = document.getElementById('ai-result-image');
+            const downloadLink = document.getElementById('ai-download-link');
+            if (resultImg) resultImg.src = selectedImage;
+            if (downloadLink) {
+                downloadLink.href = selectedImage;
+                downloadLink.download = `${document.getElementById('isb-street-name')?.value || 'street'}-3d-render.png`;
+            }
+            
+            // Toggle container display
+            loading.style.display = 'none';
+            result.style.display = 'flex';
+        }
+    }
+    
+    runLoaderStep();
+}
+
+
+
+// ==========================================
+// 16. Official Engineering Approval Report Generator (PDF / Print)
+// ==========================================
+
+async function exportEngineeringReport() {
+    const svg = document.getElementById('isb-svg-canvas');
+    if (!svg || !sequence || sequence.length === 0) {
+        alert("برجاء إضافة عناصر لتصميم الشارع أولاً قبل إصدار تقرير الاعتماد الهندسي.");
+        return;
+    }
+
+    const streetName = (document.getElementById('isb-street-name')?.value || '').trim() || 'شارع حضري مقترح';
+    const netWidth = calculateStreetWidth();
+    const grossWidth = calculateVisualTotalWidth();
+    const refNumber = `SHQ-ENG-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const dateStr = new Date().toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Read current evaluation metrics from DOM
+    const humanizationScore = document.getElementById('isb-humanization-score')?.textContent || '0%';
+    const humanizationRating = document.getElementById('isb-humanization-rating')?.textContent || '-';
+    const shadingScore = document.getElementById('isb-shading-score')?.textContent || '0%';
+    const safetyScore = document.getElementById('isb-safety-score')?.textContent || '0%';
+    const qualityScore = document.getElementById('isb-quality-score')?.textContent || '0%';
+
+    const carCap = document.getElementById('isb-car-capacity')?.textContent || '0';
+    const busCap = document.getElementById('isb-bus-capacity')?.textContent || '0';
+    const bikeCap = document.getElementById('isb-bike-capacity')?.textContent || '0';
+    const pedCap = document.getElementById('isb-pedestrian-capacity')?.textContent || '0';
+    const totalCap = document.getElementById('isb-total-person-capacity')?.textContent || '0';
+
+    // Clone SVG and resolve relative image URLs to absolute URLs for the report window
+    const clonedSvg = svg.cloneNode(true);
+    const images = clonedSvg.querySelectorAll('image');
+    images.forEach(img => {
+        const href = img.getAttribute('href') || img.getAttribute('xlink:href');
+        if (href && !href.startsWith('http') && !href.startsWith('data:') && !href.startsWith('blob:')) {
+            const absoluteUrl = new URL(href, window.location.href).href;
+            img.setAttribute('href', absoluteUrl);
+            img.removeAttribute('xlink:href');
+        }
+    });
+    clonedSvg.style.width = '100%';
+    clonedSvg.style.height = 'auto';
+    clonedSvg.style.maxHeight = '460px';
+    const svgHtml = new XMLSerializer().serializeToString(clonedSvg);
+
+    // Minimum standard widths for automated code compliance audit
+    const minStandards = {
+        clear_sidewalk: 1.8,
+        commercial_edge: 3.0,
+        residential_edge: 1.2,
+        urban_furniture_buffer: 1.0,
+        bike_lane: 1.2,
+        flex_zone: 2.5,
+        parking_45: 5.0,
+        parking_90: 5.5,
+        median_island: 1.5,
+        bus_station: 2.7,
+        standard_car_lane: 2.75,
+        hov_transit_lane: 3.5
+    };
+
+    const rowsHtml = sequence.map((item, idx) => {
+        const w = Number(item.default_width_m || 0);
+        const pct = grossWidth > 0 ? ((w / grossWidth) * 100).toFixed(1) : '0.0';
+        const minW = minStandards[item.id];
+        const isCompliant = !minW || w >= minW;
+        const statusBadge = isCompliant
+            ? `<span style="background:#e8f8f0;color:#1e8449;padding:3px 8px;border-radius:12px;font-weight:700;font-size:0.75rem;display:inline-block;">✓ مطابق للكود</span>`
+            : `<span style="background:#fef5e7;color:#b9770e;padding:3px 8px;border-radius:12px;font-weight:700;font-size:0.75rem;display:inline-block;">⚠ أقل من الموصى (${minW}م)</span>`;
+        const refText = (referencesDB[item.id] || 'معايير وزارة البلديات والإسكان وكود البناء السعودي').replace(/<strong>.*?<\/strong>\s*/g, '');
+
+        return `
+            <tr>
+                <td style="text-align:center;font-weight:bold;">${idx + 1}</td>
+                <td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${item.color};margin-left:6px;"></span><strong>${item.name}</strong></td>
+                <td style="text-align:center;font-weight:bold;">${w.toFixed(1)} م</td>
+                <td style="text-align:center;">${pct}%</td>
+                <td style="text-align:center;">${statusBadge}</td>
+                <td style="font-size:0.78rem;color:#444;line-height:1.45;">${refText}</td>
+            </tr>
+        `;
+    }).join('');
+
+    // Automatically determine required Execution Shop Drawings based on street elements
+    const shopDrawings = [];
+    const hasSidewalk = sequence.some(c => ['clear_sidewalk', 'commercial_edge', 'residential_edge', 'seafront'].includes(c.id));
+    const hasGreen = sequence.some(c => ['urban_furniture_buffer', 'median_island'].includes(c.id));
+    const hasBike = sequence.some(c => c.id === 'bike_lane');
+    const hasRoad = sequence.some(c => ['standard_car_lane', 'hov_transit_lane', 'parking_45', 'parking_90', 'flex_zone'].includes(c.id));
+
+    if (hasSidewalk) {
+        shopDrawings.push({ code: 'SD-001', title: 'مخطط تركيب بلاط الجرانيت للأرصفة والممرات', file: '001- GRANITE PAVING.pdf' });
+        shopDrawings.push({ code: 'SD-004', title: 'تفاصيل تركيب بلاط الإنترلوك مسبق الصنع وطبقات التأسيس', file: '004- PRECAST INTERLOCK PAVING.pdf' });
+    }
+    if (hasRoad) {
+        shopDrawings.push({ code: 'SD-005', title: 'تفاصيل تركيب بلدورات الطرق الفاصلة (Precast Road Curb)', file: '005- PRECAST ROAD CURB.pdf' });
+    }
+    if (hasGreen) {
+        shopDrawings.push({ code: 'SD-012', title: 'مخطط إنشائي لأحواض الأشجار وعزل الجذور والري بالتنقيط', file: '012-Tree Pit.pdf' });
+        shopDrawings.push({ code: 'SD-006', title: 'تفاصيل بلدورات الحدائق والفراغات المزروعة (Landscape Curb)', file: '006- PRECAST LS CURB.pdf' });
+    }
+    if (hasBike) {
+        shopDrawings.push({ code: 'SD-013', title: 'تفاصيل تنفيذ الأسفلت الأخضر لمسارات الدراجات', file: '013- Green Asphalt.pdf' });
+    }
+
+    const shopDrawingsHtml = shopDrawings.map(sd => {
+        const pdfUrl = new URL(`details pdf/${sd.file}`, window.location.href).href;
+        return `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#f8f9fa;border:1px solid #e2e6ea;border-radius:6px;font-size:0.82rem;">
+                <div>
+                    <span style="background:#8C6D46;color:#fff;padding:2px 7px;border-radius:4px;font-weight:bold;font-size:0.72rem;margin-left:8px;">${sd.code}</span>
+                    <strong>${sd.title}</strong>
+                </div>
+                <a href="${pdfUrl}" target="_blank" style="color:#1e6b52;font-weight:bold;text-decoration:none;font-size:0.78rem;">معاينة المخطط التنفيذي ↗</a>
+            </div>
+        `;
+    }).join('');
+
+    const logoUrl = new URL('logo.svg', window.location.href).href;
+
+    const reportWindow = window.open('', '_blank');
+    if (!reportWindow) {
+        alert("يرجى السماح بالنوافذ المنبثقة (Pop-ups) في المتصفح لعرض وطباعة التقرير الهندسي.");
+        return;
+    }
+
+    reportWindow.document.write(`
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تقرير الاعتماد الهندسي - ${streetName}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #eef1f5;
+            color: #1f2937;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        .no-print-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #1f2937;
+            color: #fff;
+            padding: 12px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            font-family: 'Cairo', sans-serif;
+        }
+        .btn-print {
+            background: #1e6b52;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .btn-close {
+            background: #4b5563;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+        }
+        .report-page {
+            max-width: 1100px;
+            margin: 24px auto;
+            background: #fff;
+            padding: 36px 42px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 8px;
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #8C6D46;
+            padding-bottom: 18px;
+            margin-bottom: 24px;
+        }
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .brand-box img {
+            height: 58px;
+        }
+        .brand-box h1 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.45rem;
+            margin: 0;
+            color: #1f2937;
+            font-weight: 900;
+        }
+        .brand-box p {
+            margin: 2px 0 0 0;
+            font-size: 0.85rem;
+            color: #8C6D46;
+            font-weight: 700;
+        }
+        .meta-box {
+            text-align: left;
+            font-size: 0.83rem;
+            line-height: 1.6;
+            background: #f9f7f4;
+            padding: 10px 16px;
+            border-radius: 6px;
+            border-right: 4px solid #8C6D46;
+        }
+        .section-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: #8C6D46;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 6px;
+            margin: 24px 0 14px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .kpi-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .kpi-card.highlight {
+            background: #fdfaf6;
+            border-color: #8C6D46;
+        }
+        .kpi-value {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: #8C6D46;
+        }
+        .kpi-label {
+            font-size: 0.78rem;
+            color: #4b5563;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        .svg-box {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 14px;
+            background: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.84rem;
+            margin-bottom: 18px;
+        }
+        th {
+            background: #2c3e50;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            padding: 9px 10px;
+            border: 1px solid #2c3e50;
+            text-align: right;
+        }
+        td {
+            padding: 8px 10px;
+            border: 1px solid #e5e7eb;
+            vertical-align: middle;
+        }
+        tr:nth-child(even) { background: #fcfcfd; }
+        .capacity-strip {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            background: #f4f6f9;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #dce1e7;
+            text-align: center;
+        }
+        .signoff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 2px dashed #d1d5db;
+        }
+        .signoff-box {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px 14px;
+            background: #fafafa;
+            font-size: 0.82rem;
+        }
+        .signoff-box h5 {
+            font-family: 'Cairo', sans-serif;
+            margin: 0 0 8px 0;
+            color: #1f2937;
+            font-size: 0.88rem;
+        }
+        @media print {
+            body { background: #fff; }
+            .no-print-bar { display: none !important; }
+            .report-page {
+                margin: 0;
+                padding: 15px 20px;
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print-bar">
+        <div>
+            <strong>وثيقة الاعتماد الهندسي وتقييم الأنسنة</strong> — جاهزة للطباعة أو الحفظ بصيغة PDF
+        </div>
+        <div>
+            <button class="btn-print" onclick="window.print()">🖨️ طباعة / حفظ كملف PDF</button>
+            <button class="btn-close" onclick="window.close()">إغلاق</button>
+        </div>
+    </div>
+
+    <div class="report-page">
+        <div class="report-header">
+            <div class="brand-box">
+                <img src="${logoUrl}" alt="شعار أمانة المنطقة الشرقية">
+                <div>
+                    <h1>تقرير الاعتماد الهندسي وتقييم كفاءة أنسنة الشارع</h1>
+                    <p>منصة أنسنة الشرقية — نظام التوليد والتدقيق الكودي الآلي للمجال العام</p>
+                </div>
+            </div>
+            <div class="meta-box">
+                <div><strong>اسم الطريق / المشروع:</strong> ${streetName}</div>
+                <div><strong>الرقم المرجعي:</strong> ${refNumber}</div>
+                <div><strong>تاريخ الإصدار:</strong> ${dateStr}</div>
+                <div><strong>صافي عرض الشارع:</strong> ${netWidth.toFixed(1)} م (بالإرتدادات: ${grossWidth.toFixed(1)} م)</div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>1. ملخص مؤشرات كفاءة الأنسنة والامتثال المعياري</span>
+            <span style="font-size:0.82rem;color:#1e8449;font-weight:bold;">الحالة التقييمية: ${humanizationRating}</span>
+        </div>
+        <div class="kpi-grid">
+            <div class="kpi-card highlight">
+                <div class="kpi-value">${humanizationScore}</div>
+                <div class="kpi-label">مؤشر كفاءة الأنسنة الكلي</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color:#27ae60;">${shadingScore}</div>
+                <div class="kpi-label">الاستجابة للمناخ والظل</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color:#2980b9;">${safetyScore}</div>
+                <div class="kpi-label">سلامة الحركة وحماية المشاة</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color:#8e44ad;">${qualityScore}</div>
+                <div class="kpi-label">جودة الفراغ العام والأثاث</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color:#2c3e50;">${sequence.length}</div>
+                <div class="kpi-label">إجمالي القطاعات التصميمية</div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>2. التوليد الهندسي الآلي للمقطع العرضي والمسقط الأفقي (Cross-Section & Plan View)</span>
+            <span style="font-size:0.78rem;color:#6b7280;">مقياس رسم هندسي متجهي (Vector SVG)</span>
+        </div>
+        <div class="svg-box">
+            ${svgHtml}
+        </div>
+
+        <div class="section-title">
+            <span>3. تحليل القدرة الاستيعابية للتدفق الساعي (وفق مرجعية NACTO العالمية)</span>
+            <span style="font-size:0.78rem;color:#6b7280;">وحدة القياس: شخص / ساعة</span>
+        </div>
+        <div class="capacity-strip">
+            <div><div style="font-size:0.76rem;color:#6b7280;">السيارات الخاصة</div><strong style="font-size:0.95rem;color:#1f2937;">${carCap}</strong></div>
+            <div><div style="font-size:0.76rem;color:#6b7280;">النقل الجماعي (حافلات)</div><strong style="font-size:0.95rem;color:#d66c5c;">${busCap}</strong></div>
+            <div><div style="font-size:0.76rem;color:#6b7280;">مسارات الدراجات</div><strong style="font-size:0.95rem;color:#2980b9;">${bikeCap}</strong></div>
+            <div><div style="font-size:0.76rem;color:#6b7280;">أرصفة المشاة</div><strong style="font-size:0.95rem;color:#8e44ad;">${pedCap}</strong></div>
+            <div style="background:#e8f8f0;border-radius:6px;padding:4px;"><div style="font-size:0.76rem;color:#1e8449;font-weight:bold;">إجمالي سعة التدفق</div><strong style="font-size:1.05rem;color:#1e8449;">${totalCap}</strong></div>
+        </div>
+
+        <div class="section-title">
+            <span>4. جدول تفكيك عناصر الشارع ومطابقة الكود الهندسي (Code Compliance Audit)</span>
+            <span style="font-size:0.78rem;color:#6b7280;">مرتب من اليسار إلى اليمين حسب المقطع</span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:40px;text-align:center;">#</th>
+                    <th style="width:160px;">العنصر التصميمي</th>
+                    <th style="width:85px;text-align:center;">العرض (م)</th>
+                    <th style="width:75px;text-align:center;">النسبة</th>
+                    <th style="width:130px;text-align:center;">حالة المطابقة</th>
+                    <th>المرجعية التنظيمية والكود الهندسي المعتمد</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rowsHtml}
+            </tbody>
+        </table>
+
+        <div class="section-title">
+            <span>5. حزمة المخططات التنفيذية الموصى بإرفاقها للمقاول (Linked Shop Drawings)</span>
+            <span style="font-size:0.78rem;color:#6b7280;">مرتبطة آلياً بمكونات المقطع لضبط جودة التنفيذ الميداني</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;">
+            ${shopDrawingsHtml || '<p style="font-size:0.85rem;color:#666;">لا توجد مخططات تفصيلية إضافية مطلوبة.</p>'}
+        </div>
+
+        <div class="signoff-grid">
+            <div class="signoff-box">
+                <h5>إعداد المكتب الهندسي / المصمم</h5>
+                <div>الاسم: .................................................</div>
+                <div style="margin-top:6px;">التوقيع: ...............................................</div>
+            </div>
+            <div class="signoff-box">
+                <h5>تدقيق إدارة التصميم الحضري والأنسنة</h5>
+                <div>حالة الفحص الآلي: <strong>مكتمل (${humanizationScore})</strong></div>
+                <div style="margin-top:6px;">المراجع: ...............................................</div>
+            </div>
+            <div class="signoff-box">
+                <h5>اعتماد صاحب الصلاحية</h5>
+                <div>القرار: [ &nbsp; ] معتمد للتنفيذ &nbsp; [ &nbsp; ] معتمد بملاحظات</div>
+                <div style="margin-top:6px;">الختم الرسمي: .......................................</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+    `);
+    reportWindow.document.close();
+}
+
+window.exportEngineeringReport = exportEngineeringReport;

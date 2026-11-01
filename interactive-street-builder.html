@@ -402,6 +402,160 @@
             background: rgba(255,255,255,0.35);
         }
 
+        /* AI Render Modal Styles */
+        .ai-modal-content {
+            background: var(--clr-surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--clr-border);
+            animation: modalFadeIn 0.3s ease;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .ai-modal-body {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            overflow: hidden;
+            height: 520px;
+        }
+        @media (max-width: 768px) {
+            .ai-modal-body {
+                flex-direction: column;
+                height: auto;
+                overflow-y: auto;
+            }
+            .ai-modal-left, .ai-modal-right {
+                width: 100% !important;
+                height: auto !important;
+            }
+        }
+        .ai-modal-left {
+            width: 35%;
+            background: var(--clr-bg);
+            border-left: 1px solid var(--clr-border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+        }
+        .ai-modal-right {
+            width: 65%;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--clr-surface);
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-prompt-box {
+            background: rgba(0,0,0,0.04);
+            border: 1px solid var(--clr-border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--clr-text);
+            direction: ltr;
+            text-align: left;
+            white-space: pre-wrap;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .dark-mode .ai-prompt-box {
+            background: rgba(255,255,255,0.04);
+        }
+        .ai-render-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--clr-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0,0,0,0.01);
+        }
+        .ai-sparkle-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulseSparkle 2s infinite ease-in-out;
+        }
+        @keyframes pulseSparkle {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px rgba(74, 0, 224, 0.4)); }
+        }
+        .ai-generating-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .ai-scan-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, transparent, var(--clr-primary), transparent);
+            animation: scanAnimation 2s infinite linear;
+            z-index: 10;
+        }
+        @keyframes scanAnimation {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+        .ai-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--clr-border);
+            border-top: 4px solid var(--clr-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .ai-result-container {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            gap: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+        .ai-result-image {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--clr-border);
+            box-shadow: var(--shadow-md);
+        }
+
     </style>
 </head>
 
@@ -465,8 +619,12 @@
                     <button class="isb-btn" onclick="mirrorSequence()" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;" title="تماثل">
                         <i class="fas fa-clone"></i> تماثل
                     </button>
+                    <button class="isb-btn" id="isb-export-report-btn" onclick="exportEngineeringReport()" style="background-color: #1e6b52; border-color: #1e6b52; color: white; padding: 0.4rem 0.85rem; font-size: 0.9rem; font-weight: bold;" title="توليد تقرير الاعتماد الهندسي ومطابقة الكود للطباعة أو الحفظ كـ PDF"><i class="fas fa-file-signature"></i> تقرير الاعتماد (PDF)</button>
                     <button class="isb-btn" id="isb-export-image-btn" onclick="exportToPng()" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">
                         <i class="fas fa-image"></i> تصدير صورة
+                    </button>
+                    <button class="isb-btn" id="isb-ai-render-btn" onclick="openAiRenderModal()" style="background: linear-gradient(135deg, #8E2DE2, #4A00E0); border: none; color: white; padding: 0.4rem 0.8rem; font-size: 0.9rem; font-weight: bold; box-shadow: 0 2px 10px rgba(74, 0, 224, 0.2);">
+                        <i class="fas fa-wand-magic-sparkles"></i> منظور 3D (الذكاء الاصطناعي)
                     </button>
                     <button class="isb-btn" onclick="clearSequence()" style="background-color: #d9534f; border-color: #d9534f; color: var(--clr-surface); padding: 0.4rem 0.8rem; font-size: 0.9rem;">
                         <i class="fas fa-trash"></i> مسح الكل
@@ -510,7 +668,12 @@
 
                     <!-- Evaluation and Performance Panel -->
                     <div class="isb-evaluation-panel" id="isb-evaluation-panel" style="display: none; width: 100%; max-width: 1200px; margin-top: 20px; background: var(--clr-surface); border-radius: var(--border-radius); padding: 30px; box-shadow: var(--shadow-md); border: 1px solid var(--clr-border);">
-                        <h3 style="font-family: 'Cairo', sans-serif; color: var(--clr-primary); border-bottom: 2px solid var(--clr-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chart-line"></i> تقييم ومؤشرات أنسنة الشارع</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--clr-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                            <h3 style="font-family: 'Cairo', sans-serif; color: var(--clr-primary); margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chart-line"></i> تقييم ومؤشرات أنسنة الشارع</h3>
+                            <button class="isb-btn" onclick="exportEngineeringReport()" style="background-color: #1e6b52; border-color: #1e6b52; color: white; padding: 0.45rem 1.1rem; font-size: 0.9rem; font-weight: bold;">
+                                <i class="fas fa-file-pdf"></i> إصدار وثيقة الاعتماد الهندسي ومطابقة الكود (PDF)
+                            </button>
+                        </div>
                         
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
                             <!-- Capacity Card -->
@@ -651,6 +814,71 @@
                     <p style="margin: 0; font-size: 0.9rem; color: var(--clr-text-muted);">
                         يوضح هذا المخطط المرجعي سعة تدفق الأفراد المقدرة لكل ممر أو مسار سفر بعرض 3 أمتار (10 أقدام) خلال ساعة واحدة لمختلف وسائل التنقل الحضرية.
                     </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Render Modal -->
+    <div id="isb-ai-render-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="ai-modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--clr-border); background: var(--clr-surface);">
+                <h3 style="font-family: 'Cairo', sans-serif; margin: 0; color: var(--clr-primary); font-weight: 900; display: flex; align-items: center; gap: 0.6rem;">
+                    <i class="fas fa-wand-magic-sparkles" style="color: #8E2DE2;"></i> مولد لقطات 3D بالذكاء الاصطناعي (AI Simulator)
+                </h3>
+                <button onclick="closeAiRenderModal()" style="background: none; border: none; font-size: 1.5rem; color: var(--clr-text-muted); cursor: pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="ai-modal-body">
+                <!-- Left Panel (Prompt Builder) -->
+                <div class="ai-modal-left">
+                    <h4 style="font-family: 'Cairo', sans-serif; font-size: 0.95rem; margin: 0; color: var(--clr-text); font-weight: bold;">
+                        <i class="fas fa-terminal"></i> التوجيه البصري (AI Prompt)
+                    </h4>
+                    <span style="font-size: 0.75rem; color: var(--clr-text-muted); line-height: 1.4;">
+                        هذا هو الوصف الهيكلي الذي يقوم النظام بصياغته ديناميكياً بناءً على مقطع الشارع المصمم من قبلك لإرساله لمحرك التوليد:
+                    </span>
+                    <div class="ai-prompt-box" id="ai-prompt-content">Prompt details will populate here...</div>
+                </div>
+
+                <!-- Right Panel (Interactive Rendering Viewport) -->
+                <div class="ai-modal-right">
+                    <!-- Initial Placeholder State -->
+                    <div class="ai-render-placeholder" id="ai-render-placeholder">
+                        <i class="fas fa-wand-magic-sparkles ai-sparkle-icon"></i>
+                        <div style="direction: rtl;">
+                            <h4 style="font-family: 'Cairo', sans-serif; margin: 0 0 0.5rem 0; color: var(--clr-text); font-weight: bold;">جاهز لتوليد المنظور المعماري</h4>
+                            <p style="font-size: 0.8rem; color: var(--clr-text-muted); margin: 0; max-width: 400px; line-height: 1.5;">
+                                سيقوم الذكاء الاصطناعي بتحليل ترتيب الأرصفة، مسارات السيارات، مسارات الدراجات، والتشجير لرسم صورة واقعية ثلاثية الأبعاد للشارع.
+                            </p>
+                        </div>
+                        <button class="isb-btn" onclick="startAiGenerationSim()" style="background: linear-gradient(135deg, #8E2DE2, #4A00E0); border: none; color: white; padding: 0.6rem 1.5rem; font-size: 0.95rem; font-weight: bold; border-radius: 30px; box-shadow: 0 4px 15px rgba(74, 0, 224, 0.3);">
+                            ابدأ التوليد ثلاثي الأبعاد ✨
+                        </button>
+                    </div>
+
+                    <!-- Generating Loading State -->
+                    <div class="ai-generating-container" id="ai-generating-container">
+                        <div class="ai-scan-bar"></div>
+                        <div class="ai-spinner"></div>
+                        <div style="text-align: center; direction: rtl;">
+                            <h4 style="font-family: 'Cairo', sans-serif; margin: 0 0 0.5rem 0; color: var(--clr-primary); font-weight: bold;" id="ai-status-heading">جارٍ تحليل المقطع العرضي...</h4>
+                            <p style="font-size: 0.8rem; color: var(--clr-text-muted); margin: 0; min-height: 20px;" id="ai-status-desc">تفكيك عناصر الرصيف والمسارات</p>
+                        </div>
+                    </div>
+
+                    <!-- Final Result State -->
+                    <div class="ai-result-container" id="ai-result-container">
+                        <img id="ai-result-image" class="ai-result-image" src="" alt="AI 3D Render Result">
+                        <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl; margin-top: 0.5rem;">
+                            <span style="font-size: 0.8rem; color: var(--clr-text-muted); font-weight: bold;">
+                                <i class="fas fa-circle-check" style="color: #2ecc71;"></i> تم التوليد بنجاح بدقة عالية (Photorealistic)
+                            </span>
+                            <a id="ai-download-link" href="" download="ai-street-render.png" class="download-btn" style="background: var(--clr-primary); padding: 0.4rem 1.2rem; font-size: 0.85rem; border-radius: 30px;">
+                                <i class="fas fa-download"></i> تحميل الصورة
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

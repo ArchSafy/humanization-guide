@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map-container').setView([26.3500, 50.1500], 11);
     window.map = map;
 
-    // 2. Add OpenStreetMap Tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 18,
+    // 2. Add Map Tiles (Using Esri World Street Map - No API key required & high quality Arabic labels)
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom',
+        maxZoom: 19
     }).addTo(map);
 
     // 3. Define Colors for Categories

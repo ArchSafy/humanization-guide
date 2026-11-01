@@ -923,7 +923,7 @@ body::before {
 
 .execution-hero {
     margin-bottom: 0;
-    background-image: linear-gradient(rgba(85, 93, 113, 0.7), rgba(101, 92, 80, 0.62)), url('New%20folder/Implemntation%20sec/Interlock-Installation-Company-in-Dubai-2.webp');
+    background-image: linear-gradient(rgba(85, 93, 113, 0.7), rgba(101, 92, 80, 0.62)), url('assets/implementation/Interlock-Installation-Company-in-Dubai-2.webp');
 }
 
 .references-hero {
@@ -4363,7 +4363,7 @@ body::before {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 2px;
+    gap: 8px;
     direction: rtl;
     margin-bottom: 0.75rem;
 }
