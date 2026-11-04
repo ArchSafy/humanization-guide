@@ -335,6 +335,187 @@ const templateNames = {
     "commercial_residential_33m":  "شارع تجاري سكني"
 };
 
+// 7 Urban Street Classifications (Human vs. Vehicular Target Ratios & Indicator Weights)
+const STREET_CLASSIFICATIONS = {
+    shared_pedestrian: {
+        id: 'shared_pedestrian',
+        name: 'شارع مشترك / ممر مشاة',
+        targetHumanPct: 80,
+        targetVehiclePct: 20,
+        tolerance: 8,
+        maxHumanPct: 100,
+        minMotorizedLanes: 0,
+        targetGreenPct: 16,
+        weights: { shading: 0.35, safety: 0.25, quality: 0.40 },
+        focusText: 'الأولوية التصميمية: تجربة المشاة الكاملة، التظليل الكثيف، وجودة الفراغ العام والجلوس',
+        shadingHint: 'يتطلب تغطية ظل كثيفة للمشاة والمتنزهين',
+        safetyHint: 'يعتمد على التهدئة القصوى أو منع المرور العابر',
+        qualityHint: 'أعلى أولوية لرحابة الأرصفة والأثاث والواجهات'
+    },
+    tourist_recreational: {
+        id: 'tourist_recreational',
+        name: 'شارع سياحي / ترفيهي',
+        targetHumanPct: 70,
+        targetVehiclePct: 30,
+        tolerance: 8,
+        maxHumanPct: 88,
+        minMotorizedLanes: 1,
+        targetGreenPct: 15,
+        weights: { shading: 0.35, safety: 0.25, quality: 0.40 },
+        focusText: 'الأولوية التصميمية: التجربة البصرية والترفيهية، رحابة الممشى، ومسارات الدراجات',
+        shadingHint: 'تظليل مستمر للمسارات الترفيهية ومناطق التنزه',
+        safetyHint: 'تهدئة السرعة وحماية المشاة والدراجات',
+        qualityHint: 'تركيز عالٍ على الإطلالة والأثاث والأنشطة'
+    },
+    local_residential: {
+        id: 'local_residential',
+        name: 'شارع محلي سكني',
+        targetHumanPct: 60,
+        targetVehiclePct: 40,
+        tolerance: 8,
+        maxHumanPct: 78,
+        minMotorizedLanes: 1,
+        targetGreenPct: 14,
+        weights: { shading: 0.35, safety: 0.35, quality: 0.30 },
+        focusText: 'الأولوية التصميمية: سلامة السكان والأطفال، الخصوصية السكنية، والتهدئة المرورية',
+        shadingHint: 'تشجير الأرصفة والارتدادات لتلطيف المناخ المحلي',
+        safetyHint: 'تهدئة حارات السيارات ومنع السرعات العالية بالحي',
+        qualityHint: 'ارتدادات سكنية منظمة وأرصفة آمنة متصلة'
+    },
+    commercial: {
+        id: 'commercial',
+        name: 'شارع تجاري',
+        targetHumanPct: 50,
+        targetVehiclePct: 50,
+        tolerance: 8,
+        maxHumanPct: 68,
+        minMotorizedLanes: 1,
+        targetGreenPct: 12,
+        weights: { shading: 0.30, safety: 0.30, quality: 0.40 },
+        focusText: 'الأولوية التصميمية: التوازن المتساوي بين الأرصفة التجارية النشطة وسعة الوصول والمواقف',
+        shadingHint: 'تظليل الواجهات التجارية وممرات التسوق',
+        safetyHint: 'تنظيم العلاقة بين المواقف، الحافلات، وحركة المشاة',
+        qualityHint: 'أرصفة عريضة وحد تجاري نشط للمقاهي والمتاجر'
+    },
+    collector: {
+        id: 'collector',
+        name: 'شارع تجميعي',
+        targetHumanPct: 35,
+        targetVehiclePct: 65,
+        tolerance: 7,
+        maxHumanPct: 52,
+        minMotorizedLanes: 2,
+        targetGreenPct: 10,
+        weights: { shading: 0.30, safety: 0.45, quality: 0.25 },
+        focusText: 'الأولوية التصميمية: ربط الأحياء بانسيابية مرورية متوازنة مع أرصفة ومسارات دراجات محمية',
+        shadingHint: 'صفوف أشجار منتظمة في الأرصفة والجزيرة الوسطية',
+        safetyHint: 'فصل واضح للمشاة والدراجات وجزيرة وسطية آمنة',
+        qualityHint: 'استمرارية الأرصفة ومحطات انتظار النقل العام'
+    },
+    arterial: {
+        id: 'arterial',
+        name: 'شارع شرياني رئيسي',
+        targetHumanPct: 20,
+        targetVehiclePct: 80,
+        tolerance: 6,
+        maxHumanPct: 36,
+        minMotorizedLanes: 2,
+        targetGreenPct: 7,
+        weights: { shading: 0.25, safety: 0.55, quality: 0.20 },
+        focusText: 'الأولوية التصميمية: الانسيابية المرورية العالية مع العزل الآمن للمشاة وتشجير الجزر والأطراف',
+        shadingHint: 'تشجير الجزيرة الوسطية والأحزمة الجانبية العازلة',
+        safetyHint: 'أولوية قصوى للعزل الفيزيائي والجزيرة وحواجز المشاة',
+        qualityHint: 'ممرات مشاة خالية من العوائق ومواقف حافلات معزولة'
+    },
+    urban_expressway: {
+        id: 'urban_expressway',
+        name: 'محور حضري سريع',
+        targetHumanPct: 10,
+        targetVehiclePct: 90,
+        tolerance: 5,
+        maxHumanPct: 22,
+        minMotorizedLanes: 3,
+        targetGreenPct: 5,
+        weights: { shading: 0.25, safety: 0.65, quality: 0.10 },
+        focusText: 'الأولوية التصميمية: الكفاءة المرورية القصوى للمركبات مع أحزمة خضراء وحواجز حماية جانبية',
+        shadingHint: 'أحزمة تشجير بيئية لخفض الضوضاء والانبعاثات',
+        safetyHint: 'أقصى وزن للسلامة المرورية والفصل التام عن المركبات',
+        qualityHint: 'يقتصر على حواجز الحماية ونطاقات العزل الجانبية'
+    }
+};
+
+const templateClassMap = {
+    "arterial_waterfront": "commercial",
+    "collector_30m": "collector",
+    "collector_bus_37m": "commercial",
+    "commercial_residential_33m": "commercial"
+};
+
+let currentStreetClass = 'commercial';
+
+function getActiveStreetClass() {
+    return STREET_CLASSIFICATIONS[currentStreetClass] || STREET_CLASSIFICATIONS.commercial;
+}
+
+function updateClassificationBenchmarkUI() {
+    const cls = getActiveStreetClass();
+    const selectEl = document.getElementById('isb-street-class');
+    if (selectEl && selectEl.value !== cls.id) {
+        selectEl.value = cls.id;
+    }
+
+    const nameEl = document.getElementById('isb-benchmark-class-name');
+    const focusEl = document.getElementById('isb-benchmark-focus');
+    const humanPill = document.getElementById('isb-benchmark-human-pill');
+    const vehiclePill = document.getElementById('isb-benchmark-vehicle-pill');
+
+    if (nameEl) nameEl.textContent = `التصنيف المختار: ${cls.name}`;
+    if (focusEl) focusEl.textContent = cls.focusText;
+    if (humanPill) humanPill.textContent = `${cls.targetHumanPct}% أنسنة`;
+    if (vehiclePill) vehiclePill.textContent = `${cls.targetVehiclePct}% مركبات`;
+
+    const evalBadge = document.getElementById('isb-eval-class-badge');
+    const cardPill = document.getElementById('isb-card-class-pill');
+    const targetSplitLabel = document.getElementById('isb-target-split-label');
+    const targetHumanPctEl = document.getElementById('isb-target-human-pct');
+    const targetVehiclePctEl = document.getElementById('isb-target-vehicle-pct');
+    const targetHumanBar = document.getElementById('isb-target-human-bar');
+    const targetMarker = document.getElementById('isb-target-marker');
+
+    if (evalBadge) evalBadge.textContent = `وفق تصنيف: ${cls.name}`;
+    if (cardPill) cardPill.textContent = cls.name;
+    if (targetSplitLabel) targetSplitLabel.textContent = `المعيار المطلوب (${cls.name}):`;
+    if (targetHumanPctEl) targetHumanPctEl.textContent = `${cls.targetHumanPct}% أنسنة`;
+    if (targetVehiclePctEl) targetVehiclePctEl.textContent = `${cls.targetVehiclePct}% مركبات`;
+    if (targetHumanBar) targetHumanBar.style.width = `${cls.targetHumanPct}%`;
+    if (targetMarker) targetMarker.style.right = `calc(${cls.targetHumanPct}% - 1.5px)`;
+
+    // Update Sub-Indicator Weight Pills & Hints
+    const shadingW = document.getElementById('isb-shading-weight');
+    const safetyW = document.getElementById('isb-safety-weight');
+    const qualityW = document.getElementById('isb-quality-weight');
+    if (shadingW) shadingW.textContent = `الوزن في هذا التصنيف: ${Math.round(cls.weights.shading * 100)}%`;
+    if (safetyW) safetyW.textContent = `الوزن في هذا التصنيف: ${Math.round(cls.weights.safety * 100)}%`;
+    if (qualityW) qualityW.textContent = `الوزن في هذا التصنيف: ${Math.round(cls.weights.quality * 100)}%`;
+
+    const shadingH = document.getElementById('isb-shading-hint');
+    const safetyH = document.getElementById('isb-safety-hint');
+    const qualityH = document.getElementById('isb-quality-hint');
+    if (shadingH) shadingH.textContent = cls.shadingHint;
+    if (safetyH) safetyH.textContent = cls.safetyHint;
+    if (qualityH) qualityH.textContent = cls.qualityHint;
+}
+
+function onStreetClassChange(classId) {
+    if (STREET_CLASSIFICATIONS[classId]) {
+        currentStreetClass = classId;
+        updateClassificationBenchmarkUI();
+        const totalWidth = calculateStreetWidth();
+        updateEvaluation(totalWidth);
+    }
+}
+window.onStreetClassChange = onStreetClassChange;
+
 const carModels = [
     {
         "back":  "assets/Cars/Car back Alt 01.png",
@@ -2347,6 +2528,10 @@ function loadTemplate(type) {
         if (streetInput && templateNames[type]) {
             streetInput.value = templateNames[type];
         }
+        if (templateClassMap[type]) {
+            currentStreetClass = templateClassMap[type];
+            updateClassificationBenchmarkUI();
+        }
         
         sequence = template.map(item => {
             const comp = getComponentById(item.id);
@@ -2595,6 +2780,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    updateClassificationBenchmarkUI();
     loadRoadFromDb();
 });
 
@@ -2618,6 +2804,11 @@ async function loadRoadById(id) {
 
         const streetInput = document.getElementById('isb-street-name');
         if (streetInput) streetInput.value = record.name || '';
+
+        if (record.data && record.data.streetClass && STREET_CLASSIFICATIONS[record.data.streetClass]) {
+            currentStreetClass = record.data.streetClass;
+        }
+        updateClassificationBenchmarkUI();
 
         const lanes = (record.data && Array.isArray(record.data.lanes)) ? record.data.lanes : [];
         sequence = lanes.map(item => {
@@ -2769,10 +2960,11 @@ async function saveRoad() {
     }));
     const totalWidth = Number(lanes.filter(l => l.id !== 'commercial_edge' && l.id !== 'residential_edge' && l.id !== 'seafront').reduce((s, l) => s + Number(l.width), 0).toFixed(1));
 
+    const cls = getActiveStreetClass();
     const payload = {
         name,
-        description: `مقطع طريق مصمم تفاعلياً بعرض ${totalWidth} م`,
-        data: { lanes, totalWidth }
+        description: `${cls.name} — مقطع مصمم تفاعلياً بعرض ${totalWidth} م`,
+        data: { lanes, totalWidth, streetClass: currentStreetClass }
     };
 
     try {
@@ -2804,7 +2996,12 @@ function updateEvaluation(totalWidth) {
     const panel = document.getElementById('isb-evaluation-panel');
     if (!panel) return;
 
-    if (sequence.length === 0 || totalWidth <= 0) {
+    const cls = getActiveStreetClass();
+    updateClassificationBenchmarkUI();
+
+    const visualTotalWidth = calculateVisualTotalWidth();
+
+    if (sequence.length === 0 || visualTotalWidth <= 0) {
         // Reset everything to zero
         document.getElementById('isb-car-capacity').textContent = `0 شخص/ساعة`;
         document.getElementById('isb-bus-capacity').textContent = `0 شخص/ساعة`;
@@ -2813,8 +3010,20 @@ function updateEvaluation(totalWidth) {
         document.getElementById('isb-total-person-capacity').textContent = `0 شخص/ساعة`;
         document.getElementById('isb-humanization-score').textContent = `0%`;
         document.getElementById('isb-humanization-bar').style.width = `0%`;
-        document.getElementById('isb-humanization-rating').textContent = `تحليل المقطع...`;
-        document.getElementById('isb-humanization-rating').style.color = '';
+        const ratingEl = document.getElementById('isb-humanization-rating');
+        if (ratingEl) {
+            ratingEl.textContent = `تحليل المقطع...`;
+            ratingEl.style.color = '';
+            ratingEl.style.background = '';
+            ratingEl.style.borderColor = '';
+        }
+        const actualHEl = document.getElementById('isb-actual-human-pct');
+        const actualVEl = document.getElementById('isb-actual-vehicle-pct');
+        const actualBar = document.getElementById('isb-actual-human-bar');
+        if (actualHEl) actualHEl.textContent = `0% أنسنة`;
+        if (actualVEl) actualVEl.textContent = `0% مركبات`;
+        if (actualBar) actualBar.style.width = `0%`;
+
         document.getElementById('isb-shading-score').textContent = `0%`;
         document.getElementById('isb-safety-score').textContent = `0%`;
         document.getElementById('isb-quality-score').textContent = `0%`;
@@ -2830,13 +3039,13 @@ function updateEvaluation(totalWidth) {
     const carCapacity = carLanesCount * 600; // 600 people/hour per lane (NACTO Min)
 
     const busLanesCount = sequence.filter(c => c.id === 'hov_transit_lane').length;
-    const busCapacity = busLanesCount * 1000; // 1000 people/hour per lane (NACTO Min for Mixed Traffic with Frequent Buses)
+    const busCapacity = busLanesCount * 1000; // 1000 people/hour per lane (NACTO Min)
 
     const sidewalkWidth = sequence.filter(c => c.id === 'clear_sidewalk').reduce((sum, c) => sum + c.default_width_m, 0);
-    const pedestrianCapacity = Math.round(sidewalkWidth * 2667); // 8000 per 3m lane (NACTO Min), which is ~2667 per meter
+    const pedestrianCapacity = Math.round(sidewalkWidth * 2667);
 
     const bikeLanesCount = sequence.filter(c => c.id === 'bike_lane').length;
-    const bikeCapacity = bikeLanesCount * 3250; // 6500 per 2-way lane (NACTO Min), halved to 3250 for 1-way
+    const bikeCapacity = bikeLanesCount * 3250;
     const totalPersonCapacity = Math.round(carCapacity + busCapacity + pedestrianCapacity + bikeCapacity);
 
     // Update Capacity UI
@@ -2846,75 +3055,165 @@ function updateEvaluation(totalWidth) {
     document.getElementById('isb-pedestrian-capacity').textContent = `${pedestrianCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
     document.getElementById('isb-total-person-capacity').textContent = `${totalPersonCapacity.toLocaleString('ar-SA')} شخص/ساعة`;
 
-    // 2. Humanization Score
-    const visualTotalWidth = calculateVisualTotalWidth();
-    const pedestrianWidth = sequence.filter(c => ['clear_sidewalk', 'commercial_edge', 'residential_edge', 'seafront', 'bollard'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
+    // 2. Spatial Split: Human & Sustainable Space vs. Motorized Vehicle Space
+    const humanIds = [
+        'commercial_edge',
+        'clear_sidewalk',
+        'residential_edge',
+        'urban_furniture_buffer',
+        'seafront',
+        'bollard',
+        'bike_lane',
+        'median_island',
+        'bus_station'
+    ];
+    const humanWidth = sequence.filter(c => humanIds.includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
     const greenWidth = sequence.filter(c => ['urban_furniture_buffer', 'median_island'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
-    const cyclingWidth = sequence.filter(c => c.id === 'bike_lane').reduce((sum, c) => sum + c.default_width_m, 0);
-    const transitWidth = sequence.filter(c => ['hov_transit_lane', 'bus_station'].includes(c.id)).reduce((sum, c) => sum + c.default_width_m, 0);
 
-    const pedestrianPct = visualTotalWidth > 0 ? (pedestrianWidth / visualTotalWidth) * 100 : 0;
-    const greenPct = visualTotalWidth > 0 ? (greenWidth / visualTotalWidth) * 100 : 0;
-    const cyclingPct = visualTotalWidth > 0 ? (cyclingWidth / visualTotalWidth) * 100 : 0;
-    const transitPct = visualTotalWidth > 0 ? (transitWidth / visualTotalWidth) * 100 : 0;
+    const rawHumanPct = (humanWidth / visualTotalWidth) * 100;
+    const actualHumanPct = Math.min(100, Math.max(0, Math.round(rawHumanPct)));
+    const actualVehiclePct = 100 - actualHumanPct;
+    const greenPct = (greenWidth / visualTotalWidth) * 100;
+    const motorizedLanes = carLanesCount + busLanesCount;
 
-    let baseRatio = pedestrianPct + greenPct + cyclingPct + transitPct;
-    
-    let bonus = 0;
-    if (sequence.some(c => c.id === 'bike_lane')) bonus += 5;
-    if (sequence.some(c => c.id === 'hov_transit_lane' || c.id === 'bus_station')) bonus += 5;
-    if (sequence.some(c => c.id === 'urban_furniture_buffer' || c.id === 'median_island')) bonus += 5;
-    if (sequence.some(c => c.id === 'seafront')) bonus += 5;
+    // Update Current Design Spatial Split UI
+    const actualHEl = document.getElementById('isb-actual-human-pct');
+    const actualVEl = document.getElementById('isb-actual-vehicle-pct');
+    const actualBar = document.getElementById('isb-actual-human-bar');
+    if (actualHEl) actualHEl.textContent = `${actualHumanPct}% أنسنة`;
+    if (actualVEl) actualVEl.textContent = `${actualVehiclePct}% مركبات`;
+    if (actualBar) actualBar.style.width = `${actualHumanPct}%`;
 
-    let humanizationScore = Math.min(100, Math.round(baseRatio + bonus));
-
-    // Update Humanization UI
-    document.getElementById('isb-humanization-score').textContent = `${humanizationScore}%`;
-    document.getElementById('isb-humanization-bar').style.width = `${humanizationScore}%`;
-
-    let ratingText = '';
-    let ratingColor = '';
-    if (humanizationScore >= 80) {
-        ratingText = "ممتاز - بيئة مشاة وتنقّل مستدام نموذجية";
-        ratingColor = '#27ae60';
-    } else if (humanizationScore >= 60) {
-        ratingText = "جيد جداً - متوازن ويدعم المشاة والتشجير بشكل جيد";
-        ratingColor = '#2980b9';
-    } else if (humanizationScore >= 40) {
-        ratingText = "مقبول - بحاجة لزيادة مساحات الأرصفة والتشجير";
-        ratingColor = '#f39c12';
-    } else {
-        ratingText = "ضعيف - يهيمن عليه مسارات السيارات ويفتقر لعناصر الأنسنة";
-        ratingColor = '#d9534f';
-    }
-    const ratingEl = document.getElementById('isb-humanization-rating');
-    ratingEl.textContent = ratingText;
-    ratingEl.style.color = ratingColor;
-
-    // 3. Sub-Indicators
-    let shadingScore = Math.min(100, Math.round(greenPct * 2.5));
-    let hasTrees = sequence.some(c => ['urban_furniture_buffer', 'median_island'].includes(c.id) && !c.showPalm);
-    let hasPalms = sequence.some(c => ['urban_furniture_buffer', 'median_island'].includes(c.id) && c.showPalm);
-    if (hasTrees) shadingScore = Math.min(100, shadingScore + 20);
-    if (hasPalms) shadingScore = Math.min(100, shadingScore + 10);
+    // 3. Context-Aware Sub-Indicators (Dynamic by Street Classification)
+    // 3a. Shading & Climate Response
+    const greenRatioScore = Math.min(72, Math.round((greenPct / Math.max(1, cls.targetGreenPct)) * 72));
+    const hasTrees = sequence.some(c => ['urban_furniture_buffer', 'median_island'].includes(c.id) && !c.showPalm);
+    const hasPalms = sequence.some(c => ['urban_furniture_buffer', 'median_island'].includes(c.id) && c.showPalm);
+    const greenZonesCount = sequence.filter(c => ['urban_furniture_buffer', 'median_island'].includes(c.id)).length;
+    let shadingScore = greenRatioScore;
+    if (hasTrees) shadingScore += 20;
+    if (hasPalms) shadingScore += 10;
+    if (greenZonesCount >= 2) shadingScore += 8;
+    shadingScore = Math.min(100, Math.max(0, shadingScore));
     document.getElementById('isb-shading-score').textContent = `${shadingScore}%`;
 
-    let safetyScore = 30;
-    if (sequence.some(c => c.id === 'bike_lane')) safetyScore += 30;
-    if (sequence.some(c => c.id === 'urban_furniture_buffer')) safetyScore += 20;
-    if (sequence.some(c => c.id === 'bollard')) safetyScore += 20;
-    if (sequence.some(c => c.id === 'median_island')) safetyScore += 10;
-    if (sequence.some(c => c.id === 'lane_divider')) safetyScore += 10;
-    if (sequence.some(c => c.id === 'seafront')) safetyScore += 10;
-    safetyScore = Math.min(100, safetyScore);
+    // 3b. Traffic Safety & Pedestrian Protection (Adapts to Road Speed & Class)
+    let safetyScore = 20;
+    const hasSidewalk = sequence.some(c => c.id === 'clear_sidewalk');
+    const hasBuffer = sequence.some(c => ['urban_furniture_buffer', 'bollard'].includes(c.id));
+    const hasMedian = sequence.some(c => c.id === 'median_island');
+    const hasDivider = sequence.some(c => c.id === 'lane_divider');
+    const hasBike = sequence.some(c => c.id === 'bike_lane');
+
+    if (hasSidewalk) safetyScore += 25;
+    if (hasBuffer) safetyScore += 25;
+    if (hasBike) safetyScore += 15;
+
+    if (['arterial', 'urban_expressway', 'collector'].includes(cls.id)) {
+        // High/medium-speed corridors require physical separation & central refuge
+        if (hasMedian) safetyScore += 25;
+        else if (hasDivider) safetyScore += 10;
+        if (sequence.some(c => c.id === 'bollard')) safetyScore += 10;
+        if (motorizedLanes >= 4 && !hasMedian) safetyScore -= 20;
+    } else {
+        // Calm/local/tourist/shared streets prioritize low lane count & traffic calming
+        if (motorizedLanes <= 2) safetyScore += 25;
+        else if (motorizedLanes === 3) safetyScore += 5;
+        else safetyScore -= 20; // Penalty for arterial-scale lanes inside calm street
+        if (hasMedian || hasDivider) safetyScore += 10;
+    }
+    safetyScore = Math.min(100, Math.max(10, safetyScore));
     document.getElementById('isb-safety-score').textContent = `${safetyScore}%`;
 
-    let qualityScore = Math.min(70, Math.round(pedestrianPct * 1.5));
-    if (sequence.some(c => c.id === 'bus_station')) qualityScore += 15;
-    if (sequence.some(c => c.id === 'urban_furniture_buffer')) qualityScore += 15;
-    if (sequence.some(c => c.id === 'bollard')) qualityScore += 10;
-    qualityScore = Math.min(100, qualityScore);
+    // 3c. Public Space & Urban Furniture Quality
+    let qualityScore = Math.min(60, Math.round((actualHumanPct / Math.max(10, cls.targetHumanPct)) * 60));
+    if (sequence.some(c => c.id === 'urban_furniture_buffer')) qualityScore += 20;
+    if (sequence.some(c => ['commercial_edge', 'seafront', 'residential_edge'].includes(c.id))) qualityScore += 12;
+    if (sequence.some(c => ['bus_station', 'bike_lane', 'bollard'].includes(c.id))) qualityScore += 12;
+    qualityScore = Math.min(100, Math.max(0, qualityScore));
     document.getElementById('isb-quality-score').textContent = `${qualityScore}%`;
+
+    // Weighted Sub-Indicator Composite using Class Weights
+    const weightedSubScore = Math.round(
+        shadingScore * cls.weights.shading +
+        safetyScore * cls.weights.safety +
+        qualityScore * cls.weights.quality
+    );
+
+    // 4. Overall Classification Compliance Score & Bidirectional Engineering Alert
+    const diff = actualHumanPct - cls.targetHumanPct;
+    let humanizationScore = 0;
+    let ratingText = '';
+    let ratingColor = '';
+    let ratingBg = '';
+    let ratingBorder = '';
+
+    const hasSevereVehicleDeficit = (cls.minMotorizedLanes > 0 && motorizedLanes === 0) || (actualHumanPct > cls.maxHumanPct);
+
+    if (hasSevereVehicleDeficit) {
+        // Bidirectional Warning: Excessive Humanization / Insufficient Vehicular Capacity for Road Class
+        const excess = Math.max(5, actualHumanPct - cls.maxHumanPct);
+        const spatialScore = (cls.minMotorizedLanes > 0 && motorizedLanes === 0)
+            ? 28
+            : Math.max(35, Math.round(78 - excess * 1.15));
+        humanizationScore = Math.min(72, Math.round(spatialScore * 0.8 + weightedSubScore * 0.2));
+        ratingColor = '#d35400';
+        ratingBg = 'rgba(211, 84, 0, 0.08)';
+        ratingBorder = 'rgba(211, 84, 0, 0.30)';
+
+        if (cls.minMotorizedLanes > 0 && motorizedLanes === 0) {
+            ratingText = `تنبيه وظيفي مروري: التصميم يخلو من مسارات المركبات، وهو ما يتعارض مع الوظيفة التشغيلية لـ (${cls.name} — المطلوب ${cls.targetVehiclePct}% مركبات).`;
+        } else {
+            ratingText = `تنبيه وظيفي مروري: حيز المركبات الحالي (${actualVehiclePct}%) أقل من المتطلب الوظيفي لـ (${cls.name}: ${cls.targetVehiclePct}% مركبات) وقد يسبب اختناقاً مرورياً.`;
+        }
+    } else if (actualHumanPct >= cls.targetHumanPct - cls.tolerance) {
+        // Optimal Match within Target Band for Selected Classification
+        const closeness = Math.max(0, 1 - Math.abs(diff) / (cls.tolerance + 14));
+        const spatialScore = Math.round(88 + closeness * 12);
+        humanizationScore = Math.min(100, Math.round(spatialScore * 0.75 + weightedSubScore * 0.25));
+        ratingColor = '#1e8449';
+        ratingBg = 'rgba(39, 174, 96, 0.09)';
+        ratingBorder = 'rgba(39, 174, 96, 0.30)';
+        ratingText = `ممتاز — تصميمك يحقق التوازن المعياري المستهدف لـ (${cls.name}: ${cls.targetHumanPct}% أنسنة | ${cls.targetVehiclePct}% مركبات).`;
+    } else if (actualHumanPct >= cls.targetHumanPct - 20) {
+        // Moderate Deficit Below Classification Target
+        const deficit = cls.targetHumanPct - actualHumanPct;
+        const span = Math.max(1, 20 - cls.tolerance);
+        const spatialScore = Math.round(62 + ((20 - deficit) / span) * 22);
+        humanizationScore = Math.round(spatialScore * 0.75 + weightedSubScore * 0.25);
+        ratingColor = '#b9770e';
+        ratingBg = 'rgba(243, 156, 18, 0.10)';
+        ratingBorder = 'rgba(243, 156, 18, 0.35)';
+        ratingText = `قريب من المعيار — يحتاج التصميم رفع عناصر الأنسنة بنحو (+${deficit}%) للوصول للمستهدف المثالي لـ (${cls.name}: ${cls.targetHumanPct}%).`;
+    } else {
+        // Severe Humanization Deficit Below Classification Target
+        const spatialScore = Math.max(12, Math.round((actualHumanPct / Math.max(1, cls.targetHumanPct)) * 62));
+        humanizationScore = Math.min(58, Math.round(spatialScore * 0.8 + weightedSubScore * 0.2));
+        ratingColor = '#c0392b';
+        ratingBg = 'rgba(217, 83, 79, 0.09)';
+        ratingBorder = 'rgba(217, 83, 79, 0.30)';
+        ratingText = `غير مطابق لـ (${cls.name}) — طغيان لمسارات المركبات (${actualVehiclePct}%) مقابل (${actualHumanPct}%) فقط للإنسان (المطلوب ${cls.targetHumanPct}% أنسنة).`;
+    }
+
+    // Update Humanization Score & Bar UI
+    const scoreEl = document.getElementById('isb-humanization-score');
+    const barEl = document.getElementById('isb-humanization-bar');
+    const ratingEl = document.getElementById('isb-humanization-rating');
+
+    if (scoreEl) {
+        scoreEl.textContent = `${humanizationScore}%`;
+        scoreEl.style.color = ratingColor;
+    }
+    if (barEl) {
+        barEl.style.width = `${humanizationScore}%`;
+        barEl.style.backgroundColor = ratingColor;
+    }
+    if (ratingEl) {
+        ratingEl.textContent = ratingText;
+        ratingEl.style.color = ratingColor;
+        ratingEl.style.background = ratingBg;
+        ratingEl.style.borderColor = ratingBorder;
+    }
 }
 
 // 14. References & Standards Database
@@ -3164,7 +3463,10 @@ async function exportEngineeringReport() {
     const refNumber = `SHQ-ENG-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
     const dateStr = new Date().toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Read current evaluation metrics from DOM
+    // Read current evaluation metrics & street classification from DOM / State
+    const activeCls = getActiveStreetClass();
+    const actualHumanText = document.getElementById('isb-actual-human-pct')?.textContent || '0% أنسنة';
+    const actualVehicleText = document.getElementById('isb-actual-vehicle-pct')?.textContent || '0% مركبات';
     const humanizationScore = document.getElementById('isb-humanization-score')?.textContent || '0%';
     const humanizationRating = document.getElementById('isb-humanization-rating')?.textContent || '-';
     const shadingScore = document.getElementById('isb-shading-score')?.textContent || '0%';
@@ -3509,8 +3811,9 @@ async function exportEngineeringReport() {
             </div>
             <div class="meta-box">
                 <div><strong>اسم الطريق / المشروع:</strong> ${streetName}</div>
-                <div><strong>الرقم المرجعي:</strong> ${refNumber}</div>
-                <div><strong>تاريخ الإصدار:</strong> ${dateStr}</div>
+                <div><strong>تصنيف الشارع المعتمد:</strong> ${activeCls.name} (المعيار: ${activeCls.targetHumanPct}% أنسنة | ${activeCls.targetVehiclePct}% مركبات)</div>
+                <div><strong>توزيع التصميم الحالي:</strong> ${actualHumanText} | ${actualVehicleText}</div>
+                <div><strong>الرقم المرجعي وتاريخ الإصدار:</strong> ${refNumber} — ${dateStr}</div>
                 <div><strong>صافي عرض الشارع:</strong> ${netWidth.toFixed(1)} م (بالإرتدادات: ${grossWidth.toFixed(1)} م)</div>
             </div>
         </div>
@@ -3522,7 +3825,7 @@ async function exportEngineeringReport() {
         <div class="kpi-grid">
             <div class="kpi-card highlight">
                 <div class="kpi-value">${humanizationScore}</div>
-                <div class="kpi-label">مؤشر كفاءة الأنسنة الكلي</div>
+                <div class="kpi-label">مطابقة معيار التصنيف (${activeCls.name})</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-value" style="color:#27ae60;">${shadingScore}</div>

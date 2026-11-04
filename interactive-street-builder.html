@@ -495,6 +495,7 @@
             font-size: 3rem;
             background: linear-gradient(135deg, #8E2DE2, #4A00E0);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: pulseSparkle 2s infinite ease-in-out;
         }
@@ -590,7 +591,21 @@
                 <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
                     <div class="isb-toolbar-title" style="display: flex; align-items: center; gap: 0.5rem;">
                         <h2 style="font-size: 1rem; font-weight: 800; font-family: 'Cairo', sans-serif; margin: 0; color: var(--clr-primary);">اسم الشارع:</h2>
-                        <input type="text" id="isb-street-name" value="شارع غير مسمى" style="font-size: 0.95rem; padding: 0.4rem 0.8rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); background: var(--clr-bg); color: var(--clr-text); font-family: 'Cairo', sans-serif; font-weight: bold; width: 180px;" placeholder="أدخل اسم الشارع...">
+                        <input type="text" id="isb-street-name" value="شارع غير مسمى" style="font-size: 0.95rem; padding: 0.4rem 0.8rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); background: var(--clr-bg); color: var(--clr-text); font-family: 'Cairo', sans-serif; font-weight: bold; width: 165px;" placeholder="أدخل اسم الشارع...">
+                    </div>
+
+                    <!-- Street Classification Dropdown (7 Categories without % labels) -->
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.9rem; font-weight: 800; font-family: 'Cairo', sans-serif; color: var(--clr-primary);"><i class="fas fa-layer-group" style="margin-left: 3px;"></i> تصنيف الشارع:</span>
+                        <select id="isb-street-class" onchange="onStreetClassChange(this.value)" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: var(--border-radius); border: 1.5px solid var(--clr-primary); background: var(--clr-bg); color: var(--clr-text); font-family: 'Cairo', sans-serif; font-weight: bold; cursor: pointer; outline: none;">
+                            <option value="shared_pedestrian">شارع مشترك / ممر مشاة</option>
+                            <option value="tourist_recreational">شارع سياحي / ترفيهي</option>
+                            <option value="local_residential">شارع محلي سكني</option>
+                            <option value="commercial" selected>شارع تجاري</option>
+                            <option value="collector">شارع تجميعي</option>
+                            <option value="arterial">شارع شرياني رئيسي</option>
+                            <option value="urban_expressway">محور حضري سريع</option>
+                        </select>
                     </div>
                     
                     <!-- Templates Dropdown -->
@@ -652,6 +667,19 @@
             
             <div class="isb-dropzone" id="isb-dropzone">
                 <div class="isb-canvas-container">
+                    <!-- Classification Benchmark Reference Strip (Always Visible) -->
+                    <div id="isb-class-benchmark-strip" style="width: 100%; max-width: 1200px; margin-bottom: 14px; background: var(--clr-surface); border: 1px solid var(--clr-border); border-right: 4px solid var(--clr-primary); border-radius: var(--border-radius); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; box-shadow: var(--shadow-sm); direction: rtl;">
+                        <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                            <span style="background: rgba(140, 109, 70, 0.12); color: var(--clr-primary); font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 0.85rem; padding: 0.25rem 0.75rem; border-radius: 20px;" id="isb-benchmark-class-name">التصنيف المختار: شارع تجاري</span>
+                            <span style="font-size: 0.84rem; color: var(--clr-text-muted); font-weight: 600;" id="isb-benchmark-focus">الأولوية التصميمية: التوازن المتساوي بين الأرصفة النشطة وسعة الوصول المروري</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Cairo', sans-serif; font-size: 0.83rem; font-weight: 800;">
+                            <span style="color: var(--clr-text-muted);">المعيار المطلوب للتصنيف:</span>
+                            <span id="isb-benchmark-human-pill" style="background: #e8f8f0; color: #1e8449; padding: 0.2rem 0.7rem; border-radius: 20px; border: 1px solid rgba(30, 132, 73, 0.25);">50% أنسنة</span>
+                            <span id="isb-benchmark-vehicle-pill" style="background: #eef2f6; color: #475569; padding: 0.2rem 0.7rem; border-radius: 20px; border: 1px solid rgba(71, 85, 105, 0.2);">50% مركبات</span>
+                        </div>
+                    </div>
+
                     <!-- The drop area for sequencing -->
                     <div class="isb-sequence-container" id="isb-sequence-container">
                         <div class="isb-empty-state" id="isb-empty-state" style="padding: 20px 40px;">
@@ -669,7 +697,10 @@
                     <!-- Evaluation and Performance Panel -->
                     <div class="isb-evaluation-panel" id="isb-evaluation-panel" style="display: none; width: 100%; max-width: 1200px; margin-top: 20px; background: var(--clr-surface); border-radius: var(--border-radius); padding: 30px; box-shadow: var(--shadow-md); border: 1px solid var(--clr-border);">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--clr-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-                            <h3 style="font-family: 'Cairo', sans-serif; color: var(--clr-primary); margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chart-line"></i> تقييم ومؤشرات أنسنة الشارع</h3>
+                            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                                <h3 style="font-family: 'Cairo', sans-serif; color: var(--clr-primary); margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chart-line"></i> تقييم ومؤشرات أنسنة الشارع</h3>
+                                <span id="isb-eval-class-badge" style="background: rgba(140, 109, 70, 0.14); color: var(--clr-primary); padding: 0.25rem 0.8rem; border-radius: 20px; font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 800;">وفق تصنيف: شارع تجاري</span>
+                            </div>
                             <button class="isb-btn" onclick="exportEngineeringReport()" style="background-color: #1e6b52; border-color: #1e6b52; color: white; padding: 0.45rem 1.1rem; font-size: 0.9rem; font-weight: bold;">
                                 <i class="fas fa-file-pdf"></i> إصدار وثيقة الاعتماد الهندسي ومطابقة الكود (PDF)
                             </button>
@@ -711,43 +742,103 @@
                                 </div>
                             </div>
                             
-                            <!-- Humanization Index Card -->
-                            <div style="background: var(--clr-bg); padding: 1.5rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); display: flex; flex-direction: column; justify-content: space-between;">
+                            <!-- Humanization Index Card (Dynamic by Street Classification) -->
+                            <div style="background: var(--clr-bg); padding: 1.5rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); display: flex; flex-direction: column; justify-content: space-between; gap: 0.85rem;">
                                 <div>
-                                    <h4 style="font-family: 'Cairo', sans-serif; color: var(--clr-text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-heart-pulse"></i> مؤشر كفاءة الأنسنة</h4>
-                                    <p style="font-size: 0.85rem; color: var(--clr-text-muted); line-height: 1.5; margin-bottom: 1rem;">نسبة توزيع مساحة الشارع لصالح الفراغات العامة والمشاة والتشجير مقابل مسارات السيارات:</p>
+                                    <h4 style="font-family: 'Cairo', sans-serif; color: var(--clr-text); margin-bottom: 0.4rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span><i class="fas fa-heart-pulse"></i> مؤشر مطابقة وكفاءة الأنسنة</span>
+                                        <span id="isb-card-class-pill" style="font-size: 0.76rem; background: var(--clr-surface); border: 1px solid var(--clr-border); padding: 0.15rem 0.6rem; border-radius: 14px; color: var(--clr-primary); font-weight: 800;">شارع تجاري</span>
+                                    </h4>
+                                    <p style="font-size: 0.82rem; color: var(--clr-text-muted); line-height: 1.45; margin: 0;">مقارنة لحظية بين توزيع تصميمك الحالي على اللوحة والمعيار المستهدف لتصنيف الشارع المختار:</p>
                                 </div>
-                                <div style="text-align: center;">
-                                    <div id="isb-humanization-score" style="font-size: 3rem; font-weight: 900; color: var(--clr-primary); line-height: 1; margin-bottom: 0.5rem;">0%</div>
-                                    <div style="width: 100%; height: 10px; background: var(--clr-border); border-radius: 5px; overflow: hidden; margin-bottom: 0.5rem;">
-                                        <div id="isb-humanization-bar" style="width: 0%; height: 100%; background: var(--clr-primary); transition: width 0.5s ease;"></div>
+
+                                <!-- Comparison Box: Target vs Current Design -->
+                                <div style="background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 8px; padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.7rem;">
+                                    <!-- Target Benchmark Row -->
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 0.3rem; font-family: 'Cairo', sans-serif;">
+                                            <span style="color: var(--clr-text-muted); font-weight: 700;" id="isb-target-split-label">المعيار المطلوب (شارع تجاري):</span>
+                                            <strong style="color: var(--clr-text);"><span id="isb-target-human-pct" style="color: #1e8449;">50% أنسنة</span> <span style="color: #cbd5e1;">|</span> <span id="isb-target-vehicle-pct" style="color: #475569;">50% مركبات</span></strong>
+                                        </div>
+                                        <div style="width: 100%; height: 7px; background: #cbd5e1; border-radius: 4px; overflow: hidden; display: flex;">
+                                            <div id="isb-target-human-bar" style="width: 50%; height: 100%; background: #27ae60; opacity: 0.65; transition: width 0.4s ease;"></div>
+                                        </div>
                                     </div>
-                                    <span id="isb-humanization-rating" style="font-size: 0.85rem; font-weight: bold; color: var(--clr-text-muted);">تحليل المقطع...</span>
+
+                                    <!-- Current Design on Canvas Row -->
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 0.3rem; font-family: 'Cairo', sans-serif;">
+                                            <span style="color: var(--clr-text); font-weight: 800;">نسبة تصميمك الحالي على اللوحة:</span>
+                                            <strong><span id="isb-actual-human-pct" style="color: #1e8449;">0% أنسنة</span> <span style="color: #cbd5e1;">|</span> <span id="isb-actual-vehicle-pct" style="color: #475569;">0% مركبات</span></strong>
+                                        </div>
+                                        <div style="position: relative; width: 100%; height: 10px; background: #94a3b8; border-radius: 5px; overflow: visible;">
+                                            <div style="width: 100%; height: 100%; border-radius: 5px; overflow: hidden; display: flex;">
+                                                <div id="isb-actual-human-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #1e8449, #2ecc71); transition: width 0.4s ease;"></div>
+                                            </div>
+                                            <div id="isb-target-marker" title="المستهدف المعياري للتصنيف" style="position: absolute; top: -3px; bottom: -3px; right: 50%; width: 3px; background: #1f2937; border-radius: 2px; box-shadow: 0 0 0 1.5px #fff; transition: right 0.4s ease;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Overall Compliance Score & Bidirectional Smart Alert -->
+                                <div style="text-align: center; padding-top: 0.2rem;">
+                                    <div style="display: flex; align-items: baseline; justify-content: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                                        <span style="font-size: 0.82rem; font-weight: 700; color: var(--clr-text-muted); font-family: 'Cairo', sans-serif;">درجة مطابقة معيار التصنيف:</span>
+                                        <div id="isb-humanization-score" style="font-size: 2.35rem; font-weight: 900; color: var(--clr-primary); line-height: 1;">0%</div>
+                                    </div>
+                                    <div style="width: 100%; height: 8px; background: var(--clr-border); border-radius: 5px; overflow: hidden; margin-bottom: 0.55rem;">
+                                        <div id="isb-humanization-bar" style="width: 0%; height: 100%; background: var(--clr-primary); transition: width 0.5s ease, background-color 0.3s ease;"></div>
+                                    </div>
+                                    <div id="isb-humanization-rating" style="font-size: 0.83rem; font-weight: 700; color: var(--clr-text-muted); line-height: 1.5; padding: 0.45rem 0.7rem; border-radius: 6px; background: var(--clr-surface); border: 1px solid var(--clr-border);">تحليل المقطع...</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 3 Sub-Indicators -->
+                        <!-- 3 Sub-Indicators with Dynamic Classification Weights -->
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; border-top: 1px solid var(--clr-border); padding-top: 2rem;">
                             <!-- Indicator 1 -->
-                            <div style="text-align: center; background: var(--clr-bg); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border);">
-                                <i class="fas fa-tree" style="font-size: 1.8rem; color: #27ae60; margin-bottom: 0.5rem;"></i>
-                                <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.5rem; color: var(--clr-text);">مؤشر الاستجابة للمناخ والظل</h5>
-                                <div id="isb-shading-score" style="font-size: 1.5rem; font-weight: bold; color: #27ae60;">0%</div>
+                            <div style="text-align: center; background: var(--clr-bg); padding: 1.1rem 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); display: flex; flex-direction: column; justify-content: space-between; gap: 0.35rem;">
+                                <div>
+                                    <div style="display: flex; justify-content: center; margin-bottom: 0.4rem;">
+                                        <span id="isb-shading-weight" style="font-size: 0.73rem; font-family: 'Cairo', sans-serif; font-weight: 800; background: rgba(39, 174, 96, 0.12); color: #1e8449; padding: 0.15rem 0.6rem; border-radius: 12px;">الوزن في هذا التصنيف: 30%</span>
+                                    </div>
+                                    <i class="fas fa-tree" style="font-size: 1.7rem; color: #27ae60; margin-bottom: 0.4rem;"></i>
+                                    <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.25rem; color: var(--clr-text);">مؤشر الاستجابة للمناخ والظل</h5>
+                                </div>
+                                <div>
+                                    <div id="isb-shading-score" style="font-size: 1.55rem; font-weight: 900; color: #27ae60;">0%</div>
+                                    <div id="isb-shading-hint" style="font-size: 0.75rem; color: var(--clr-text-muted); margin-top: 0.2rem;">تغطية الظل والتشجير الملائم</div>
+                                </div>
                             </div>
                             
                             <!-- Indicator 2 -->
-                            <div style="text-align: center; background: var(--clr-bg); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border);">
-                                <i class="fas fa-shield-halved" style="font-size: 1.8rem; color: #2980b9; margin-bottom: 0.5rem;"></i>
-                                <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.5rem; color: var(--clr-text);">مؤشر سلامة الحركة وحماية المشاة</h5>
-                                <div id="isb-safety-score" style="font-size: 1.5rem; font-weight: bold; color: #2980b9;">0%</div>
+                            <div style="text-align: center; background: var(--clr-bg); padding: 1.1rem 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); display: flex; flex-direction: column; justify-content: space-between; gap: 0.35rem;">
+                                <div>
+                                    <div style="display: flex; justify-content: center; margin-bottom: 0.4rem;">
+                                        <span id="isb-safety-weight" style="font-size: 0.73rem; font-family: 'Cairo', sans-serif; font-weight: 800; background: rgba(41, 128, 185, 0.12); color: #1f6391; padding: 0.15rem 0.6rem; border-radius: 12px;">الوزن في هذا التصنيف: 30%</span>
+                                    </div>
+                                    <i class="fas fa-shield-halved" style="font-size: 1.7rem; color: #2980b9; margin-bottom: 0.4rem;"></i>
+                                    <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.25rem; color: var(--clr-text);">مؤشر سلامة الحركة وحماية المشاة</h5>
+                                </div>
+                                <div>
+                                    <div id="isb-safety-score" style="font-size: 1.55rem; font-weight: 900; color: #2980b9;">0%</div>
+                                    <div id="isb-safety-hint" style="font-size: 0.75rem; color: var(--clr-text-muted); margin-top: 0.2rem;">العزل الآمن وتهدئة السرعة</div>
+                                </div>
                             </div>
                             
                             <!-- Indicator 3 -->
-                            <div style="text-align: center; background: var(--clr-bg); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border);">
-                                <i class="fas fa-couch" style="font-size: 1.8rem; color: #8e44ad; margin-bottom: 0.5rem;"></i>
-                                <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.5rem; color: var(--clr-text);">مؤشر جودة الفراغ العام والأثاث</h5>
-                                <div id="isb-quality-score" style="font-size: 1.5rem; font-weight: bold; color: #8e44ad;">0%</div>
+                            <div style="text-align: center; background: var(--clr-bg); padding: 1.1rem 1rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); display: flex; flex-direction: column; justify-content: space-between; gap: 0.35rem;">
+                                <div>
+                                    <div style="display: flex; justify-content: center; margin-bottom: 0.4rem;">
+                                        <span id="isb-quality-weight" style="font-size: 0.73rem; font-family: 'Cairo', sans-serif; font-weight: 800; background: rgba(142, 68, 173, 0.12); color: #732d91; padding: 0.15rem 0.6rem; border-radius: 12px;">الوزن في هذا التصنيف: 40%</span>
+                                    </div>
+                                    <i class="fas fa-couch" style="font-size: 1.7rem; color: #8e44ad; margin-bottom: 0.4rem;"></i>
+                                    <h5 style="font-family: 'Cairo', sans-serif; margin-bottom: 0.25rem; color: var(--clr-text);">مؤشر جودة الفراغ العام والأثاث</h5>
+                                </div>
+                                <div>
+                                    <div id="isb-quality-score" style="font-size: 1.55rem; font-weight: 900; color: #8e44ad;">0%</div>
+                                    <div id="isb-quality-hint" style="font-size: 0.75rem; color: var(--clr-text-muted); margin-top: 0.2rem;">رحابة الأرصفة والواجهات النشطة</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -890,7 +981,7 @@
     <script src="script.js"></script>
     <script src="supabase-config.js"></script>
     <script src="supabase-api.js"></script>
-    <script src="interactive-street-builder.js"></script>
+    <script src="interactive-street-builder.js?v=3"></script>
 </body>
 
 </html>
