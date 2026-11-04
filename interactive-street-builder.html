@@ -657,10 +657,10 @@
                     </div>
 
                     <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
-                        <div class="isb-total-width" id="isb-total-width" style="font-size: 0.95rem; font-weight: 800; color: var(--clr-primary); background: var(--clr-bg); padding: 0.4rem 1rem; border-radius: 30px; border: 1px solid var(--clr-border); margin: 0;">
+                        <div class="isb-total-width" id="isb-total-width" style="font-size: 0.95rem; font-weight: 800; color: var(--clr-primary); background: var(--clr-bg); padding: 0.4rem 1rem; border-radius: 30px; border: 1.5px solid var(--clr-border); margin: 0; transition: all 0.25s ease;">
                             إجمالي عرض الشارع: 0.0 م
                         </div>
-                        <span style="font-size: 0.7rem; color: var(--clr-text-muted); font-weight: bold; padding: 0 4px; direction: rtl; text-align: right;">* لا يشمل الارتدادات (السكني، التجاري، البحري)</span>
+                        <span id="isb-width-status-badge" style="font-size: 0.72rem; color: var(--clr-text-muted); font-weight: bold; padding: 0 6px; direction: rtl; text-align: right;">* صافي الحرم بدون الارتدادات (المتوقع: 20 – 36 م)</span>
                     </div>
                 </div>
             </div>
@@ -673,11 +673,22 @@
                             <span style="background: rgba(140, 109, 70, 0.12); color: var(--clr-primary); font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 0.85rem; padding: 0.25rem 0.75rem; border-radius: 20px;" id="isb-benchmark-class-name">التصنيف المختار: شارع تجاري</span>
                             <span style="font-size: 0.84rem; color: var(--clr-text-muted); font-weight: 600;" id="isb-benchmark-focus">الأولوية التصميمية: التوازن المتساوي بين الأرصفة النشطة وسعة الوصول المروري</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Cairo', sans-serif; font-size: 0.83rem; font-weight: 800;">
-                            <span style="color: var(--clr-text-muted);">المعيار المطلوب للتصنيف:</span>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 800;">
+                            <span id="isb-benchmark-width-pill" style="background: #f5f0e8; color: #785a32; padding: 0.2rem 0.75rem; border-radius: 20px; border: 1px solid rgba(140, 109, 70, 0.3);"><i class="fas fa-arrows-left-right" style="margin-left: 4px;"></i> العرض المتوقع: 20 – 36 م</span>
+                            <span style="color: var(--clr-border);">|</span>
+                            <span style="color: var(--clr-text-muted);">التوازن المستهدف:</span>
                             <span id="isb-benchmark-human-pill" style="background: #e8f8f0; color: #1e8449; padding: 0.2rem 0.7rem; border-radius: 20px; border: 1px solid rgba(30, 132, 73, 0.25);">50% أنسنة</span>
                             <span id="isb-benchmark-vehicle-pill" style="background: #eef2f6; color: #475569; padding: 0.2rem 0.7rem; border-radius: 20px; border: 1px solid rgba(71, 85, 105, 0.2);">50% مركبات</span>
                         </div>
+                    </div>
+
+                    <!-- Advisory Street Width Indication Banner (Shown only when net width is outside expected range) -->
+                    <div id="isb-width-advisory-banner" style="display: none; width: 100%; max-width: 1200px; margin-bottom: 14px; background: #fffbeb; border: 1px solid #f59e0b; border-right: 4px solid #d97706; border-radius: var(--border-radius); padding: 0.65rem 1.1rem; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; direction: rtl; font-family: 'Cairo', sans-serif; font-size: 0.84rem; color: #92400e; box-shadow: 0 2px 6px rgba(217, 119, 6, 0.08);">
+                        <div style="display: flex; align-items: center; gap: 0.6rem; flex: 1;">
+                            <i class="fas fa-triangle-exclamation" style="font-size: 1.05rem; color: #d97706;"></i>
+                            <span id="isb-width-advisory-text" style="font-weight: 700; line-height: 1.5;"></span>
+                        </div>
+                        <span style="font-size: 0.74rem; background: rgba(217, 119, 6, 0.12); color: #92400e; padding: 0.18rem 0.65rem; border-radius: 14px; font-weight: 800; white-space: nowrap;">ملاحظة استرشادية فقط</span>
                     </div>
 
                     <!-- The drop area for sequencing -->
@@ -981,7 +992,7 @@
     <script src="script.js"></script>
     <script src="supabase-config.js"></script>
     <script src="supabase-api.js"></script>
-    <script src="interactive-street-builder.js?v=3"></script>
+    <script src="interactive-street-builder.js?v=4"></script>
 </body>
 
 </html>

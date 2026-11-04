@@ -340,6 +340,8 @@ const STREET_CLASSIFICATIONS = {
     shared_pedestrian: {
         id: 'shared_pedestrian',
         name: 'شارع مشترك / ممر مشاة',
+        minWidthM: 6,
+        maxWidthM: 15,
         targetHumanPct: 80,
         targetVehiclePct: 20,
         tolerance: 8,
@@ -355,6 +357,8 @@ const STREET_CLASSIFICATIONS = {
     tourist_recreational: {
         id: 'tourist_recreational',
         name: 'شارع سياحي / ترفيهي',
+        minWidthM: 16,
+        maxWidthM: 36,
         targetHumanPct: 70,
         targetVehiclePct: 30,
         tolerance: 8,
@@ -370,6 +374,8 @@ const STREET_CLASSIFICATIONS = {
     local_residential: {
         id: 'local_residential',
         name: 'شارع محلي سكني',
+        minWidthM: 12,
+        maxWidthM: 20,
         targetHumanPct: 60,
         targetVehiclePct: 40,
         tolerance: 8,
@@ -385,6 +391,8 @@ const STREET_CLASSIFICATIONS = {
     commercial: {
         id: 'commercial',
         name: 'شارع تجاري',
+        minWidthM: 20,
+        maxWidthM: 36,
         targetHumanPct: 50,
         targetVehiclePct: 50,
         tolerance: 8,
@@ -400,6 +408,8 @@ const STREET_CLASSIFICATIONS = {
     collector: {
         id: 'collector',
         name: 'شارع تجميعي',
+        minWidthM: 24,
+        maxWidthM: 40,
         targetHumanPct: 35,
         targetVehiclePct: 65,
         tolerance: 7,
@@ -415,6 +425,8 @@ const STREET_CLASSIFICATIONS = {
     arterial: {
         id: 'arterial',
         name: 'شارع شرياني رئيسي',
+        minWidthM: 36,
+        maxWidthM: 60,
         targetHumanPct: 20,
         targetVehiclePct: 80,
         tolerance: 6,
@@ -430,6 +442,8 @@ const STREET_CLASSIFICATIONS = {
     urban_expressway: {
         id: 'urban_expressway',
         name: 'محور حضري سريع',
+        minWidthM: 60,
+        maxWidthM: 120,
         targetHumanPct: 10,
         targetVehiclePct: 90,
         tolerance: 5,
@@ -469,8 +483,10 @@ function updateClassificationBenchmarkUI() {
     const humanPill = document.getElementById('isb-benchmark-human-pill');
     const vehiclePill = document.getElementById('isb-benchmark-vehicle-pill');
 
+    const widthPill = document.getElementById('isb-benchmark-width-pill');
     if (nameEl) nameEl.textContent = `التصنيف المختار: ${cls.name}`;
     if (focusEl) focusEl.textContent = cls.focusText;
+    if (widthPill) widthPill.innerHTML = `<i class="fas fa-arrows-left-right" style="margin-left: 4px;"></i> العرض المتوقع: ${cls.minWidthM} – ${cls.maxWidthM} م`;
     if (humanPill) humanPill.textContent = `${cls.targetHumanPct}% أنسنة`;
     if (vehiclePill) vehiclePill.textContent = `${cls.targetVehiclePct}% مركبات`;
 
@@ -504,6 +520,80 @@ function updateClassificationBenchmarkUI() {
     if (shadingH) shadingH.textContent = cls.shadingHint;
     if (safetyH) safetyH.textContent = cls.safetyHint;
     if (qualityH) qualityH.textContent = cls.qualityHint;
+}
+
+function getSuggestedClassesForWidth(widthM) {
+    const matches = Object.values(STREET_CLASSIFICATIONS)
+        .filter(c => widthM >= c.minWidthM && widthM <= c.maxWidthM)
+        .map(c => c.name);
+    if (matches.length > 0) {
+        return matches.slice(0, 2).join(' أو ');
+    }
+    if (widthM < 6) return 'شارع مشترك / ممر مشاة';
+    if (widthM > 120) return 'محور حضري سريع';
+    return '';
+}
+
+function updateWidthAdvisoryUI(totalWidth) {
+    const cls = getActiveStreetClass();
+    const totalWidthEl = document.getElementById('isb-total-width');
+    const badgeEl = document.getElementById('isb-width-status-badge');
+    const bannerEl = document.getElementById('isb-width-advisory-banner');
+    const bannerTextEl = document.getElementById('isb-width-advisory-text');
+
+    const w = Number(totalWidth.toFixed(1));
+
+    if (!sequence || sequence.length === 0 || w <= 0) {
+        if (totalWidthEl) {
+            totalWidthEl.style.borderColor = 'var(--clr-border)';
+            totalWidthEl.style.color = 'var(--clr-primary)';
+            totalWidthEl.style.background = 'var(--clr-bg)';
+        }
+        if (badgeEl) {
+            badgeEl.textContent = `* صافي الحرم بدون الارتدادات (المتوقع: ${cls.minWidthM} – ${cls.maxWidthM} م)`;
+            badgeEl.style.color = 'var(--clr-text-muted)';
+        }
+        if (bannerEl) bannerEl.style.display = 'none';
+        return;
+    }
+
+    const isBelow = w < cls.minWidthM;
+    const isAbove = w > cls.maxWidthM;
+
+    if (!isBelow && !isAbove) {
+        // Within expected ROW width range
+        if (totalWidthEl) {
+            totalWidthEl.style.borderColor = '#27ae60';
+            totalWidthEl.style.color = '#1e8449';
+            totalWidthEl.style.background = '#f0fdf4';
+        }
+        if (badgeEl) {
+            badgeEl.textContent = `✓ ضمن النطاق المتوقع للتصنيف (${cls.minWidthM} – ${cls.maxWidthM} م) * بدون الارتدادات`;
+            badgeEl.style.color = '#1e8449';
+        }
+        if (bannerEl) bannerEl.style.display = 'none';
+    } else {
+        // Advisory Indication: Net width is outside expected ROW range for selected class
+        if (totalWidthEl) {
+            totalWidthEl.style.borderColor = '#d97706';
+            totalWidthEl.style.color = '#b45309';
+            totalWidthEl.style.background = '#fffbeb';
+        }
+        if (badgeEl) {
+            badgeEl.textContent = `⚠ خارج النطاق المتوقع للتصنيف (${cls.minWidthM} – ${cls.maxWidthM} م) * بدون الارتدادات`;
+            badgeEl.style.color = '#b45309';
+        }
+        if (bannerEl && bannerTextEl) {
+            const suggested = getSuggestedClassesForWidth(w);
+            const suggestionClause = suggested ? ` — قد يتناسب هذا العرض أكثر مع «${suggested}» ما لم يكن شارعاً قائماً بوضع خاص.` : '.';
+            if (isBelow) {
+                bannerTextEl.textContent = `تنبيه أبعاد استرشادي: صافي عرض الشارع الحالي (${w.toFixed(1)} م) أقل من النطاق المتوقع لتصنيف «${cls.name}» (${cls.minWidthM} – ${cls.maxWidthM} م)${suggestionClause}`;
+            } else {
+                bannerTextEl.textContent = `تنبيه أبعاد استرشادي: صافي عرض الشارع الحالي (${w.toFixed(1)} م) أكبر من النطاق المتوقع لتصنيف «${cls.name}» (${cls.minWidthM} – ${cls.maxWidthM} م)${suggestionClause}`;
+            }
+            bannerEl.style.display = 'flex';
+        }
+    }
 }
 
 function onStreetClassChange(classId) {
@@ -2781,6 +2871,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateClassificationBenchmarkUI();
+    updateWidthAdvisoryUI(0);
     loadRoadFromDb();
 });
 
@@ -2998,6 +3089,7 @@ function updateEvaluation(totalWidth) {
 
     const cls = getActiveStreetClass();
     updateClassificationBenchmarkUI();
+    updateWidthAdvisoryUI(totalWidth);
 
     const visualTotalWidth = calculateVisualTotalWidth();
 
@@ -3814,7 +3906,7 @@ async function exportEngineeringReport() {
                 <div><strong>تصنيف الشارع المعتمد:</strong> ${activeCls.name} (المعيار: ${activeCls.targetHumanPct}% أنسنة | ${activeCls.targetVehiclePct}% مركبات)</div>
                 <div><strong>توزيع التصميم الحالي:</strong> ${actualHumanText} | ${actualVehicleText}</div>
                 <div><strong>الرقم المرجعي وتاريخ الإصدار:</strong> ${refNumber} — ${dateStr}</div>
-                <div><strong>صافي عرض الشارع:</strong> ${netWidth.toFixed(1)} م (بالإرتدادات: ${grossWidth.toFixed(1)} م)</div>
+                <div><strong>صافي عرض الشارع:</strong> ${netWidth.toFixed(1)} م — ${(netWidth >= activeCls.minWidthM && netWidth <= activeCls.maxWidthM) ? `<span style="color:#1e8449;font-weight:bold;">✓ ضمن النطاق القياسي (${activeCls.minWidthM}–${activeCls.maxWidthM}م)</span>` : `<span style="color:#b45309;font-weight:bold;">⚠ خارج النطاق المعتاد (${activeCls.minWidthM}–${activeCls.maxWidthM}م - استرشادي)</span>`} (بالإرتدادات: ${grossWidth.toFixed(1)} م)</div>
             </div>
         </div>
 
