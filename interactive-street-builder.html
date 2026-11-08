@@ -556,6 +556,20 @@
             border: 1px solid var(--clr-border);
             box-shadow: var(--shadow-md);
         }
+        #isb-street-class optgroup {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 800;
+            color: var(--clr-primary);
+            background: var(--clr-surface);
+            font-style: normal;
+        }
+        #isb-street-class option {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            color: var(--clr-text);
+            background: var(--clr-bg);
+            padding: 4px 8px;
+        }
 
     </style>
 </head>
@@ -594,17 +608,23 @@
                         <input type="text" id="isb-street-name" value="شارع غير مسمى" style="font-size: 0.95rem; padding: 0.4rem 0.8rem; border-radius: var(--border-radius); border: 1px solid var(--clr-border); background: var(--clr-bg); color: var(--clr-text); font-family: 'Cairo', sans-serif; font-weight: bold; width: 165px;" placeholder="أدخل اسم الشارع...">
                     </div>
 
-                    <!-- Street Classification Dropdown (7 Categories without % labels) -->
+                    <!-- Street Classification Dropdown (3 MOMRAH Functional Groups -> 7 Street Typologies) -->
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 0.9rem; font-weight: 800; font-family: 'Cairo', sans-serif; color: var(--clr-primary);"><i class="fas fa-layer-group" style="margin-left: 3px;"></i> تصنيف الشارع:</span>
+                        <span style="font-size: 0.9rem; font-weight: 800; font-family: 'Cairo', sans-serif; color: var(--clr-primary);"><i class="fas fa-layer-group" style="margin-left: 3px;"></i> تصنيف الطريق:</span>
                         <select id="isb-street-class" onchange="onStreetClassChange(this.value)" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: var(--border-radius); border: 1.5px solid var(--clr-primary); background: var(--clr-bg); color: var(--clr-text); font-family: 'Cairo', sans-serif; font-weight: bold; cursor: pointer; outline: none;">
-                            <option value="shared_pedestrian">شارع مشترك / ممر مشاة</option>
-                            <option value="tourist_recreational">شارع سياحي / ترفيهي</option>
-                            <option value="local_residential">شارع محلي سكني</option>
-                            <option value="commercial" selected>شارع تجاري</option>
-                            <option value="collector">شارع تجميعي</option>
-                            <option value="arterial">شارع شرياني رئيسي</option>
-                            <option value="urban_expressway">محور حضري سريع</option>
+                            <optgroup label="طرق الحركة — التركيز: المركبة">
+                                <option value="urban_expressway">محور حضري سريع</option>
+                                <option value="arterial">شارع شرياني رئيسي</option>
+                            </optgroup>
+                            <optgroup label="طرق التوازن — التركيز: الموازنة">
+                                <option value="collector">شارع تجميعي</option>
+                                <option value="commercial" selected>شارع تجاري</option>
+                            </optgroup>
+                            <optgroup label="طرق المكان — التركيز: الإنسان">
+                                <option value="local_residential">شارع محلي سكني</option>
+                                <option value="tourist_recreational">شارع سياحي / ترفيهي</option>
+                                <option value="shared_pedestrian">شارع مشترك / ممر مشاة</option>
+                            </optgroup>
                         </select>
                     </div>
                     
@@ -668,10 +688,11 @@
             <div class="isb-dropzone" id="isb-dropzone">
                 <div class="isb-canvas-container">
                     <!-- Classification Benchmark Reference Strip (Always Visible) -->
-                    <div id="isb-class-benchmark-strip" style="width: 100%; max-width: 1200px; margin-bottom: 14px; background: var(--clr-surface); border: 1px solid var(--clr-border); border-right: 4px solid var(--clr-primary); border-radius: var(--border-radius); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; box-shadow: var(--shadow-sm); direction: rtl;">
-                        <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
-                            <span style="background: rgba(140, 109, 70, 0.12); color: var(--clr-primary); font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 0.85rem; padding: 0.25rem 0.75rem; border-radius: 20px;" id="isb-benchmark-class-name">التصنيف المختار: شارع تجاري</span>
-                            <span style="font-size: 0.84rem; color: var(--clr-text-muted); font-weight: 600;" id="isb-benchmark-focus">الأولوية التصميمية: التوازن المتساوي بين الأرصفة النشطة وسعة الوصول المروري</span>
+                    <div id="isb-class-benchmark-strip" style="width: 100%; max-width: 1200px; margin-bottom: 14px; background: var(--clr-surface); border: 1px solid var(--clr-border); border-right: 4px solid #0f6856; border-radius: var(--border-radius); padding: 0.75rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; box-shadow: var(--shadow-sm); direction: rtl;">
+                        <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                            <span style="background: #e6f4f1; color: #0f6856; border: 1px solid rgba(15, 104, 86, 0.28); font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 0.84rem; padding: 0.25rem 0.8rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.35rem;" id="isb-benchmark-func-badge"><i class="fas fa-arrows-left-right"></i> الغرض الوظيفي: طرق التوازن (التركيز: الموازنة)</span>
+                            <span style="background: rgba(140, 109, 70, 0.12); color: var(--clr-primary); font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 0.84rem; padding: 0.25rem 0.75rem; border-radius: 20px;" id="isb-benchmark-class-name">النمط التفصيلي: شارع تجاري</span>
+                            <span style="font-size: 0.83rem; color: var(--clr-text-muted); font-weight: 600;" id="isb-benchmark-focus">الأولوية التصميمية: التوازن المتساوي بين الأرصفة النشطة وسعة الوصول المروري</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 800;">
                             <span id="isb-benchmark-width-pill" style="background: #f5f0e8; color: #785a32; padding: 0.2rem 0.75rem; border-radius: 20px; border: 1px solid rgba(140, 109, 70, 0.3);"><i class="fas fa-arrows-left-right" style="margin-left: 4px;"></i> العرض المتوقع: 20 – 36 م</span>
@@ -710,7 +731,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--clr-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                             <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
                                 <h3 style="font-family: 'Cairo', sans-serif; color: var(--clr-primary); margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chart-line"></i> تقييم ومؤشرات أنسنة الشارع</h3>
-                                <span id="isb-eval-class-badge" style="background: rgba(140, 109, 70, 0.14); color: var(--clr-primary); padding: 0.25rem 0.8rem; border-radius: 20px; font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 800;">وفق تصنيف: شارع تجاري</span>
+                                <span id="isb-eval-class-badge" style="background: rgba(140, 109, 70, 0.14); color: var(--clr-primary); padding: 0.25rem 0.8rem; border-radius: 20px; font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 800;">طرق التوازن • شارع تجاري</span>
                             </div>
                             <button class="isb-btn" onclick="exportEngineeringReport()" style="background-color: #1e6b52; border-color: #1e6b52; color: white; padding: 0.45rem 1.1rem; font-size: 0.9rem; font-weight: bold;">
                                 <i class="fas fa-file-pdf"></i> إصدار وثيقة الاعتماد الهندسي ومطابقة الكود (PDF)
@@ -758,7 +779,7 @@
                                 <div>
                                     <h4 style="font-family: 'Cairo', sans-serif; color: var(--clr-text); margin-bottom: 0.4rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
                                         <span><i class="fas fa-heart-pulse"></i> مؤشر مطابقة وكفاءة الأنسنة</span>
-                                        <span id="isb-card-class-pill" style="font-size: 0.76rem; background: var(--clr-surface); border: 1px solid var(--clr-border); padding: 0.15rem 0.6rem; border-radius: 14px; color: var(--clr-primary); font-weight: 800;">شارع تجاري</span>
+                                        <span id="isb-card-class-pill" style="font-size: 0.76rem; background: var(--clr-surface); border: 1px solid var(--clr-border); padding: 0.15rem 0.6rem; border-radius: 14px; color: var(--clr-primary); font-weight: 800;">توازن — شارع تجاري</span>
                                     </h4>
                                     <p style="font-size: 0.82rem; color: var(--clr-text-muted); line-height: 1.45; margin: 0;">مقارنة لحظية بين توزيع تصميمك الحالي على اللوحة والمعيار المستهدف لتصنيف الشارع المختار:</p>
                                 </div>
@@ -992,7 +1013,7 @@
     <script src="script.js"></script>
     <script src="supabase-config.js"></script>
     <script src="supabase-api.js"></script>
-    <script src="interactive-street-builder.js?v=4"></script>
+    <script src="interactive-street-builder.js?v=6"></script>
 </body>
 
 </html>

@@ -335,10 +335,48 @@ const templateNames = {
     "commercial_residential_33m":  "شارع تجاري سكني"
 };
 
-// 7 Urban Street Classifications (Human vs. Vehicular Target Ratios & Indicator Weights)
+// 3 MOMRAH Functional Categories (Movement - Balanced - Place)
+const FUNCTIONAL_CATEGORIES = {
+    movement: {
+        id: 'movement',
+        name: 'طرق الحركة',
+        shortLabel: 'حركة',
+        focus: 'المركبة',
+        icon: 'fa-road',
+        badgeBg: '#eef2f6',
+        badgeColor: '#334155',
+        badgeBorder: 'rgba(51, 65, 85, 0.28)',
+        summary: 'نقل حركة المرور لمسافات طويلة وبسرعات ثابتة مع تقليل التقاطعات والفصل التام عن الأنشطة الجانبية'
+    },
+    balanced: {
+        id: 'balanced',
+        name: 'طرق التوازن',
+        shortLabel: 'توازن',
+        focus: 'الموازنة',
+        icon: 'fa-arrows-left-right',
+        badgeBg: '#e6f4f1',
+        badgeColor: '#0f6856',
+        badgeBorder: 'rgba(15, 104, 86, 0.28)',
+        summary: 'حلقة الوصل بين الحركة والمكان لخدمة الكثافات التجارية والسكنية بسرعات متوسطة وأولوية للنقل العام ومعابر آمنة'
+    },
+    place: {
+        id: 'place',
+        name: 'طرق المكان',
+        shortLabel: 'مكان',
+        focus: 'الإنسان',
+        icon: 'fa-people-group',
+        badgeBg: '#e8f8f0',
+        badgeColor: '#1e8449',
+        badgeBorder: 'rgba(30, 132, 73, 0.28)',
+        summary: 'وجهات حضرية داخل الأحياء والمناطق المفتوحة تركز على المشاة والتفاعل الاجتماعي بسرعات منخفضة وتشجير وأثاث'
+    }
+};
+
+// 7 Urban Street Classifications grouped under MOMRAH's 3 Functional Categories
 const STREET_CLASSIFICATIONS = {
     shared_pedestrian: {
         id: 'shared_pedestrian',
+        functionalCategory: 'place',
         name: 'شارع مشترك / ممر مشاة',
         minWidthM: 6,
         maxWidthM: 15,
@@ -356,6 +394,7 @@ const STREET_CLASSIFICATIONS = {
     },
     tourist_recreational: {
         id: 'tourist_recreational',
+        functionalCategory: 'place',
         name: 'شارع سياحي / ترفيهي',
         minWidthM: 16,
         maxWidthM: 36,
@@ -373,6 +412,7 @@ const STREET_CLASSIFICATIONS = {
     },
     local_residential: {
         id: 'local_residential',
+        functionalCategory: 'place',
         name: 'شارع محلي سكني',
         minWidthM: 12,
         maxWidthM: 20,
@@ -390,6 +430,7 @@ const STREET_CLASSIFICATIONS = {
     },
     commercial: {
         id: 'commercial',
+        functionalCategory: 'balanced',
         name: 'شارع تجاري',
         minWidthM: 20,
         maxWidthM: 36,
@@ -407,6 +448,7 @@ const STREET_CLASSIFICATIONS = {
     },
     collector: {
         id: 'collector',
+        functionalCategory: 'balanced',
         name: 'شارع تجميعي',
         minWidthM: 24,
         maxWidthM: 40,
@@ -417,13 +459,14 @@ const STREET_CLASSIFICATIONS = {
         minMotorizedLanes: 2,
         targetGreenPct: 10,
         weights: { shading: 0.30, safety: 0.45, quality: 0.25 },
-        focusText: 'الأولوية التصميمية: ربط الأحياء بانسيابية مرورية متوازنة مع أرصفة ومسارات دراجات محمية',
+        focusText: 'الأولوية التصميمية: حلقة الوصل بين الحركة والمكان بانسيابية متوازنة ونقل عام وأرصفة محمية',
         shadingHint: 'صفوف أشجار منتظمة في الأرصفة والجزيرة الوسطية',
         safetyHint: 'فصل واضح للمشاة والدراجات وجزيرة وسطية آمنة',
         qualityHint: 'استمرارية الأرصفة ومحطات انتظار النقل العام'
     },
     arterial: {
         id: 'arterial',
+        functionalCategory: 'movement',
         name: 'شارع شرياني رئيسي',
         minWidthM: 36,
         maxWidthM: 60,
@@ -441,6 +484,7 @@ const STREET_CLASSIFICATIONS = {
     },
     urban_expressway: {
         id: 'urban_expressway',
+        functionalCategory: 'movement',
         name: 'محور حضري سريع',
         minWidthM: 60,
         maxWidthM: 120,
@@ -471,20 +515,37 @@ function getActiveStreetClass() {
     return STREET_CLASSIFICATIONS[currentStreetClass] || STREET_CLASSIFICATIONS.commercial;
 }
 
+function getActiveFunctionalCategory(cls) {
+    const targetCls = cls || getActiveStreetClass();
+    return FUNCTIONAL_CATEGORIES[targetCls.functionalCategory] || FUNCTIONAL_CATEGORIES.balanced;
+}
+
 function updateClassificationBenchmarkUI() {
     const cls = getActiveStreetClass();
+    const cat = getActiveFunctionalCategory(cls);
     const selectEl = document.getElementById('isb-street-class');
     if (selectEl && selectEl.value !== cls.id) {
         selectEl.value = cls.id;
     }
 
+    const stripEl = document.getElementById('isb-class-benchmark-strip');
+    const funcBadgeEl = document.getElementById('isb-benchmark-func-badge');
     const nameEl = document.getElementById('isb-benchmark-class-name');
     const focusEl = document.getElementById('isb-benchmark-focus');
     const humanPill = document.getElementById('isb-benchmark-human-pill');
     const vehiclePill = document.getElementById('isb-benchmark-vehicle-pill');
-
     const widthPill = document.getElementById('isb-benchmark-width-pill');
-    if (nameEl) nameEl.textContent = `التصنيف المختار: ${cls.name}`;
+
+    if (stripEl) {
+        stripEl.style.borderRightColor = cat.badgeColor;
+    }
+    if (funcBadgeEl) {
+        funcBadgeEl.innerHTML = `<i class="fas ${cat.icon}"></i> الغرض الوظيفي: ${cat.name} (التركيز: ${cat.focus})`;
+        funcBadgeEl.style.background = cat.badgeBg;
+        funcBadgeEl.style.color = cat.badgeColor;
+        funcBadgeEl.style.borderColor = cat.badgeBorder;
+    }
+    if (nameEl) nameEl.textContent = `النمط التفصيلي: ${cls.name}`;
     if (focusEl) focusEl.textContent = cls.focusText;
     if (widthPill) widthPill.innerHTML = `<i class="fas fa-arrows-left-right" style="margin-left: 4px;"></i> العرض المتوقع: ${cls.minWidthM} – ${cls.maxWidthM} م`;
     if (humanPill) humanPill.textContent = `${cls.targetHumanPct}% أنسنة`;
@@ -498,8 +559,12 @@ function updateClassificationBenchmarkUI() {
     const targetHumanBar = document.getElementById('isb-target-human-bar');
     const targetMarker = document.getElementById('isb-target-marker');
 
-    if (evalBadge) evalBadge.textContent = `وفق تصنيف: ${cls.name}`;
-    if (cardPill) cardPill.textContent = cls.name;
+    if (evalBadge) {
+        evalBadge.textContent = `${cat.name} • ${cls.name}`;
+        evalBadge.style.background = cat.badgeBg;
+        evalBadge.style.color = cat.badgeColor;
+    }
+    if (cardPill) cardPill.textContent = `${cat.shortLabel} — ${cls.name}`;
     if (targetSplitLabel) targetSplitLabel.textContent = `المعيار المطلوب (${cls.name}):`;
     if (targetHumanPctEl) targetHumanPctEl.textContent = `${cls.targetHumanPct}% أنسنة`;
     if (targetVehiclePctEl) targetVehiclePctEl.textContent = `${cls.targetVehiclePct}% مركبات`;
@@ -950,6 +1015,26 @@ function toggleBikeLaneLevel(instanceId) {
     }
 }
 
+function isComponentCarGoingAway(comp, index) {
+    if (comp.carDir === 'away') return true;
+    if (comp.carDir === 'towards') return false;
+    const medianIdx = sequence.findIndex(c => c.id === 'median_island' || c.id === 'lane_divider');
+    return medianIdx === -1
+        ? (index >= Math.ceil(sequence.length / 2))
+        : (index > medianIdx);
+}
+
+function toggleCarDirection(instanceId) {
+    const idx = sequence.findIndex(c => c.instanceId === instanceId);
+    if (idx !== -1) {
+        const comp = sequence[idx];
+        const currentlyAway = isComponentCarGoingAway(comp, idx);
+        comp.carDir = currentlyAway ? 'towards' : 'away';
+        renderSequence();
+    }
+}
+window.toggleCarDirection = toggleCarDirection;
+
 function renderSequence() {
     const sequenceContainer = document.getElementById('isb-sequence-container');
     const emptyState = document.getElementById('isb-empty-state');
@@ -977,7 +1062,7 @@ function renderSequence() {
     
     let totalWidth = 0;
     
-    sequence.forEach(comp => {
+    sequence.forEach((comp, seqIndex) => {
         if (comp.id !== 'commercial_edge' && comp.id !== 'residential_edge' && comp.id !== 'seafront') {
             totalWidth += comp.default_width_m;
         }
@@ -987,7 +1072,8 @@ function renderSequence() {
         item.dataset.instanceId = comp.instanceId;
         
         const hasVeg = comp.id === 'median_island' || comp.id === 'urban_furniture_buffer';
-        const hasButtons = hasVeg || comp.id === 'median_island' || comp.id === 'urban_furniture_buffer' || comp.id === 'bike_lane';
+        const hasCarDir = comp.id === 'standard_car_lane' || comp.id === 'flex_zone';
+        const hasButtons = hasVeg || comp.id === 'median_island' || comp.id === 'urban_furniture_buffer' || comp.id === 'bike_lane' || hasCarDir;
         const baseWidth = Math.max(80, comp.default_width_m * 30);
         item.style.width = (baseWidth * zoomLevel) + 'px';
         item.style.height = (((hasButtons ? 105 : 80) * zoomLevel)) + 'px';
@@ -1039,6 +1125,16 @@ function renderSequence() {
             `;
         }
 
+        let carDirBtnHtml = '';
+        if (hasCarDir) {
+            const isCarAway = isComponentCarGoingAway(comp, seqIndex);
+            carDirBtnHtml = `
+                <button class="isb-toggle-car-dir-btn" onclick="toggleCarDirection(${comp.instanceId})" title="تبديل اتجاه الحركة المرورية (ذهاب / عودة)" style="margin-top: 5px; padding: 2px 5px; font-size: ${9 * zoomLevel}px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.18); background: rgba(255,255,255,0.9); cursor: pointer; display: inline-flex; align-items: center; gap: 3px; font-weight: bold; color: #222; outline: none; line-height: 1; height: ${18 * zoomLevel}px;">
+                    ${isCarAway ? 'ذهاب ↑ 🚗' : 'عودة ↓ 🚘'}
+                </button>
+            `;
+        }
+
         const hideInfoBtn = comp.id === 'commercial_edge' || comp.id === 'residential_edge';
         const infoBtnHtml = hideInfoBtn ? '' : `
             <button class="info-btn" style="width: ${18 * zoomLevel}px; height: ${18 * zoomLevel}px; font-size: ${10 * zoomLevel}px;" title="عرض المرجع الهندسي"><i class="fas fa-info"></i></button>
@@ -1059,6 +1155,7 @@ function renderSequence() {
                         ${vegBtnHtml}
                         ${lightBtnHtml}
                         ${bikeLevelBtnHtml}
+                        ${carDirBtnHtml}
                     </div>
                 </div>
                 <div class="isb-card-right-col" style="width: ${20 * zoomLevel}px;">
@@ -1260,6 +1357,7 @@ function renderDualView(totalWidth) {
         const isRightSide = medianIdx === -1 
             ? (index >= Math.ceil(sequence.length / 2))
             : (index > medianIdx);
+        const isCarAway = isComponentCarGoingAway(comp, index);
         
         let useBackView = isRightSide;
         if (comp.id === 'bike_lane') {
@@ -1340,8 +1438,14 @@ function renderDualView(totalWidth) {
                            comp.id === 'hov_transit_lane';
         
         if (isMobility) {
-            const triHeadY = isRightSide ? centerY - 10 : centerY - 3;
-            const triBaseY = isRightSide ? centerY - 3 : centerY - 10;
+            let arrowAway = isRightSide;
+            if (comp.id === 'standard_car_lane' || comp.id === 'flex_zone') {
+                arrowAway = isCarAway;
+            } else if (comp.id === 'bike_lane') {
+                arrowAway = useBackView;
+            }
+            const triHeadY = arrowAway ? centerY - 10 : centerY - 3;
+            const triBaseY = arrowAway ? centerY - 3 : centerY - 10;
             const triPoints = `${centerX},${triHeadY} ${centerX - 5},${triBaseY} ${centerX + 5},${triBaseY}`;
             
             fgGroup.appendChild(createSvgElement('polygon', {
@@ -1443,7 +1547,7 @@ function renderDualView(totalWidth) {
                 carDrawCount++;
                 const size1 = getCarSize(model1);
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: model1.front,
+                    href: comp.carDir ? (isCarAway ? model1.back : model1.front) : model1.front,
                     x: currentX + widthPx/4 - size1.w / 2,
                     y: compY - size1.h,
                     width: size1.w,
@@ -1453,7 +1557,7 @@ function renderDualView(totalWidth) {
                 const model2 = carModels[carDrawCount % carModels.length];
                 carDrawCount++;
                 const size2 = getCarSize(model2);                fgGroup.appendChild(createSvgElement('image', {
-                    href: model2.back,
+                    href: comp.carDir ? (isCarAway ? model2.back : model2.front) : model2.back,
                     x: currentX + 3 * widthPx/4 - size2.w / 2,
                     y: compY - size2.h,
                     width: size2.w,
@@ -1464,7 +1568,7 @@ function renderDualView(totalWidth) {
                 carDrawCount++;
                 const size = getCarSize(model);
                 fgGroup.appendChild(createSvgElement('image', {
-                    href: isRightSide ? model.back : model.front,
+                    href: isCarAway ? model.back : model.front,
                     x: currentX + widthPx/2 - size.w / 2,
                     y: compY - size.h,
                     width: size.w,
@@ -1500,7 +1604,7 @@ function renderDualView(totalWidth) {
             carDrawCount++;
             const size = getCarSize(model);            
             fgGroup.appendChild(createSvgElement('image', {
-                href: isRightSide ? model.back : model.front,
+                href: isCarAway ? model.back : model.front,
                 x: currentX + widthPx/2 - size.w / 2,
                 y: compY - size.h,
                 width: size.w,
@@ -2051,7 +2155,7 @@ function renderDualView(totalWidth) {
         } else if (comp.id === 'standard_car_lane') {
             const carW = 76;
             const carH = 154;
-            const carImgPath = isRightSide ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
+            const carImgPath = isCarAway ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
             if (widthPx >= 160) {
                 const car1X = currentX + widthPx/4;
                 const car1Y = planY + planHeight/4;
@@ -2130,7 +2234,7 @@ function renderDualView(totalWidth) {
             const carW = 76;
             const carH = 154;
             const carX = currentX + widthPx/2;
-            const carImgPath = isRightSide ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
+            const carImgPath = isCarAway ? 'assets/Cars/Car Plan right.png' : 'assets/Cars/Car Plan left.png';
             
             const car1Y = planY + planHeight * 0.25;
             fgGroup.appendChild(createSvgElement('image', {
@@ -2525,8 +2629,10 @@ function mirrorSequence() {
         .slice()
         .reverse()
         .map(comp => {
+            const flippedDir = comp.carDir === 'away' ? 'towards' : (comp.carDir === 'towards' ? 'away' : undefined);
             return {
                 ...comp,
+                carDir: flippedDir,
                 instanceId: Date.now() + Math.random()
             };
         });
@@ -2910,6 +3016,8 @@ async function loadRoadById(id) {
                 default_width_m: typeof item.width === 'number' ? item.width : comp.default_width_m,
                 showPalm: !!item.showPalm,
                 showLight: item.showLight !== undefined ? !!item.showLight : ((comp.id === 'urban_furniture_buffer' || comp.id === 'median_island') ? true : false),
+                isStreetLevel: !!item.isStreetLevel,
+                carDir: (item.carDir === 'away' || item.carDir === 'towards') ? item.carDir : undefined,
                 instanceId: Date.now() + Math.random()
             };
         }).filter(Boolean);
@@ -3047,14 +3155,17 @@ async function saveRoad() {
         width: c.default_width_m,
         label: c.name,
         showPalm: !!c.showPalm,
-        showLight: !!c.showLight
+        showLight: !!c.showLight,
+        isStreetLevel: !!c.isStreetLevel,
+        carDir: c.carDir
     }));
     const totalWidth = Number(lanes.filter(l => l.id !== 'commercial_edge' && l.id !== 'residential_edge' && l.id !== 'seafront').reduce((s, l) => s + Number(l.width), 0).toFixed(1));
 
     const cls = getActiveStreetClass();
+    const cat = getActiveFunctionalCategory(cls);
     const payload = {
         name,
-        description: `${cls.name} — مقطع مصمم تفاعلياً بعرض ${totalWidth} م`,
+        description: `${cat.name} (${cls.name}) — مقطع مصمم تفاعلياً بعرض ${totalWidth} م`,
         data: { lanes, totalWidth, streetClass: currentStreetClass }
     };
 
@@ -3557,6 +3668,7 @@ async function exportEngineeringReport() {
 
     // Read current evaluation metrics & street classification from DOM / State
     const activeCls = getActiveStreetClass();
+    const activeCat = getActiveFunctionalCategory(activeCls);
     const actualHumanText = document.getElementById('isb-actual-human-pct')?.textContent || '0% أنسنة';
     const actualVehicleText = document.getElementById('isb-actual-vehicle-pct')?.textContent || '0% مركبات';
     const humanizationScore = document.getElementById('isb-humanization-score')?.textContent || '0%';
@@ -3902,13 +4014,46 @@ async function exportEngineeringReport() {
                 </div>
             </div>
             <div class="meta-box">
-                <div><strong>اسم الطريق / المشروع:</strong> ${streetName}</div>
-                <div><strong>تصنيف الشارع المعتمد:</strong> ${activeCls.name} (المعيار: ${activeCls.targetHumanPct}% أنسنة | ${activeCls.targetVehiclePct}% مركبات)</div>
-                <div><strong>توزيع التصميم الحالي:</strong> ${actualHumanText} | ${actualVehicleText}</div>
-                <div><strong>الرقم المرجعي وتاريخ الإصدار:</strong> ${refNumber} — ${dateStr}</div>
-                <div><strong>صافي عرض الشارع:</strong> ${netWidth.toFixed(1)} م — ${(netWidth >= activeCls.minWidthM && netWidth <= activeCls.maxWidthM) ? `<span style="color:#1e8449;font-weight:bold;">✓ ضمن النطاق القياسي (${activeCls.minWidthM}–${activeCls.maxWidthM}م)</span>` : `<span style="color:#b45309;font-weight:bold;">⚠ خارج النطاق المعتاد (${activeCls.minWidthM}–${activeCls.maxWidthM}م - استرشادي)</span>`} (بالإرتدادات: ${grossWidth.toFixed(1)} م)</div>
+                <div><strong>الرقم المرجعي:</strong> ${refNumber}</div>
+                <div><strong>تاريخ الإصدار:</strong> ${dateStr}</div>
+                <div><strong>الإطار المرجعي:</strong> منهجية وزارة البلديات والإسكان</div>
             </div>
         </div>
+
+        <table style="margin-bottom: 18px; border: 1.5px solid #8C6D46; border-radius: 6px; overflow: hidden;">
+            <thead>
+                <tr>
+                    <th colspan="4" style="background: #f9f7f4; color: #8C6D46; border-color: #e5dfd5; font-size: 0.9rem; padding: 8px 12px;">
+                        جدول بيانات المشروع والتصنيف الوظيفي المعتمد
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 22%; background: #fcfbf9; font-weight: 800; color: #374151;">اسم الطريق / المشروع</td>
+                    <td style="width: 28%; font-weight: 700;">${streetName}</td>
+                    <td style="width: 24%; background: #fcfbf9; font-weight: 800; color: #374151;">الغرض الوظيفي (وفق منهجية الوزارة)</td>
+                    <td style="width: 26%;">
+                        <span style="display:inline-block; background:${activeCat.badgeBg}; color:${activeCat.badgeColor}; border:1px solid ${activeCat.badgeBorder}; padding:3px 10px; border-radius:14px; font-family:'Cairo',sans-serif; font-weight:800; font-size:0.82rem;">
+                            ${activeCat.shortLabel} — ${activeCat.name} (التركيز: ${activeCat.focus})
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background: #fcfbf9; font-weight: 800; color: #374151;">النمط التفصيلي المعتمد</td>
+                    <td><strong>${activeCls.name}</strong> <span style="color:#6b7280; font-size:0.78rem;">(${activeCls.targetHumanPct}% أنسنة | ${activeCls.targetVehiclePct}% مركبات)</span></td>
+                    <td style="background: #fcfbf9; font-weight: 800; color: #374151;">توزيع التصميم الفعلي</td>
+                    <td style="font-weight: 700;">${actualHumanText} &nbsp;|&nbsp; ${actualVehicleText}</td>
+                </tr>
+                <tr>
+                    <td style="background: #fcfbf9; font-weight: 800; color: #374151;">صافي عرض الحرم التصميمي</td>
+                    <td colspan="3">
+                        <strong>${netWidth.toFixed(1)} م</strong> — ${(netWidth >= activeCls.minWidthM && netWidth <= activeCls.maxWidthM) ? `<span style="color:#1e8449;font-weight:bold;">✓ ضمن النطاق القياسي للتصنيف (${activeCls.minWidthM}–${activeCls.maxWidthM} م)</span>` : `<span style="color:#b45309;font-weight:bold;">⚠ خارج النطاق المعتاد للتصنيف (${activeCls.minWidthM}–${activeCls.maxWidthM} م — ملاحظة استرشادية)</span>`}
+                        <span style="color:#6b7280; font-size:0.8rem; margin-right:8px;">(العرض الكلي شاملاً الارتدادات: ${grossWidth.toFixed(1)} م)</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <div class="section-title">
             <span>1. ملخص مؤشرات كفاءة الأنسنة والامتثال المعياري</span>
